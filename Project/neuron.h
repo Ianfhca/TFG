@@ -4,13 +4,17 @@
 #include <cstdlib>
 #include <iostream>
 #include <vector>
+
+#include "./Pbplots/pbPlots.hpp"
+#include "./Pbplots/supportLib.hpp"
+
 using namespace std;
 
 class LIF_neuron {
 private: 
     // Neuron parameters
-    double V_reset; // Reset potential
     double V_th; // Threshold potential
+    double V_reset; // Reset potential
     double Tau_m; // Membrane time constant
     double g_L; // Leak conductance
     double E_L; // Leak reversal potential
@@ -30,9 +34,9 @@ private:
 
 public:
     // Constructor
-    LIF_neuron(double V_reset, double V_th, double Tau_m, double g_L, double E_L, double V_init, double T_refr) {
-        this->V_reset = V_reset;
+    LIF_neuron(double V_th, double V_reset, double Tau_m, double g_L, double E_L, double V_init, double T_refr) {
         this->V_th = V_th;
+        this->V_reset = V_reset;
         this->Tau_m = Tau_m;
         this->g_L = g_L;
         this->E_L = E_L;
@@ -46,7 +50,6 @@ public:
             Icrnt[i] = 100;
         }
         V[0] = V_init;
-
     }
 
     // Method to update membrane potential
@@ -66,26 +69,59 @@ public:
 
         // Loop through time points
         for (int i = 0; i < Lt; i++) {
-
+            // Print membrane potential
+            cout << V[i] << endl;
+            
             // Refractory period
             if (tr > 0) {
-                tr -= 1; //dt;
-                V[i] = V_reset;
+                tr -= 1;
+                V[i] = V_reset;  
             } else if (V[i] >= V_th) {
                 rec_spike.push_back(i * dt);
                 V[i] = V_reset;
                 tr = T_refr / dt;
+                cout << "Spike at ";
+                cout << rec_spike[i] << endl;
             }
 
             // Calculate change in membrane potential
             dv = (-(V[i] - E_L) + Icrnt[i] / g_L) * (dt / Tau_m);
 
             // Update membrane potential
-            V[i + 1] = V[i] + dv;
-
-            // Print membrane potential
-            cout << V[i] << endl;
+            V[i + 1] = V[i] + dv; 
         }
+
+        cout << rec_spike.size() << endl;
+        cout << V_th << endl;
+
+        free(time_points);
+        free(V);
+        free(Icrnt);
+    }
+
+    void plot_membrane_potential() {
+        bool success;
+        StringReference *errorMessage = CreateStringReferenceLengthValue(0, L' ');
+        RGBABitmapImageReference *imageReference = CreateRGBABitmapImageReference();
+
+        vector<double> xs{-2, -1, 0, 1, 2};
+        vector<double> ys{2, -1, -2, -1, 2};
+
+        success = DrawScatterPlot(imageReference, 600, 400, &xs, &ys, errorMessage);
+
+        if(success){
+            vector<double> *pngdata = ConvertToPNG(imageReference->image);
+            WriteToFile(pngdata, "./Plots/plot.png");
+            DeleteImage(imageReference->image);
+        }else{
+            cerr << "Error: ";
+            for(wchar_t c : *errorMessage->string){
+                wcerr << c;
+            }
+            cerr << endl;
+        }
+
+        FreeAllocations();
     }
 
 };
