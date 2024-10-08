@@ -1,24 +1,21 @@
-# Número de capas
-3
-
 # Capa 1 (entrada)
 layer input
 neurons 3
 
-# Capa 2 (oculta)
+# Capa 2 (oculta 1)
 layer hidden
 neurons 5
 connections dense
-tau 20.0
-v_rest -70.0
-v_threshold -55.0
-v_reset -75.0
-r_membrane 1.0
 
-# Capa 3 (salida)
+# Capa 3 (oculta 2)
+layer hidden
+neurons 4
+connections dense
+
+# Capa 4 (salida)
 layer output
 neurons 2
-connections sparse
+connections custom
 custom_connection 0 0
 custom_connection 1 1
-custom_connection 2 0
+custom_connection 2 2

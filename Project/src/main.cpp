@@ -1,34 +1,26 @@
 #include "../include/LIFneuron.h"
-#include <fstream>
+#include "../include/SNN.h"
 #include <iostream>
 
 using namespace std;
 
 int main(int argc, char *argv[]) {
 
-  if (argc != 2) {
-    cout << "Usage: " << argv[0] << " <input file>" << endl;
-    return 1;
-  }
+	if (argc != 2) {
+		cout << "Usage: " << argv[0] << " <input file>" << endl;
+		return 1;
+	}
 
-  string file = argv[1];
+	SNN snn;
 
-  // Read network file
-  ifstream network_file(file);
-  if (!network_file.is_open()) {
-    cout << "Error: Unable to open file " << file << endl;
-    return 1;
-  } else {
-    cout << "Reading file " << file << endl;
+	readTopology(argv[1], &snn);
 
-    network_file.close();
-  }
-  
+	viewTopology(&snn);
 
-  bool stop = true;
+	bool stop = true;
 
-  LIFneuron neuron(-55, -75, 10, 10, -75, -75, 2);
-  // neuron.updateMembranePotential(stop);
+	LIFneuron neuron(-55, -75, 10, 10, -75, -75, 2);
+	// neuron.updateMembranePotential(stop);
 
-  return 0;
+	return 0;
 }
