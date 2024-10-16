@@ -1,27 +1,37 @@
-#ifndef LIF_NEURON_H
-#define LIF_NEURON_H
+#pragma once
 
 #include <iostream>
 #include <vector>
 #include <cstdlib>
 
+using namespace std;
+
 // Constructor for LIF neuron
 class LIFneuron {
 private: 
     // Neuron parameters
+    double v; // Membrane potential
     double vTh; // Threshold potential
+    double vRest; // Leak reversal potential
     double vReset; // Reset potential
-    double tauM; // Membrane time constant
-    double gL; // Leak conductance
-    double eL; // Leak reversal potential
-    double vInit; // Initial potential
+    double lambdaV; // Membrane time constant
+    double iSyn; // Leak conductance
     double tRefr; // Refractory period
 
-public:
-    // LIFneuron(double threshold, double resting_potential, double reset_potential, double membrane_resistance, double membrane_capacitance, double membrane_potential, double time_step);
-    LIFneuron(double vTh, double vReset, double tauM, double gL, double eL, double vInit, double tRefr);
-    void updateMembranePotential(bool stop);
-    //void plot_membrane_potential();
-};
+    bool inRefraction; // Refractory state
+    double timeLastSpike; // Last spike time
+    double dt; // Time step
 
-#endif // LIF_NEURON_H
+    vector<double> X; // Presynaptic traces
+    double lambdaX; // Trace time constant
+    double alpha; // Scaling factor for traces
+
+    vector<double> sHist; // Spike history
+
+public:
+    LIFneuron(double vTh_, double vRest_, double vReset_, double lambdaV_, double tRefr_, double dt_, double lambdaX_, double alpha_);
+    double getMembranePotential();
+    void updateMembranePotential(double inputCurrent, double time);
+    void fire(double time);
+    void updateTrace(double sPre);
+};

@@ -3,10 +3,8 @@ using namespace std;
 
 int readTopology(char *file, SNN *snn) {
 
-	string line;
-
-
 	Layer currentLayer;
+	string line;
 
 	// Read network file
 	ifstream network_file(file);
@@ -22,27 +20,20 @@ int readTopology(char *file, SNN *snn) {
     		string token;
 			
 			stream >> token;
-			// cout << "Token: " << token << endl;
 			if (token.compare("layer") == 0) {
-				// cout << "Hola";
 				if (!currentLayer.type.empty()) {
 					snn->layers.push_back(currentLayer);
 				}
 				stream >> currentLayer.type;
-				// currentLayer.type = token2;
-				// cout << "Layer: " << currentLayer.type << endl;
 			} else if (token.compare("neurons") == 0) {
 				stream >> currentLayer.neurons;
-				// cout << "Neurons: " << currentLayer.neurons << endl;
 			} else if (token.compare("connections") == 0) {
 				stream >> currentLayer.connections;
-				// cout << "Connections: " << currentLayer.connections << endl;
-			} else if (token.compare("custom_connection") == 0 && currentLayer.connections == "custom") {
+			} else if (token.compare("sparse_connection") == 0 && currentLayer.connections == "sparse") {
 				int from, to;
 				stream >> from >> to;
-				currentLayer.custom_connections.push_back(make_pair(from, to));
-			}
-			//cout << "Token: " << token << endl;
+				currentLayer.sparse_connections.push_back(make_pair(from, to));
+			} 
 		}
 		if (!currentLayer.type.empty()) {
 			snn->layers.push_back(currentLayer);
@@ -54,16 +45,18 @@ int readTopology(char *file, SNN *snn) {
 
 void viewTopology(SNN *snn) {
 	cout << "-- NETWORK TOPOLOGY --" << endl;
-	cout << snn->layers.size() << " layers" << endl;
+	// cout << snn->layers.size() << " layers" << endl;
 	for (int i = 0; i < snn->layers.size(); i++) {
-		cout << "Layer " << i << ": " << snn->layers[i].type << endl;
+		cout << "LAYER " << i << ": " << snn->layers[i].type << endl;
 		cout << "Neurons: " << snn->layers[i].neurons << endl;
 		cout << "Connections: " << snn->layers[i].connections << endl;
-		if (snn->layers[i].connections == "custom") {
-			cout << "Custom connections: " << endl;
-			for (int j = 0; j < snn->layers[i].custom_connections.size(); j++) {
-				cout << snn->layers[i].custom_connections[j].first << " -> " << snn->layers[i].custom_connections[j].second << endl;
+		if (snn->layers[i].connections == "sparse") {
+			cout << "Sparse connections: " << endl;
+			for (int j = 0; j < snn->layers[i].sparse_connections.size(); j++) {
+				cout << snn->layers[i].sparse_connections[j].first << " -> " << snn->layers[i].sparse_connections[j].second << endl;
 			}
 		}
+		cout << endl;
 	}
+	
 }

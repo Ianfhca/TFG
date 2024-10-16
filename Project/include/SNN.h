@@ -1,5 +1,4 @@
-#ifndef SNN_H
-#define SNN_H
+#pragma once
 
 #include <fstream>
 #include <sstream>
@@ -23,7 +22,7 @@ struct Layer {
     int neurons;
     string connections;
     LIFparams lif_params;
-    vector<pair<int, int>> custom_connections;
+    vector<pair<int, int>> sparse_connections;
 };
 
 struct SNN {
@@ -32,5 +31,6 @@ struct SNN {
 
 int readTopology(char *file, SNN *snn);
 void viewTopology(SNN *snn);
-
-#endif // SNN_H
+void initNetwork(SNN *snn);
+void runNetwork(SNN *snn);
+void trainNetwork(SNN *snn);

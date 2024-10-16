@@ -1,107 +1,40 @@
 #include "../include/LIFneuron.h"
-using namespace std;
 
-// #include "./Pbplots/pbPlots.hpp"
-// #include "./Pbplots/supportLib.hpp"
+LIFneuron::LIFneuron(double vTh_, double vRest_, double vReset_, double lambdaV_, double tRefr_, double dt_, double lambdaX_, double alpha_)
+    : v(vRest_), vTh(vTh_), vRest(vRest_), vReset(vReset_), lambdaV(lambdaV_), tRefr(tRefr_), dt(dt_), lambdaX(lambdaX_), alpha(alpha_) {}
 
-//Symulation parameters
-double tt = 400; // Total time (ms)
-double dt = 0.1; // Time step (ms)
-
-// (0, 400, 0.1) -> (0, 4000, 1)
-double* timePoints = (double*) malloc(tt / dt * sizeof(double)); // Discretized time points
-int lt = tt / dt; // Number of time points
-
-double* v = (double*) malloc(lt * sizeof(double)); // Membrane potential
-double* inputC = (double*) malloc(lt * sizeof(double)); // Input current
-
-// Constructor
-LIFneuron::LIFneuron(double vTh, double vReset, double tauM, double gL, double eL, double vInit, double tRefr) {
-    this->vTh = vTh;
-    this->vReset = vReset;
-    this->tauM = tauM;
-    this->gL = gL;
-    this->eL = eL;
-    this->vInit = vInit;
-    this->tRefr = tRefr;
-
-    // Discretize time points
-    for (int i = 0; i < tt / dt; i++) {
-        timePoints[i] = i * dt;
-        v[i] = 0;
-        inputC[i] = 100;
-    }
-    v[0] = vInit;
+double LIFneuron::getMembranePotential() {
+    return v;
 }
 
-// Method to update membrane potential
-void LIFneuron::updateMembranePotential(bool stop = false) {
-    double dv;
-    vector<double> recSpike;
-    double tr = 0;
-
-    if (stop) {
-        for (int i = 0; i < (lt / 2 - 1000); i++) {
-            inputC[i] = 0;
-        }
-        for (int i = (lt / 2 + 1000); i < lt; i++) {
-            inputC[i] = 0;
+void LIFneuron::updateMembranePotential(double inputCurrent, double time) {
+    if (inRefraction) {
+        if (time - timeLastSpike >= tRefr) {
+            inRefraction = false;
+        } else {
+            return;
         }
     }
 
-    // Loop through time points
-    for (int i = 0; i < lt; i++) {
-        // Refractory period
-        if (tr > 0) {
-            tr -= 1;
-            v[i] = vReset;  
-        } else if (v[i] >= vTh) {
-            recSpike.push_back(i * dt);
-            v[i] = vReset;
-            tr = tRefr / dt;
-        }
+    v += dt * (- (v - vRest) / lambdaV + inputCurrent); // Check this
+    // v += (- (v - vRest) / lambdaV + inputCurrent) * (dt / lambda_v);
 
-        // Calculate change in membrane potential
-        dv = (-(v[i] - eL) + inputC[i] / gL) * (dt / tauM);
-
-        // Update membrane potential
-        v[i + 1] = v[i] + dv; 
-
-        // Print membrane potential
-        cout << v[i] << endl;
+    if (v >= vTh) {
+        fire(time);
+        sHist.push_back(time); // Check this
     }
-
-    // Print spike times
-    // for (int i = 0; i < recSpike.size(); i++) {
-    //     cout << recSpike[i] << endl;
-    // }
-    
-    free(timePoints);
-    free(v);
-    free(inputC);
 }
 
-// void plot_membrane_potential() {
-//     bool success;
-//     StringReference *errorMessage = CreateStringReferenceLengthValue(0, L' ');
-//     RGBABitmapImageReference *imageReference = CreateRGBABitmapImageReference();
+void LIFneuron::fire(double time) {
+    v = vReset;
+    inRefraction = true;
+    timeLastSpike = time;
+    std::cout << "Neuron fired at time " << time << " ms" << std::endl;
+}
 
-//     vector<double> xs{-2, -1, 0, 1, 2};
-//     vector<double> ys{2, -1, -2, -1, 2};
-
-//     success = DrawScatterPlot(imageReference, 600, 400, &xs, &ys, errorMessage);
-
-//     if(success){
-//         vector<double> *pngdata = ConvertToPNG(imageReference->image);
-//         WriteToFile(pngdata, "./plots/plot.png");
-//         DeleteImage(imageReference->image);
-//     }else{
-//         cerr << "Error: ";
-//         for(wchar_t c : *errorMessage->string){
-//             wcerr << c;
-//         }
-//         cerr << endl;
-//     }
-
-//     FreeAllocations();
-// }
+void LIFneuron::updateTrace(double sPre) {
+    for (size_t i = 0; i < X.size(); i++) {
+        X[i] += dt * (-X[i] / lambdaX + alpha * sPre); // Check this
+        // X[i] += dt * (-X[i] + alpha * sPre) * (dt / lambdaX);
+    }
+}

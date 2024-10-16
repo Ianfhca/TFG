@@ -1,21 +1,22 @@
-# Capa 1 (entrada)
+# Capa 0 (entrada)
 layer input
 neurons 3
+connections dense
 
-# Capa 2 (oculta 1)
-layer hidden
+# Capa 1 (oculta 1)
+layer excitatory
 neurons 5
 connections dense
 
-# Capa 3 (oculta 2)
-layer hidden
+# Capa 2 (oculta 2)
+layer excitatory
 neurons 4
-connections dense
+connections sparse
+sparse_connection 0 0
+sparse_connection 1 1
+sparse_connection 2 2
 
-# Capa 4 (salida)
+# Capa 3 (salida)
 layer output
 neurons 2
-connections custom
-custom_connection 0 0
-custom_connection 1 1
-custom_connection 2 2
+connections none
