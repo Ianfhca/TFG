@@ -1,9 +1,18 @@
 #include "../include/SNN.h"
 using namespace std;
 
-int readTopology(char *file, SNN *snn) {
+SNN::SNN() {
+	
+}
 
-	Layer currentLayer;
+int SNN::initNetwork(char *file) {
+
+	string type;
+    int numNeurons;
+    string connections;
+    vector<pair<int, int>> sparseConnections;
+    // vector<LIFneuron> neurons;
+
 	string line;
 
 	// Read network file
@@ -21,39 +30,43 @@ int readTopology(char *file, SNN *snn) {
 			
 			stream >> token;
 			if (token.compare("layer") == 0) {
-				if (!currentLayer.type.empty()) {
-					snn->layers.push_back(currentLayer);
+				if (!type.empty()) {
+					Layer currentLayer;
+					currentLayer.initLayer(type, numNeurons, connections, sparseConnections);
+					layers.push_back(currentLayer);
 				}
-				stream >> currentLayer.type;
+				stream >> type;
 			} else if (token.compare("neurons") == 0) {
-				stream >> currentLayer.neurons;
+				stream >> numNeurons;
+				cout << "Number of neurons: " << numNeurons << endl;
 			} else if (token.compare("connections") == 0) {
-				stream >> currentLayer.connections;
-			} else if (token.compare("sparse_connection") == 0 && currentLayer.connections == "sparse") {
+				stream >> connections;
+			} else if (token.compare("sparse_connection") == 0 && connections == "sparse") {
 				int from, to;
 				stream >> from >> to;
-				currentLayer.sparse_connections.push_back(make_pair(from, to));
+				sparseConnections.push_back(make_pair(from, to));
 			} 
 		}
-		if (!currentLayer.type.empty()) {
-			snn->layers.push_back(currentLayer);
+		if (!type.empty()) {
+			Layer currentLayer;
+			currentLayer.initLayer(type, numNeurons, connections, sparseConnections);
+			layers.push_back(currentLayer);
 		}
 		network_file.close();
 	}
 	return 0;
 };
 
-void viewTopology(SNN *snn) {
+void SNN::viewTopology() {
 	cout << "-- NETWORK TOPOLOGY --" << endl;
-	// cout << snn->layers.size() << " layers" << endl;
-	for (int i = 0; i < snn->layers.size(); i++) {
-		cout << "LAYER " << i << ": " << snn->layers[i].type << endl;
-		cout << "Neurons: " << snn->layers[i].neurons << endl;
-		cout << "Connections: " << snn->layers[i].connections << endl;
-		if (snn->layers[i].connections == "sparse") {
+	for (int i = 0; i < layers.size(); i++) {
+		cout << "LAYER " << i << ": " << layers[i].getType() << endl;
+		cout << "Neurons: " << layers[i].getNumNeurons() << endl;
+		cout << "Connections: " << layers[i].getConnections() << endl;
+		if (layers[i].getConnections() == "sparse") {
 			cout << "Sparse connections: " << endl;
-			for (int j = 0; j < snn->layers[i].sparse_connections.size(); j++) {
-				cout << snn->layers[i].sparse_connections[j].first << " -> " << snn->layers[i].sparse_connections[j].second << endl;
+			for (int j = 0; j < layers[i].getSparseConnections().size(); j++) {
+				cout << layers[i].getSparseConnections()[j].first << " -> " << layers[i].getSparseConnections()[j].second << endl;
 			}
 		}
 		cout << endl;

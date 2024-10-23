@@ -26,9 +26,12 @@ private:
     double lambdaX; // Trace time constant
     double alpha; // Scaling factor for traces
 
-    vector<double> sHist; // Spike history
+    // vector<double> sHist; // Spike history
+
+    vector<LIFneuron *> postNeurons; // Post-synaptic neurons
 
 public:
+    LIFneuron();
     LIFneuron(double vTh_, double vRest_, double vReset_, double lambdaV_, double tRefr_, double dt_, double lambdaX_, double alpha_);
     double getMembranePotential();
     void updateMembranePotential(double inputCurrent, double time);
