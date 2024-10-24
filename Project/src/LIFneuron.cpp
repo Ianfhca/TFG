@@ -19,6 +19,11 @@ double LIFneuron::getMembranePotential() {
     return v;
 }
 
+void LIFneuron::setPostSynapticLink(LIFneuron &postNeuron) {
+    postNeurons.push_back(&postNeuron);
+    // cout << &postNeuron << endl;
+}
+
 void LIFneuron::updateMembranePotential(double inputCurrent, double time) {
     if (inRefraction) {
         if (time - timeLastSpike >= tRefr) {

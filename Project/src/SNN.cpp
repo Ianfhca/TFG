@@ -5,7 +5,7 @@ SNN::SNN() {
 	
 }
 
-int SNN::initNetwork(char *file) {
+int SNN::initNetwork(char &file) {
 
 	string type;
     int numNeurons;
@@ -16,12 +16,12 @@ int SNN::initNetwork(char *file) {
 	string line;
 
 	// Read network file
-	ifstream network_file(file);
+	ifstream network_file(&file);
 	if (!network_file.is_open()) {
-		cout << "Error: Unable to open file " << file << endl;
+		cout << "Error: Unable to open file " << &file << endl;
 		return 1;
 	} else {
-		cout << "Reading file " << file << endl;
+		cout << "Reading file " << &file << endl;
 		while (getline(network_file, line)) {
 			if (line.length() == 0 || line[0] == '#') continue;
 
@@ -38,7 +38,6 @@ int SNN::initNetwork(char *file) {
 				stream >> type;
 			} else if (token.compare("neurons") == 0) {
 				stream >> numNeurons;
-				cout << "Number of neurons: " << numNeurons << endl;
 			} else if (token.compare("connections") == 0) {
 				stream >> connections;
 			} else if (token.compare("sparse_connection") == 0 && connections == "sparse") {
@@ -57,6 +56,12 @@ int SNN::initNetwork(char *file) {
 	return 0;
 };
 
+void SNN::linkLayers() {
+	for (int i = 0; i < layers.size() - 1; i++) {
+		layers[i].setPostSynapticLinks(layers[i + 1]);
+	}
+}
+
 void SNN::viewTopology() {
 	cout << "-- NETWORK TOPOLOGY --" << endl;
 	for (int i = 0; i < layers.size(); i++) {
@@ -71,5 +76,4 @@ void SNN::viewTopology() {
 		}
 		cout << endl;
 	}
-	
 }
