@@ -13,7 +13,10 @@ private:
     vector<pair<int, int>> sparseConnections;
 
     vector<LIFneuron> neurons;
+    vector<bool> spiked;
     vector< vector <vector<double>>> weights;
+    vector< vector <vector<double>>> tau;
+    vector< vector <vector<double>>> preSynapticTrace;
 
     // vector<double> membranePotentials;
     // vector<bool> spiked;
@@ -30,5 +33,9 @@ public:
     void setPostSynapticLinks(Layer &postLayer);
 
     void initWeights(int numNeurons, int numPostNeurons, int m);
+    void initDelays(int numNeurons, int numPostNeurons, int m, double minT, double maxT);
+    void initPreSynapticTrace(int numNeurons, int numPostNeurons, int m);
+    void updatePreSynapticTrace(Layer &preLayer, double t, double alpha);
+    void propagateSpikes(Layer &postLayer, double t);
     void feedForward(vector<double> input);
 };

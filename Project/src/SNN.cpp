@@ -1,4 +1,5 @@
 #include "../include/SNN.h"
+#include "../include/Globals.h"
 using namespace std;
 
 SNN::SNN() {
@@ -66,6 +67,8 @@ void SNN::linkLayers() {
 	for (int i = 0; i < layers.size() - 1; i++) {
 		layers[i].setPostSynapticLinks(layers[i + 1]);
 		layers[i].initWeights(layers[i].getNumNeurons(), layers[i + 1].getNumNeurons(), layers[i].getMultisynaptic());
+		layers[i].initDelays(layers[i].getNumNeurons(), layers[i + 1].getNumNeurons(), layers[i].getMultisynaptic(), MIN_DELAY, MAX_DELAY);
+		layers[i].initPreSynapticTrace(layers[i].getNumNeurons(), layers[i + 1].getNumNeurons(), layers[i].getMultisynaptic());
 	}
 }
 

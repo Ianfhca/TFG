@@ -35,7 +35,7 @@ public:
     LIFneuron(double vTh_, double vRest_, double vReset_, double lambdaV_, double tRefr_, double dt_, double lambdaX_, double alpha_);
     double getMembranePotential();
     void setPostSynapticLink(LIFneuron &postNeuron);
-    void updateMembranePotential(double inputCurrent, double time);
+    int updateMembranePotential(double inputCurrent, double time);
     void fire(double time);
     void updateTrace(double sPre);
 };

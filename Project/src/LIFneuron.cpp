@@ -24,34 +24,59 @@ void LIFneuron::setPostSynapticLink(LIFneuron &postNeuron) {
     // cout << &postNeuron << endl;
 }
 
-void LIFneuron::updateMembranePotential(double inputCurrent, double time) {
+
+int LIFneuron::updateMembranePotential(double forcingFunction, double t) {
     if (inRefraction) {
-        if (time - timeLastSpike >= tRefr) {
+        if (t - timeLastSpike >= tRefr) {
             inRefraction = false;
         } else {
-            return;
+            return 0; // Check this ----------------------------------------------------
         }
     }
 
-    v += dt * (- (v - vRest) / lambdaV + inputCurrent); // Check this  
-    //v += (- (v - vRest) + inputCurrent) * (dt / lambdaV);
+    v += (-(v - vRest) + forcingFunction) * (dt / lambdaV);
+    // v += dt * (- (v - vRest) / lambdaV + inputCurrent); // Check this  
+    
 
     if (v >= vTh) {
-        fire(time);
+        fire(t);
+
+
+        return 1;
         // sHist.push_back(time); // Check this
     }
+
+    return 0;
 }
 
-void LIFneuron::fire(double time) {
+// void LIFneuron::updateMembranePotential(double inputCurrent, double time) {
+//     if (inRefraction) {
+//         if (time - timeLastSpike >= tRefr) {
+//             inRefraction = false;
+//         } else {
+//             return;
+//         }
+//     }
+
+//     v += dt * (- (v - vRest) / lambdaV + inputCurrent); // Check this  
+//     //v += (- (v - vRest) + inputCurrent) * (dt / lambdaV);
+
+//     if (v >= vTh) {
+//         fire(time);
+//         // sHist.push_back(time); // Check this
+//     }
+// }
+
+void LIFneuron::fire(double t) {
     v = vReset;
     inRefraction = true;
-    timeLastSpike = time;
-    std::cout << "Neuron fired at time " << time << " ms" << std::endl;
+    timeLastSpike = t;
+    std::cout << "Neuron fired at time " << t << " ms" << std::endl;
 }
 
-void LIFneuron::updateTrace(double sPre) {
-    for (size_t i = 0; i < X.size(); i++) {
-        X[i] += dt * (-X[i] / lambdaX + alpha * sPre); // Check this
-        //X[i] += (-X[i] + alpha * sPre) * (dt / lambdaX);
-    }
-}
+// void LIFneuron::updateTrace(double sPre) {
+//     for (size_t i = 0; i < X.size(); i++) {
+//         X[i] += dt * (-X[i] / lambdaX + alpha * sPre); // Check this
+//         //X[i] += (-X[i] + alpha * sPre) * (dt / lambdaX);
+//     }
+// }
