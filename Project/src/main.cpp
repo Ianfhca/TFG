@@ -14,7 +14,7 @@ int main(int argc, char *argv[]) {
 
 	SNN snn;
 	snn.initNetwork(*argv[1]);
-	snn.linkLayers();
+	// snn.linkLayers();
 	snn.viewTopology();
 
 	double dt = 0.1;

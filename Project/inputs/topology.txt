@@ -2,16 +2,19 @@
 layer input
 neurons 3
 connections dense
+multisynaptic 2
 
 # Capa 1 (oculta 1)
 layer excitatory
 neurons 5
 connections dense
+multisynaptic 1
 
 # Capa 2 (oculta 2)
 layer excitatory
 neurons 4
 connections sparse
+multisynaptic 1
 sparse_connection 0 0
 sparse_connection 1 1
 sparse_connection 2 2

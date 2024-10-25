@@ -10,6 +10,7 @@ int SNN::initNetwork(char &file) {
 	string type;
     int numNeurons;
     string connections;
+	int multisynaptic;
     vector<pair<int, int>> sparseConnections;
     // vector<LIFneuron> neurons;
 
@@ -32,7 +33,7 @@ int SNN::initNetwork(char &file) {
 			if (token.compare("layer") == 0) {
 				if (!type.empty()) {
 					Layer currentLayer;
-					currentLayer.initLayer(type, numNeurons, connections, sparseConnections);
+					currentLayer.initLayer(type, numNeurons, connections, multisynaptic, sparseConnections);
 					layers.push_back(currentLayer);
 				}
 				stream >> type;
@@ -40,6 +41,8 @@ int SNN::initNetwork(char &file) {
 				stream >> numNeurons;
 			} else if (token.compare("connections") == 0) {
 				stream >> connections;
+			} else if (token.compare("multisynaptic") == 0) {
+				stream >> multisynaptic;
 			} else if (token.compare("sparse_connection") == 0 && connections == "sparse") {
 				int from, to;
 				stream >> from >> to;
@@ -48,17 +51,21 @@ int SNN::initNetwork(char &file) {
 		}
 		if (!type.empty()) {
 			Layer currentLayer;
-			currentLayer.initLayer(type, numNeurons, connections, sparseConnections);
+			currentLayer.initLayer(type, numNeurons, connections, multisynaptic, sparseConnections);
 			layers.push_back(currentLayer);
 		}
 		network_file.close();
 	}
+
+	linkLayers();
+
 	return 0;
 };
 
 void SNN::linkLayers() {
 	for (int i = 0; i < layers.size() - 1; i++) {
 		layers[i].setPostSynapticLinks(layers[i + 1]);
+		layers[i].initWeights(layers[i].getNumNeurons(), layers[i + 1].getNumNeurons(), layers[i].getMultisynaptic());
 	}
 }
 
@@ -68,6 +75,7 @@ void SNN::viewTopology() {
 		cout << "LAYER " << i << ": " << layers[i].getType() << endl;
 		cout << "Neurons: " << layers[i].getNumNeurons() << endl;
 		cout << "Connections: " << layers[i].getConnections() << endl;
+		cout << "Multisynaptic: " << layers[i].getMultisynaptic() << endl;
 		if (layers[i].getConnections() == "sparse") {
 			cout << "Sparse connections: " << endl;
 			for (int j = 0; j < layers[i].getSparseConnections().size(); j++) {

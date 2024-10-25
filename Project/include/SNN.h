@@ -16,6 +16,6 @@ public:
     int initNetwork(char &file);
     void linkLayers();
     void viewTopology();
-    void runNetwork();
     void trainNetwork();
+    void testNetwork();
 };
