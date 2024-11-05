@@ -2,7 +2,7 @@
 layer input
 neurons 3
 connections dense
-multisynaptic 2
+multisynaptic 1
 
 # Capa 1 (oculta 1)
 layer excitatory

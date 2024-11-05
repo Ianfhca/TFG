@@ -1,6 +1,9 @@
 #pragma once
 
 #include "LIFneuron.h"
+#include "Globals.h"
+
+#include <random>
 
 using namespace std;
 
@@ -12,14 +15,13 @@ private:
     int multisynaptic;
     vector<pair<int, int>> sparseConnections;
 
+    // Join this vectors in a single vector of pairs
     vector<LIFneuron> neurons;
-    vector<bool> spiked;
+    vector<vector<pair<int, double>>> spiked;
     vector< vector <vector<double>>> weights;
     vector< vector <vector<double>>> tau;
     vector< vector <vector<double>>> preSynapticTrace;
 
-    // vector<double> membranePotentials;
-    // vector<bool> spiked;
 public:
     Layer();
     // Layer(string type_, int numNeurons_, string connections_);
@@ -33,6 +35,7 @@ public:
     void setPostSynapticLinks(Layer &postLayer);
 
     void initWeights(int numNeurons, int numPostNeurons, int m);
+    void initSpikes();
     void initDelays(int numNeurons, int numPostNeurons, int m, double minT, double maxT);
     void initPreSynapticTrace(int numNeurons, int numPostNeurons, int m);
     void updatePreSynapticTrace(Layer &preLayer, double t, double alpha);

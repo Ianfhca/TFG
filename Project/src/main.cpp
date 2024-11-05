@@ -1,5 +1,7 @@
+#include "../include/Globals.h"
 #include "../include/LIFneuron.h"
 #include "../include/SNN.h"
+
 #include <iostream>
 #include <iomanip> 
 
@@ -15,7 +17,9 @@ int main(int argc, char *argv[]) {
 	SNN snn;
 	snn.initNetwork(*argv[1]);
 	// snn.linkLayers();
-	snn.viewTopology();
+	// snn.viewTopology();
+
+	snn.trainNetwork(TIME, 0.1);
 
 	// double dt = 0.1;
 	// double simTime = 100.0;

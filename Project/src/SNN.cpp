@@ -88,3 +88,15 @@ void SNN::viewTopology() {
 		cout << endl;
 	}
 }
+
+void SNN::trainNetwork(double t, double dt) {
+	cout << "-- TRAINING NETWORK --" << endl;
+	for (double ct = 0.0; ct < t; ct+=dt) {
+		for (int i = 0; i < layers.size() - 1; i++) {	
+			cout << "- Layer " << i << " -" << endl;
+			layers[i + 1].updatePreSynapticTrace(layers[i], ct, 0.1);// ALPHA);
+			layers[i].propagateSpikes(layers[i + 1], ct);
+			cout << "Propagate Spikes" << endl;
+		}
+	}
+}
