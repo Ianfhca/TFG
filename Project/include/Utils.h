@@ -1,13 +1,3 @@
-struct TNode{
-    int spike;
-    double time;
-    TNode *next;
-};
+#pragma once
 
-TNode *first, *last;
-
-void insert(int spike, double time){
-    TNode *newNode = new TNode{spike, time};
-    last->next = newNode;
-    last = last->next;
-}
+double roundTo(double value, double precision);

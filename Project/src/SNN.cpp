@@ -33,8 +33,7 @@ int SNN::initNetwork(char &file) {
 			stream >> token;
 			if (token.compare("layer") == 0) {
 				if (!type.empty()) {
-					Layer currentLayer;
-					currentLayer.initLayer(type, numNeurons, connections, multisynaptic, sparseConnections);
+					Layer currentLayer(type, numNeurons, connections, multisynaptic, sparseConnections);
 					layers.push_back(currentLayer);
 				}
 				stream >> type;
@@ -51,8 +50,7 @@ int SNN::initNetwork(char &file) {
 			} 
 		}
 		if (!type.empty()) {
-			Layer currentLayer;
-			currentLayer.initLayer(type, numNeurons, connections, multisynaptic, sparseConnections);
+			Layer currentLayer(type, numNeurons, connections, multisynaptic, sparseConnections);
 			layers.push_back(currentLayer);
 		}
 		network_file.close();
@@ -66,9 +64,9 @@ int SNN::initNetwork(char &file) {
 void SNN::linkLayers() {
 	for (int i = 0; i < layers.size() - 1; i++) {
 		layers[i].setPostSynapticLinks(layers[i + 1]);
-		layers[i].initWeights(layers[i].getNumNeurons(), layers[i + 1].getNumNeurons(), layers[i].getMultisynaptic());
-		layers[i].initDelays(layers[i].getNumNeurons(), layers[i + 1].getNumNeurons(), layers[i].getMultisynaptic(), MIN_DELAY, MAX_DELAY);
-		layers[i].initPreSynapticTrace(layers[i].getNumNeurons(), layers[i + 1].getNumNeurons(), layers[i].getMultisynaptic());
+		layers[i].initWeights(layers[i + 1].getNumNeurons());
+		layers[i].initDelays(layers[i + 1].getNumNeurons(), MIN_DELAY, MAX_DELAY);
+		layers[i].initPreSynapticTrace(layers[i + 1].getNumNeurons());
 	}
 }
 
@@ -96,7 +94,6 @@ void SNN::trainNetwork(double t, double dt) {
 			cout << "- Layer " << i << " -" << endl;
 			layers[i + 1].updatePreSynapticTrace(layers[i], ct, 0.1);// ALPHA);
 			layers[i].propagateSpikes(layers[i + 1], ct);
-			cout << "Propagate Spikes" << endl;
 		}
 	}
 }

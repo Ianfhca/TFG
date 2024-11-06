@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Globals.h"
+
 #include <iostream>
 #include <vector>
 #include <cstdlib>
@@ -17,25 +19,18 @@ private:
     double lambdaV; // Membrane time constant
     double iSyn; // Leak conductance
     double tRefr; // Refractory period
+    double lambdaX; // Trace time constant -- REMOVE
+    double alpha; // Scaling factor for traces
 
     bool inRefraction; // Refractory state
     double timeLastSpike; // Last spike time
-    double dt; // Time step
-
-    vector<double> X; // Presynaptic traces
-    double lambdaX; // Trace time constant
-    double alpha; // Scaling factor for traces
-
-    // vector<double> sHist; // Spike history
+    double dt; // Time step -- REMOVE
 
     vector<LIFneuron *> postNeurons; // Post-synaptic neurons
 
 public:
-    LIFneuron();
-    LIFneuron(double vTh_, double vRest_, double vReset_, double lambdaV_, double tRefr_, double dt_, double lambdaX_, double alpha_);
+    LIFneuron(double vTh_ = V_TH, double vRest_ = V_REST, double vReset_ = V_RESET, double lambdaV_ = LAMBDA_V, double tRefr_ = T_REFR, double dt_ = DT, double lambdaX_ = LAMBDA_X, double alpha_ = ALPHA);
     double getMembranePotential();
     void setPostSynapticLink(LIFneuron &postNeuron);
     int updateMembranePotential(double inputCurrent, double time);
-    void fire(double time);
-    void updateTrace(double sPre);
 };

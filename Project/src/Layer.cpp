@@ -1,39 +1,18 @@
 #include "../include/Layer.h"
 
-Layer::Layer() {
-
-};
-
-int Layer::initLayer(string type_, int numNeurons_, string connections_, int multisynaptic_, vector<pair<int, int>> sparseConnections_) {
-    type = type_;
-    numNeurons = numNeurons_;
-    connections = connections_;
-    multisynaptic = multisynaptic_;
-    sparseConnections = sparseConnections_;
-    
-    LIFneuron neuron;
+Layer::Layer(string type_, int numNeurons_, string connections_, int multisynaptic_, vector<pair<int, int>> sparseConnections_)
+    : type(type_), numNeurons(numNeurons_), connections(connections_), multisynaptic(multisynaptic_), sparseConnections(sparseConnections_) {
+    LIFneuron neuron();
     neurons.resize(numNeurons);
     int bufferSize = MAX_DELAY / MIN_DELAY;
     spiked.resize(numNeurons, vector<pair<int, double>>(bufferSize, make_pair(0, 0.0)));
+}
 
-    // for (int i = 0; i < numNeurons; i++) {
-    //     cout << "Neuron " << i << " v: " << neurons[i].getMembranePotential();
-    //     spiked[i][spiked[i].size() -1] = make_pair(rand() % 2, 0.1);
-    //     for (int j = 0; j < bufferSize; j++) {
-    //         // spiked[i][j].first = rand() % 2;
-    //         cout << " s(" << spiked[i][j].first << "," << spiked[i][j].second <<  ") ";
-    //     }
-    //     cout << endl;
-    // }
-
-    return 0;
-};
-
-void Layer::initWeights(int numNeurons, int numPostNeurons, int m) {
-    weights.resize(numPostNeurons, vector<vector<double>>(numNeurons, vector<double>(m, 0.5)));
+void Layer::initWeights(int numPostNeurons) {
+    weights.resize(numPostNeurons, vector<vector<double>>(numNeurons, vector<double>(multisynaptic, 0.5)));
 
     // Visualize weights
-    for (int k = 0; k < m; k++) {
+    for (int k = 0; k < multisynaptic; k++) {
         for (int i = 0; i < numPostNeurons; i++) {
             for (int j = 0; j < numNeurons; j++) {
                 cout << weights[i][j][k] << " ";
@@ -44,21 +23,16 @@ void Layer::initWeights(int numNeurons, int numPostNeurons, int m) {
     }
 };
 
-double roundTo(double value, double precision) {
-    return round(value / precision) * precision;
-}
-
-void Layer::initDelays(int numNeurons, int numPostNeurons, int m, double minT, double maxT) {
-    tau.resize(numPostNeurons, vector<vector<double>>(numNeurons, vector<double>(m)));
+void Layer::initDelays(int numPostNeurons, double minT, double maxT) {
     random_device rd;
     mt19937 gen(rd());
     uniform_real_distribution<> dis(minT, maxT);
+    tau.resize(numPostNeurons, vector<vector<double>>(numNeurons, vector<double>(multisynaptic)));
 
-
-    for (int k = 0; k < m; k++) {
+    for (int k = 0; k < multisynaptic; k++) {
         for (int i = 0; i < numPostNeurons; i++) {
             for (int j = 0; j < numNeurons; j++) {
-                // tau[i][j][k] = roundTo(dis(gen), 0.1);
+                // tau[i][j][k] = roundTo(dis(gen), 0.1); 
                 tau[i][j][k] = dis(gen);
                 cout << tau[i][j][k] << " ";
             }
@@ -68,8 +42,8 @@ void Layer::initDelays(int numNeurons, int numPostNeurons, int m, double minT, d
     }    
 }
 
-void Layer::initPreSynapticTrace(int numNeurons, int numPostNeurons, int m) {
-    preSynapticTrace.resize(numPostNeurons, vector<vector<double>>(numNeurons, vector<double>(m, 0.0)));
+void Layer::initPreSynapticTrace(int numPostNeurons) {
+    preSynapticTrace.resize(numPostNeurons, vector<vector<double>>(numNeurons, vector<double>(multisynaptic, 0.0)));
 }
 
 void Layer::setPostSynapticLinks(Layer &postLayer) {
@@ -94,19 +68,16 @@ void Layer::updatePreSynapticTrace(Layer &preLayer, double t, double alpha) {
     
     for (int i = 0; i < preLayer.preSynapticTrace.size(); i++) {
         for (int j = 0; j < preLayer.preSynapticTrace[i].size(); j++) {
-            for (int d = 0; d < preLayer.preSynapticTrace[i][j].size(); d++) {
-                
+            for (int d = 0; d < preLayer.preSynapticTrace[i][j].size(); d++) {    
                 // for (int s = 0; s < preLayer.spiked[j].size(); s++) {
                 //     if (t - preLayer.spiked[j][s].second >= preLayer.tau[i][j][d]) {
                 //         spikePos = s;
                 //     }
                 // }
-                spikePos = static_cast<int>(abs(preLayer.tau[i][j][d]) * 10) % 10;
+                spikePos = static_cast<int>(abs(preLayer.tau[i][j][d]) * 10) % 10; // Check this
                 spikePos = preLayer.spiked[j].size() - 1 - spikePos;
 
                 preLayer.preSynapticTrace[i][j][d] = (-preLayer.preSynapticTrace[i][j][d] + (alpha * preLayer.spiked[j][spikePos].first)) * (0.1 / 20.0); // (dt / lambdaX);
-                // preLayer.preSynapticTrace[i][j][d] = (-preLayer.preSynapticTrace[i][j][d] + (spiked[j] * (alpha - (alpha - preLayer.tau[i][j][d])))) * (0.1 / 20.0); // (dt / lambdaX);
-                // preLayer.preSynapticTrace[i][j][d] = (-preLayer.preSynapticTrace[i][j][d] + ((alpha * preLayer.spiked[j].first * t) - (alpha * preLayer.spiked[j].first * preLayer.tau[i][j][d]))) * (0.1 / 20.0); // (dt / lambdaX);
             }
         }
         
@@ -127,19 +98,16 @@ void Layer::propagateSpikes(Layer &postLayer, double t) {
                 //         spikePos = s;
                 //     }
                 // }
-
-                spikePos = static_cast<int>(abs(tau[i][j][d]) * 10) % 10;
+                spikePos = static_cast<int>(abs(tau[i][j][d]) * 10) % 10; // Check this
                 spikePos = spiked[j].size() - 1 - spikePos;
 
-                // cout << "Spike Pos: " << spikePos << ", " << spiked[j][spikePos].first << ", " << spiked[j][spikePos].second << endl;
                 forcingFunction += spiked[j][spikePos].first * weights[i][j][d] - preSynapticTrace[i][j][d];
-                // forcingFunction += spiked[j][spikePos].second * (weights[i][j][d] - (weights[i][j][d] -  tau[i][j][d])) - preSynapticTrace[i][j][d];
+                // cout << "Spike Pos: " << spikePos << ", " << spiked[j][spikePos].first << ", " << spiked[j][spikePos].second << endl;
             }
         }
-        postLayer.spiked[i].erase(postLayer.spiked[i].begin()); // Check this
+        postLayer.spiked[i].erase(postLayer.spiked[i].begin()); 
         spikeValue = postLayer.getNeurons()[i].updateMembranePotential(forcingFunction, t);
         postLayer.spiked[i].push_back(make_pair(spikeValue, t));
-        // postLayer.spiked[i].second = postLayer.getNeurons()[i].updateMembranePotential(forcingFunction, t);
         // cout << spiked[0][0].first << " Forcing Function: " << forcingFunction << endl;
         forcingFunction = 0.0;
         

@@ -2,6 +2,7 @@
 
 #include "LIFneuron.h"
 #include "Globals.h"
+#include "Utils.h"
 
 #include <random>
 
@@ -23,9 +24,7 @@ private:
     vector< vector <vector<double>>> preSynapticTrace;
 
 public:
-    Layer();
-    // Layer(string type_, int numNeurons_, string connections_);
-    int initLayer(string type_, int numNeurons_, string connections_, int multisynaptic_, vector<pair<int, int>> sparseConnections_);
+    Layer(string type_ = "Undefined", int numNeurons_ = -1, string connections_ = "Undefined", int multisynaptic_ = -1, vector<pair<int, int>> sparseConnections_ = {{-1, -1}});
     string getType();
     int getNumNeurons();
     string getConnections();
@@ -34,10 +33,10 @@ public:
     vector<LIFneuron> getNeurons();
     void setPostSynapticLinks(Layer &postLayer);
 
-    void initWeights(int numNeurons, int numPostNeurons, int m);
+    void initWeights(int numPostNeurons);
     void initSpikes();
-    void initDelays(int numNeurons, int numPostNeurons, int m, double minT, double maxT);
-    void initPreSynapticTrace(int numNeurons, int numPostNeurons, int m);
+    void initDelays(int numPostNeurons, double minT, double maxT);
+    void initPreSynapticTrace(int numPostNeurons);
     void updatePreSynapticTrace(Layer &preLayer, double t, double alpha);
     void propagateSpikes(Layer &postLayer, double t);
     void feedForward(vector<double> input);
