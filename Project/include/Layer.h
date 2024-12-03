@@ -18,13 +18,12 @@ private:
 
     // Join this vectors in a single vector of pairs
     vector<LIFneuron> neurons;
-    vector<vector<pair<int, double>>> spiked;
     vector< vector <vector<double>>> weights;
-    vector< vector <vector<double>>> tau;
+    vector< vector <vector<double>>> tau; // Delays
     vector< vector <vector<double>>> preSynapticTrace;
 
 public:
-    Layer(string type_ = "Undefined", int numNeurons_ = -1, string connections_ = "Undefined", int multisynaptic_ = -1, vector<pair<int, int>> sparseConnections_ = {{-1, -1}});
+    Layer(string type_ = "undefined", int numNeurons_ = -1, vector<pair<vector<double>, int>> neuronParams_ = {{{}, -1}}, string connections_ = "undefined", int multisynaptic_ = -1, vector<pair<int, int>> sparseConnections_ = {{-1, -1}});
     string getType();
     int getNumNeurons();
     string getConnections();
@@ -39,5 +38,6 @@ public:
     void initPreSynapticTrace(int numPostNeurons);
     void updatePreSynapticTrace(Layer &preLayer, double t, double alpha);
     void propagateSpikes(Layer &postLayer, double t);
-    void feedForward(vector<double> input);
+    void feedForward(Layer &postLayer, double t, double alpha);
+    // void feedForward(vector<double> input);
 };
