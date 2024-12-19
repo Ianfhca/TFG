@@ -1,13 +1,6 @@
 -- PARAMETERS --
 
-# Time stages (m, s, ms, us, ns)
-time 5 m
-dt 1 ms # Integer value
->
-
--- HYPERPARAMETERS --
-
-# Type 0 (Default)
+# Type 0
 v_reset -65.0
 v_rest -65.0
 v -65.0
@@ -19,15 +12,18 @@ alpha 0.1
 >
 
 # Type 1
-v_reset -60.0
-v_rest -60.0
-v -60.0
-v_th -45.0
+v_reset -65.0
+v_rest -65.0
+v -65.0
+v_th -50.0
 lambda_v 20.0
-t_refr 1.5
+t_refr 2.0
 lambda_x 20.0
 alpha 0.1
 >
+
+#time 1 s
+#dt 1 ms
 
 -- TOPOLOGY --
 
@@ -36,8 +32,7 @@ layer input
 neurons 3
 type 0 num_neurons 3
 connections dense
-multisynapses 1
-delay 100 150 # Same unit as dt
+multisynaptic 1
 >
 
 # Capa 1 (oculta 1)
@@ -45,8 +40,7 @@ layer excitatory
 neurons 5
 type 0 num_neurons 5
 connections dense
-multisynapses 1
-delay 100 150
+multisynaptic 1
 >
 
 # Capa 2 (oculta 2)
@@ -54,26 +48,22 @@ layer excitatory
 neurons 4
 type 0 num_neurons 4
 connections dense
-multisynapses 2
-delay 100 150
+multisynaptic 1
 >
 
 # Capa 3 (salida)
 layer output
 neurons 2
-type 1 num_neurons 2
+type 0 num_neurons 2
 connections none
-multisynapses 1
-delay 100 150
+multisynaptic 1
 >
 
 -- INPUT --
 
-# Falta realizar correctamente las sparse connections
-# Eliminar las matrices de pesos etc. y cambiar por parametro en synapse
-
-# Sparse connections de capa 1 a capa 0 o de capa 0 a capa 1?
-
+# Pasar todos los parametros de SNN a Layer y LIFneuron???
+# Type X neurons Y
+# Type Z neurons W
 #connections sparse
 #sparse_connection 0 0
 #sparse_connection 1 1

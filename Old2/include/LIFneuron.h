@@ -16,7 +16,6 @@ class LIFneuron {
 private: 
     // Neuron parameters
     int multisynapses; // Number of synapses
-    pair<int, int> delayRange; // Range of synaptic delays
     double v; // Membrane potential
     double vTh; // Threshold potential
     double vRest; // Leak reversal potential
@@ -32,25 +31,21 @@ private:
     double dt; // Time step -- REMOVE
 
     int postsynapticSpike; // Postsynaptic spike value
-    // vector<pair<int, int>> spikes; // Spike times <sum of synaptic delays, number of spikes>
+    vector<pair<int, int>> spikes; // Spike times <sum of synaptic delays, number of spikes>
 
     // vector<LIFneuron *> postNeurons; // Post-synaptic neurons
     vector<Synapse> synapses; // Post-synaptic neurons
 
 public:
-    LIFneuron(int multisynapses_ = 1, pair<int, int> delayRange_ = {-1, -1}, double vTh_ = V_TH, double vRest_ = V_REST, double vReset_ = V_RESET, double lambdaV_ = LAMBDA_V, double tRefr_ = T_REFR, double dt_ = DT, double lambdaX_ = LAMBDA_X, double alpha_ = ALPHA);
+    LIFneuron(int multisynapses_ = 1, double vTh_ = V_TH, double vRest_ = V_REST, double vReset_ = V_RESET, double lambdaV_ = LAMBDA_V, double tRefr_ = T_REFR, double dt_ = DT, double lambdaX_ = LAMBDA_X, double alpha_ = ALPHA);
     double getMembranePotential();
+    vector<Synapse> getSynapses();
     int getPostsynapticSpike();
-    // void setPostsynapticLink(LIFneuron &postNeuron);
+    int getSpike(int multisynapticLink);
+    void setPostsynapticLink(LIFneuron &postNeuron);
     void setPostsynapticSpike(int spike);
-    void setPresynapticLink(LIFneuron &preNeuron);
     void setSpikeAtributes(int st, int ns, int multisynaptic);
-    
-    void updatePresinapticTrace();
+    void setPresynapticTrace(int multisynapticLink);
     double updateForcingFunction(int multisynapticLink);
     int updateMembranePotential(double inputCurrent, double time);
-
-    // int getSpike(int multisynapticLink);
-    // void setPresynapticTrace(int multisynapticLink);
-    // vector<Synapse> getSynapses();
 };

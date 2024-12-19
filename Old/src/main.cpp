@@ -1,4 +1,5 @@
 #include "../include/Globals.h"
+#include "../include/LIFneuron.h"
 #include "../include/SNN.h"
 #include "../include/Utils.h"
 
@@ -17,13 +18,10 @@ int main(int argc, char *argv[]) {
 
 	SNN snn;
 	snn.initNetwork(*argv[1]);
-	snn.linkLayers();
+	// snn.linkLayers();
 	snn.viewTopology();
 
-    int numeroAleatorio = generarNumeroAleatorio(0, 10);
-    cout << numeroAleatorio << endl;
-
-	// snn.trainNetwork();
+	// snn.trainNetwork(TIME, DT);
 
 
 

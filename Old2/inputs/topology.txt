@@ -1,8 +1,8 @@
 -- PARAMETERS --
 
-# Time stages (m, s, ms, us, ns)
-time 5 m
-dt 1 ms # Integer value
+# Time stages
+time 2 s
+dt 1 ms
 >
 
 -- HYPERPARAMETERS --
@@ -37,7 +37,6 @@ neurons 3
 type 0 num_neurons 3
 connections dense
 multisynapses 1
-delay 100 150 # Same unit as dt
 >
 
 # Capa 1 (oculta 1)
@@ -46,7 +45,6 @@ neurons 5
 type 0 num_neurons 5
 connections dense
 multisynapses 1
-delay 100 150
 >
 
 # Capa 2 (oculta 2)
@@ -55,7 +53,6 @@ neurons 4
 type 0 num_neurons 4
 connections dense
 multisynapses 2
-delay 100 150
 >
 
 # Capa 3 (salida)
@@ -64,15 +61,12 @@ neurons 2
 type 1 num_neurons 2
 connections none
 multisynapses 1
-delay 100 150
 >
 
 -- INPUT --
 
 # Falta realizar correctamente las sparse connections
 # Eliminar las matrices de pesos etc. y cambiar por parametro en synapse
-
-# Sparse connections de capa 1 a capa 0 o de capa 0 a capa 1?
 
 #connections sparse
 #sparse_connection 0 0

@@ -13,31 +13,32 @@ private:
     string type;
     int numNeurons;
     string connections;
-    int multisynaptic;
+    int multisynapses;
     vector<pair<int, int>> sparseConnections;
 
     // Join this vectors in a single vector of pairs
     vector<LIFneuron> neurons;
-    vector< vector <vector<double>>> weights;
-    vector< vector <vector<double>>> tau; // Delays
-    vector< vector <vector<double>>> preSynapticTrace;
+    // vector< vector <vector<double>>> weights;
+    // vector< vector <vector<double>>> tau; // Delays
+    // vector< vector <vector<double>>> preSynapticTrace;
 
 public:
-    Layer(string type_ = "undefined", int numNeurons_ = -1, vector<pair<vector<double>, int>> neuronParams_ = {{{}, -1}}, string connections_ = "undefined", int multisynaptic_ = -1, vector<pair<int, int>> sparseConnections_ = {{-1, -1}});
+    Layer(string type_ = "undefined", int numNeurons_ = -1, vector<pair<vector<double>, int>> neuronParams_ = {{{}, -1}}, string connections_ = "undefined", int multisynapses_ = -1, pair<int, int> delayRange_ = {-1, -1}, vector<pair<int, int>> sparseConnections_ = {{-1, -1}});
     string getType();
     int getNumNeurons();
     string getConnections();
-    int getMultisynaptic();
+    int getMultisynapses();
     vector<pair<int, int>> getSparseConnections();
     vector<LIFneuron> getNeurons();
-    void setPostSynapticLinks(Layer &postLayer);
+    // void setPostsynapticLinks(Layer &postLayer);
+    void setPresynapticLinks(Layer &preLayer);
 
-    void initWeights(int numPostNeurons);
-    void initSpikes();
-    void initDelays(int numPostNeurons, double minT, double maxT);
-    void initPreSynapticTrace(int numPostNeurons);
-    void updatePreSynapticTrace(Layer &preLayer, double t, double alpha);
-    void propagateSpikes(Layer &postLayer, double t);
-    void feedForward(Layer &postLayer, double t, double alpha);
+    void feedForward(Layer &postLayer, double t);
+
+    // void initWeights(int numPostNeurons);
+    // void initDelays(int numPostNeurons, double minT, double maxT);
+    // void initPresynapticTrace(int numPostNeurons);
+    // void updatePreSynapticTrace(Layer &preLayer, double t, double alpha);
+    // void propagateSpikes(Layer &postLayer, double t);
     // void feedForward(vector<double> input);
 };

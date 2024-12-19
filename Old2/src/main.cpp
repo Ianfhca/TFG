@@ -17,13 +17,10 @@ int main(int argc, char *argv[]) {
 
 	SNN snn;
 	snn.initNetwork(*argv[1]);
-	snn.linkLayers();
-	snn.viewTopology();
+	// snn.linkLayers();
+	// snn.viewTopology();
 
-    int numeroAleatorio = generarNumeroAleatorio(0, 10);
-    cout << numeroAleatorio << endl;
-
-	// snn.trainNetwork();
+	// snn.trainNetwork(TIME, DT);
 
 
 

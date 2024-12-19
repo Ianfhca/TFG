@@ -2,33 +2,23 @@
 #include "../include/Globals.h"
 using namespace std;
 
-SNN::SNN() {}
-
-int SNN::getTime() {
-	return time;
-}
-
-int SNN::getDt() {
-	return dt;
+SNN::SNN() {
+	
 }
 
 /**
  * @brief  This function initializes the network topology from a file
  * 
- * This function reads a file which contains the network topology and initializes it based on the information provided inside.
- * The file is structured by sections and blocks. Each section contains specific information about network.
+ * This function reads the file containing the network topology and initializes the network accordingly. 
+ * The file is structured by headers and sections. Network topology is gonna be generated based on the information provided in the file. 
+ * Such as the number of layers, the number of neurons in each layer, etc.
  * 
- * Composed sections are:
+ * The file contains the following caracteristics:
  * 
- * -- PARAMETERS -- -> Contains the parameters of the neurons
- * -- TOPOLOGY -- -> Contains the information about the layers
- * -- INPUT -- -> Contains the standard input for the network
- * 
- * Also there are some rules to follow:
- * 
- * > -> Separetes blocks beteween sections (Required)
+ * -- HEADERS -- -> Contains the headers of the file
  * # -> Comments
  * White spaces are ignored
+ * > -> Represents the end of a section
  * 
  * @param  file:  The file to read the network topology from
  * 
@@ -36,11 +26,11 @@ int SNN::getDt() {
  */
 int SNN::initNetwork(char &file) {
 
-	double timeAux = TIME;
-	double dtAux = DT;
-	string timeUnit = "s";
-	string dtUnit = "ms";
-	int cycles = 0;
+	string type = "Undefined";
+    int numNeurons = -1;
+    string connections = "Undefined";
+	int multisynaptic = -1;
+    vector<pair<int, int>> sparseConnections = {};
 
 	double vReset = V_RESET;
 	double vRest = V_REST;
@@ -51,13 +41,6 @@ int SNN::initNetwork(char &file) {
 	double lambdaX = LAMBDA_X;
 	double alpha = ALPHA;
 	vector<pair<vector<double>, int>> neuronParams;
-
-	string type = "Undefined";
-    int numNeurons = -1;
-    string connections = "Undefined";
-	int multisynapses = -1;
-	pair<int, int> delayRange = {0, 0};
-    vector<pair<int, int>> sparseConnections = {};
 
 	string currentSection;
 	string line;
@@ -84,29 +67,6 @@ int SNN::initNetwork(char &file) {
 				string token;
 				
 				stream >> token;
-
-				if (token.compare("time") == 0) {
-					stream >> timeAux;
-					stream >> timeUnit;
-					// cout << "Time: " << time << " " << timeUnit << endl;
-				} else if (token.compare("dt") == 0) {
-					stream >> dtAux;
-					stream >> dtUnit;
-				} else if (token.compare(">") == 0) {
-					time = convertTime(timeAux, timeUnit, dtUnit);
-					dt = static_cast<int>(dtAux);
-					if (time == -1) {
-						cout << "Error: Invalid time conversion." << endl;
-						return -1;
-					}
-					// cout << "Time: " << time << " " << dtUnit << endl;
-				}
-			} else if (currentSection == "HYPERPARAMETERS") {
-                istringstream stream(line);
-				string token;
-				
-				stream >> token;
-				
 				if (token.compare("v_reset") == 0) {
 					stream >> vReset;
 				} else if (token.compare("v_rest") == 0) {
@@ -123,7 +83,7 @@ int SNN::initNetwork(char &file) {
 					stream >> lambdaX;
 				} else if (token.compare("alpha") == 0) {
 					stream >> alpha;
-				} else if (token.compare(">") == 0) {
+				} else {
 					neuronParams.push_back(make_pair(vector<double>{vReset, vRest, v, vTh, lambdaV, tRefr, lambdaX, alpha}, 0));
 
 					vReset = V_RESET;
@@ -141,7 +101,6 @@ int SNN::initNetwork(char &file) {
 				vector<pair<int, int>> packNeuronsType;
 				int neuronType;
 				int numTypeNeurons;
-				int neuronsAux = 0;
 				
 				stream >> token;
 				if (token.compare("layer") == 0) {
@@ -151,15 +110,8 @@ int SNN::initNetwork(char &file) {
 				} else if (token.compare("type") == 0) {
 					stream >> neuronType;
 					if (neuronType < neuronParams.size()) {
-						stream >> token;
 						stream >> numTypeNeurons;
-						if (neuronsAux + numTypeNeurons <= numNeurons) {
-							neuronParams[neuronType].second = numTypeNeurons;
-							neuronsAux += numTypeNeurons;
-						} else {
-							cout << "Error: Neuron type '" << neuronType << "' out of number of neurons range '"<< numTypeNeurons << "'." << endl;
-							return -1;
-						}
+						neuronParams[neuronType].second = numTypeNeurons;
 					} else {
 						cout << "Error: Neuron type '" << neuronType << "' out of range." << endl;
 						return -1;
@@ -170,26 +122,18 @@ int SNN::initNetwork(char &file) {
 					int from, to;
 					stream >> from >> to;
 					sparseConnections.push_back(make_pair(from, to));
-				} else if (token.compare("multisynapses") == 0) {
-					stream >> multisynapses;
-				} else if (token.compare("delay") == 0) {
-					stream >> delayRange.first;
-					stream >> delayRange.second;
-					if (delayRange.first > delayRange.second) {
-						cout << "Error: Invalid delay range." << endl;
-						return -1;
-					}
-				} else if (token.compare(">") == 0) {
-					Layer currentLayer(type, numNeurons, neuronParams, connections, multisynapses, delayRange, sparseConnections);
+				} else if (token.compare("multisynaptic") == 0) {
+					stream >> multisynaptic;
+				} else {
+					Layer currentLayer(type, numNeurons, neuronParams, connections, multisynaptic, sparseConnections);
 					layers.push_back(currentLayer);
 
 					for (int i = 0; i < neuronParams.size(); i++) neuronParams[i].second = 0;
 					type = "undefined";
 					numNeurons = -1;
 					connections = "undefined";
-					multisynapses = -1;
+					multisynaptic = -1;
 					sparseConnections = {};
-					neuronsAux = 0;
 				}
 			} else if (currentSection == "INPUT") {
                 cout << "Processing INPUT section (not implemented)." << endl;
@@ -198,7 +142,7 @@ int SNN::initNetwork(char &file) {
 		network_file.close();
 	}
 
-	// linkLayers();
+	linkLayers();
 
 	return 0;
 };
@@ -214,9 +158,11 @@ int SNN::initNetwork(char &file) {
  * @return description
  */
 void SNN::linkLayers() {
-	for (int i = 1; i < layers.size(); i++) {
-		// layers[i].setPostsynapticLinks(layers[i + 1]);
-		layers[i].setPresynapticLinks(layers[i - 1]);
+	for (int i = 0; i < layers.size() - 1; i++) {
+		layers[i].setPostSynapticLinks(layers[i + 1]);
+		layers[i].initWeights(layers[i + 1].getNumNeurons());
+		layers[i].initDelays(layers[i + 1].getNumNeurons(), MIN_DELAY, MAX_DELAY);
+		layers[i].initPreSynapticTrace(layers[i + 1].getNumNeurons());
 	}
 }
 
@@ -227,7 +173,7 @@ void SNN::viewTopology() {
 		cout << "Type: " << layers[i].getType() << endl;
 		cout << "Neurons: " << layers[i].getNumNeurons() << endl;
 		cout << "Connections: " << layers[i].getConnections() << endl;
-		cout << "Multisynapses: " << layers[i].getMultisynapses() << endl;
+		cout << "Multisynaptic: " << layers[i].getMultisynaptic() << endl;
 		if (layers[i].getConnections() == "sparse") {
 			cout << "Sparse connections: " << endl;
 			for (int j = 0; j < layers[i].getSparseConnections().size(); j++) {
@@ -238,24 +184,14 @@ void SNN::viewTopology() {
 	}
 }
 
-void SNN::trainNetwork() {
+void SNN::trainNetwork(double t, double dt) {
 	cout << "-- TRAINING NETWORK --" << endl;
-	for (double ct = 0.0; ct < time; ct+=dt) {
+	for (double ct = 0.0; ct < t; ct+=dt) {
 		for (int i = 0; i < layers.size() - 1; i++) {	
 			cout << "- Layer " << i << " -" << endl;
-			layers[i + 1].feedForward(layers[i], ct);
+			layers[i].feedForward(layers[i + 1], ct, 0.1);
+			// layers[i + 1].updatePreSynapticTrace(layers[i], ct, 0.1);// ALPHA);
+			// layers[i].propagateSpikes(layers[i + 1], ct);
 		}
 	}
 }
-
-// void SNN::trainNetwork(double t, double dt) {
-// 	cout << "-- TRAINING NETWORK --" << endl;
-// 	for (double ct = 0.0; ct < t; ct+=dt) {
-// 		for (int i = 0; i < layers.size() - 1; i++) {	
-// 			cout << "- Layer " << i << " -" << endl;
-// 			layers[i].feedForward(layers[i + 1], ct, 0.1);
-// 			// layers[i + 1].updatePreSynapticTrace(layers[i], ct, 0.1);// ALPHA);
-// 			// layers[i].propagateSpikes(layers[i + 1], ct);
-// 		}
-// 	}
-// }
