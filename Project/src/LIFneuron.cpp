@@ -1,22 +1,48 @@
 #include "../include/LIFneuron.h"
 
-LIFneuron::LIFneuron(int multisynapses_, pair<int, int> delayRange_, double vTh_, double vRest_, double vReset_, double lambdaV_, double tRefr_, int dt_, double lambdaX_, double alpha_) {
+// LIFneuron::LIFneuron(int multisynapses_, pair<int, int> delayRange_, double vTh_, double vRest_, double vReset_, double lambdaV_, double tRefr_, int dt_, double lambdaX_, double alpha_) {
+//     v = vRest_;
+//     vTh = vTh_;
+//     vRest = vRest_;
+//     vReset = vReset_;
+//     lambdaV = lambdaV_;
+//     tRefr = static_cast<int>(tRefr_);
+//     dt = dt_;
+//     lambdaX = lambdaX_;
+//     alpha = alpha_;
+//     multisynapses = multisynapses_;
+//     delayRange = delayRange_;
+
+//     inRefraction = false;
+//     timeLastSpike = 0;
+
+//     spike = 0;
+// }
+
+// Good one
+LIFneuron::LIFneuron(int type_, int multisynapses_, int delayMin_, int delayMax_, double vTh_, double vRest_, double vReset_, double lambdaV_, int tRefr_, double lambdaX_, double alpha_, int dt_) {
+    type = type_;
+    multisynapses = multisynapses_;
+    delayMin = delayMin_;
+    delayMax = delayMax_;
     v = vRest_;
     vTh = vTh_;
     vRest = vRest_;
     vReset = vReset_;
     lambdaV = lambdaV_;
-    tRefr = static_cast<int>(tRefr_);
-    dt = dt_;
+    tRefr = tRefr_;
     lambdaX = lambdaX_;
     alpha = alpha_;
-    multisynapses = multisynapses_;
-    delayRange = delayRange_;
+    dt = dt_;
 
     inRefraction = false;
     timeLastSpike = 0;
 
     spike = 0;
+}
+
+int LIFneuron::getType() {
+    return type;
 }
 
 double LIFneuron::getMembranePotential() {
@@ -34,7 +60,8 @@ void LIFneuron::setSpike(int spike_) {
 void LIFneuron::setPresynapticLink(LIFneuron &preNeuron) {
     int delay;
     for (int i = 0; i < multisynapses; i++) {
-        delay = randomNumber(delayRange.first, delayRange.second);
+        // delay = randomNumber(delayRange.first, delayRange.second);
+        delay = randomNumber(delayMin, delayMax);
         Synapse synapse(preNeuron, delay, dt, lambdaX, alpha);
         synapses.push_back(synapse);
     }

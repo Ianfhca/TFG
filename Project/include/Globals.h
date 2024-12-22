@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <vector>
 
 using namespace std;
 
@@ -27,3 +28,20 @@ const double LAMBDA_V = 20.0;
 const double T_REFR = 2.0;
 const double LAMBDA_X = 20.0; // 10
 const double ALPHA = 0.1;
+
+struct NeuronParameters {
+    double vReset, vRest, v, vTh, lambdaV, lambdaX, alpha;
+    int tRefr;
+    NeuronParameters();
+};
+
+struct TopologyParameters {
+    string type;
+    int numNeurons = 0;
+    string connections;
+    int multisynapses = 0;
+    int delayMin = 0;
+    int delayMax = 0;
+    bool sparse = false;
+    vector<pair<int, int>> sparseConnections;
+};

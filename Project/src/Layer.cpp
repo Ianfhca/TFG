@@ -1,15 +1,31 @@
 #include "../include/Layer.h"
 
-Layer::Layer(string type_, int numNeurons_, vector<pair<vector<double>, int>> neuronParams, string connections_, int multisynapses_, pair<int, int> delayRange_, vector<pair<int, int>> sparseConnections_) {
-    type = type_;
-    numNeurons = numNeurons_;
-    connections = connections_;
-    multisynapses = multisynapses_;
-    sparseConnections = sparseConnections_;
+// Layer::Layer(string type_, int numNeurons_, vector<pair<vector<double>, int>> neuronParams, string connections_, int multisynapses_, pair<int, int> delayRange_, vector<pair<int, int>> sparseConnections_) {
+//     type = type_;
+//     numNeurons = numNeurons_;
+//     connections = connections_;
+//     multisynapses = multisynapses_;
+//     sparseConnections = sparseConnections_;
+
+//     for (int i = 0; i < neuronParams.size(); i++) {
+//         for (int j = 0; j < neuronParams[i].second; j++) {
+//             LIFneuron neuron(multisynapses, delayRange_, neuronParams[i].first[0], neuronParams[i].first[1], neuronParams[i].first[2], neuronParams[i].first[3], neuronParams[i].first[4], neuronParams[i].first[5], neuronParams[i].first[6], neuronParams[i].first[7]);
+//             neurons.push_back(neuron);
+//         }
+//     }
+// }
+
+// Good one
+Layer::Layer(TopologyParameters &topology, vector<pair<NeuronParameters, int>> &neuronParams, int dt) {
+    type = topology.type;
+    numNeurons = topology.numNeurons;
+    connections = topology.connections;
+    multisynapses = topology.multisynapses;
+    sparseConnections = topology.sparseConnections;
 
     for (int i = 0; i < neuronParams.size(); i++) {
         for (int j = 0; j < neuronParams[i].second; j++) {
-            LIFneuron neuron(multisynapses, delayRange_, neuronParams[i].first[0], neuronParams[i].first[1], neuronParams[i].first[2], neuronParams[i].first[3], neuronParams[i].first[4], neuronParams[i].first[5], neuronParams[i].first[6], neuronParams[i].first[7]);
+            LIFneuron neuron(i, topology.multisynapses, topology.delayMin, topology.delayMax, neuronParams[i].first.vTh, neuronParams[i].first.vRest, neuronParams[i].first.vReset, neuronParams[i].first.lambdaV, neuronParams[i].first.tRefr, neuronParams[i].first.lambdaX, neuronParams[i].first.alpha, dt);
             neurons.push_back(neuron);
         }
     }
@@ -38,6 +54,12 @@ vector<pair<int, int>>& Layer::getSparseConnections() {
 vector<LIFneuron>& Layer::getNeurons() { // Check this
     return neurons;
 };
+
+void Layer::getNeuronsType() {
+    for (int i = 0; i < neurons.size(); i++) {
+        cout << "- Neuron " << i << " type: " << neurons[i].getType() << endl;
+    }
+}
 
 void Layer::setPresynapticLinks(Layer &preLayer) {
 

@@ -18,7 +18,7 @@ private:
     int dt; // Time step
     double lambdaX; // Trace time constant
     double alpha; // Scaling factor for traces
-    
+
     int sumCycles; // Sum of synaptic delays
     int numSpikes; // Amount of spikes
 
@@ -27,7 +27,8 @@ private:
     int cycles; // Time constant of the synapse
     double preSynapticTrace; // Pre-synaptic trace
 public:
-    Synapse(LIFneuron &preNeuron_, int delay_ = MIN_DELAY, int dt_ = DT, double lambdaX_ = LAMBDA_X, double alpha_ = ALPHA);
+    // Synapse(LIFneuron &preNeuron_, int delay_ = MIN_DELAY, int dt_ = DT, double lambdaX_ = LAMBDA_X, double alpha_ = ALPHA);
+    Synapse(LIFneuron &preNeuron_, int delay_, int dt_, double lambdaX_, double alpha_);
     double getWeight();
     int getDelay();
     double getPreSynapticTrace();

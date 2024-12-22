@@ -11,16 +11,21 @@ using namespace std;
 int main(int argc, char *argv[]) { 
 
 	if (argc != 2) {
-		cout << "Usage: " << argv[0] << " <input file>" << endl;
+		cerr << "Usage: " << argv[0] << " <input file>" << endl;
 		return 1;
 	}
 
 	SNN snn;
-	snn.initNetwork(*argv[1]);
+	if (snn.initNetwork(*argv[1]) != 0) {
+		cerr << "Error: Unable to initialize network." << endl;
+		return 1;
+	}
+	// snn.initNetwork(*argv[1]);
+	
 	snn.linkLayers();
-	// snn.viewTopology();
+	snn.viewTopology();
 
-	snn.trainNetwork();
+	// snn.trainNetwork();
     
 	return 0;
 }
