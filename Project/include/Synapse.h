@@ -13,28 +13,27 @@ class LIFneuron;
 
 class Synapse {
 private:
-    LIFneuron * postNeuron; // Post-synaptic neuron
+    // LIFneuron * postNeuron; // Post-synaptic neuron
     LIFneuron * preNeuron; // Pre-synaptic neuron
-    double dt; // Time step
+    int dt; // Time step
     double lambdaX; // Trace time constant
     double alpha; // Scaling factor for traces
-    int sumDelays; // Sum of synaptic delays
+    
+    int sumCycles; // Sum of synaptic delays
     int numSpikes; // Amount of spikes
+
     double weight; // Weight of the synapse
-    double delay; // Tau of the synapse
+    int delay; // Tau of the synapse
+    int cycles; // Time constant of the synapse
     double preSynapticTrace; // Pre-synaptic trace
 public:
-    Synapse(LIFneuron &preNeuron_, double dt_, double lambdaX_, double alpha_);
-    LIFneuron * getPostNeuron();
+    Synapse(LIFneuron &preNeuron_, int delay_ = MIN_DELAY, int dt_ = DT, double lambdaX_ = LAMBDA_X, double alpha_ = ALPHA);
     double getWeight();
-    double getDelay();
+    int getDelay();
     double getPreSynapticTrace();
+    
     int obtainSpike();
-    // void setPostsynapticLink(LIFneuron &postNeuron_);
-    void setPresynapticLink(LIFneuron &preNeuron_);
-    void setWeight(double weight_);
-    void setDelay(double delay_);
-    void setPresynapticTrace(double preSynapticTrace_);
-    void setSpikeAtributes(int sumDelays_, int numSpikes_);
+    void updateSpikeAtributes();
     void updatePresinapticTrace();
+    double updateForcingFunction();
 };

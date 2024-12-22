@@ -1,29 +1,24 @@
 #include "../include/Synapse.h"
 
-Synapse::Synapse(LIFneuron &preNeuron_, double dt_, double lambdaX_, double alpha_) {
-    postNeuron = nullptr;
+Synapse::Synapse(LIFneuron &preNeuron_, int delay_, int dt_, double lambdaX_, double alpha_) {
+    // postNeuron = nullptr;
     preNeuron = &preNeuron_;
     dt = dt_;
     lambdaX = lambdaX_;
     alpha = alpha_;
     weight = 0.5;
-    delay = 0.1; // Distribution of delays
+    delay = delay_;
+    cycles = (dt == delay) ? 1 : (dt / delay) + 1;
     preSynapticTrace = 0.0;
-    sumDelays = 0;
+    sumCycles = 0;
     numSpikes = 0;
-
-    // cout << postNeuron->getMembranePotential() << endl;
-}
-
-LIFneuron * Synapse::getPostNeuron() {
-    return postNeuron;
 }
 
 double Synapse::getWeight() {
     return weight;
 }
 
-double Synapse::getDelay() {
+int Synapse::getDelay() {
     return delay;
 }
 
@@ -31,48 +26,33 @@ double Synapse::getPreSynapticTrace() {
     return preSynapticTrace;
 }
 
-// void Synapse::setPostsynapticLink(LIFneuron &postNeuron_) {
-//     postNeuron = &postNeuron_;
-// }
-
-void Synapse::setPresynapticLink(LIFneuron &preNeuron_) {
-    preNeuron = &preNeuron_;
-}
-
-void Synapse::setWeight(double weight_) {
-    weight = weight_;
-}
-
-void Synapse::setDelay(double delay_) {
-    delay = delay_;
-}
-
 int Synapse::obtainSpike() {
     int spike = 0;
+
     if (numSpikes > 0) {
-        spike = sumDelays % numSpikes == 0 ? 1 : 0;
-        sumDelays -= 1; // dt Check this
+        if (numSpikes == 1) spike = (sumCycles == numSpikes) ? 1 : 0;
+        else spike = (sumCycles % numSpikes == 0) ? 1 : 0;
+        
+        sumCycles -= 1;
         numSpikes -= spike;
     }
 
     return spike;
 }
 
-
-
-// void Synapse::setPresynapticTrace(double preSynapticTrace_) {
-//     preSynapticTrace = preSynapticTrace_;
-// }
-
-void Synapse::setSpikeAtributes(int sumDelays_, int numSpikes_) { // CHECK THIS (new name: updateSpike)
-    // if (preNeuron->getPostsynapticSpike() == 1) {
-    //     sumDelays += sumDelays_;
-    //     numSpikes += numSpikes_;
-    // }
-    sumDelays += sumDelays_ - numSpikes;
-    numSpikes = numSpikes_;
+void Synapse::updateSpikeAtributes() {
+    if (preNeuron->getSpike() == 1) {
+        sumCycles += cycles;
+        numSpikes += 1;
+    }
 }
 
 void Synapse::updatePresinapticTrace() {
+    // preSynapticTrace[i][j][d] = (-preSynapticTrace[i][j][d] + (alpha * neurons[j].obtainSpike(d))) * (dt / lambdaX);
     preSynapticTrace = (-preSynapticTrace + (alpha * obtainSpike())) * (dt / lambdaX);
+}
+
+double Synapse::updateForcingFunction() {
+    // forcingFunction += neurons[j].obtainSpike(d) * weights[i][j][d] - preSynapticTrace[i][j][d];
+    return (obtainSpike() * weight - preSynapticTrace);
 }

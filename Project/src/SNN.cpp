@@ -36,11 +36,11 @@ int SNN::getDt() {
  */
 int SNN::initNetwork(char &file) {
 
+	maxDelay = 0;
 	double timeAux = TIME;
-	double dtAux = DT;
-	string timeUnit = "s";
-	string dtUnit = "ms";
-	int cycles = 0;
+	int dtAux = DT;
+	string timeUnit = TIME_UNIT;
+	string dtUnit = DT_UNIT;
 
 	double vReset = V_RESET;
 	double vRest = V_REST;
@@ -52,12 +52,12 @@ int SNN::initNetwork(char &file) {
 	double alpha = ALPHA;
 	vector<pair<vector<double>, int>> neuronParams;
 
-	string type = "Undefined";
-    int numNeurons = -1;
-    string connections = "Undefined";
-	int multisynapses = -1;
-	pair<int, int> delayRange = {0, 0};
-    vector<pair<int, int>> sparseConnections = {};
+	string type = UNDEFINED;
+    int numNeurons = NONE;
+    string connections = UNDEFINED;
+	int multisynapses = NONE;
+	pair<int, int> delayRange = {MIN_DELAY, MAX_DELAY};
+    vector<pair<int, int>> sparseConnections;
 
 	string currentSection;
 	string line;
@@ -94,12 +94,13 @@ int SNN::initNetwork(char &file) {
 					stream >> dtUnit;
 				} else if (token.compare(">") == 0) {
 					time = convertTime(timeAux, timeUnit, dtUnit);
-					dt = static_cast<int>(dtAux);
+					dt = dtAux;
 					if (time == -1) {
 						cout << "Error: Invalid time conversion." << endl;
 						return -1;
 					}
 					// cout << "Time: " << time << " " << dtUnit << endl;
+					// cout << "dt: " << dt << " " << dtUnit << endl;
 				}
 			} else if (currentSection == "HYPERPARAMETERS") {
                 istringstream stream(line);
@@ -179,6 +180,7 @@ int SNN::initNetwork(char &file) {
 						cout << "Error: Invalid delay range." << endl;
 						return -1;
 					}
+					if (delayRange.second > maxDelay) maxDelay = delayRange.second;
 				} else if (token.compare(">") == 0) {
 					Layer currentLayer(type, numNeurons, neuronParams, connections, multisynapses, delayRange, sparseConnections);
 					layers.push_back(currentLayer);
@@ -198,6 +200,8 @@ int SNN::initNetwork(char &file) {
 		network_file.close();
 	}
 
+	if (maxDelay == 0) maxDelay = MAX_DELAY;
+	cout << "Max delay: " << maxDelay << endl;
 	// linkLayers();
 
 	return 0;
@@ -239,23 +243,21 @@ void SNN::viewTopology() {
 }
 
 void SNN::trainNetwork() {
+	int symTime = (time + maxDelay);
+	cout << "SymTime: " << symTime << endl;
 	cout << "-- TRAINING NETWORK --" << endl;
-	for (double ct = 0.0; ct < time; ct+=dt) {
-		for (int i = 0; i < layers.size() - 1; i++) {	
+	
+	for (int t = 0; t < symTime; t+=dt) {
+		cout << "- Layer " << 0 << " -" << endl;
+		// Check this tratar la capa de entrada
+		for (int i = 1; i < layers.size(); i++) {	
 			cout << "- Layer " << i << " -" << endl;
-			layers[i + 1].feedForward(layers[i], ct);
+			layers[i].feedForward(t);
 		}
 	}
+	cout << "-- THE END --" << endl;
 }
 
-// void SNN::trainNetwork(double t, double dt) {
-// 	cout << "-- TRAINING NETWORK --" << endl;
-// 	for (double ct = 0.0; ct < t; ct+=dt) {
-// 		for (int i = 0; i < layers.size() - 1; i++) {	
-// 			cout << "- Layer " << i << " -" << endl;
-// 			layers[i].feedForward(layers[i + 1], ct, 0.1);
-// 			// layers[i + 1].updatePreSynapticTrace(layers[i], ct, 0.1);// ALPHA);
-// 			// layers[i].propagateSpikes(layers[i + 1], ct);
-// 		}
-// 	}
-// }
+void SNN::testNetwork() {
+	cout << "-- TESTING NETWORK --" << endl;
+}

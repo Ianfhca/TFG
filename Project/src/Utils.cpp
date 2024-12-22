@@ -28,15 +28,14 @@ int convertTime(double value, string originUnit, string destinyUnit) {
     return static_cast<int>(value * factos[originUnit] / factos[destinyUnit]);
 }
 
-int generarNumeroAleatorio(int min, int max) {
-    // Crear un motor de generación con una semilla basada en el tiempo
+int randomNumber(int min, int max) {
+    // A motor to generate random numbers
     std::mt19937 motor(std::chrono::steady_clock::now().time_since_epoch().count());
 
-    // Crear una distribución uniforme para enteros en el rango [min, max]
-    std::uniform_int_distribution<int> distribucion(min, max);
+    // Uniform distribution for integers in the range [min, max]
+    std::uniform_int_distribution<int> distribution(min, max);
 
-    // Generar un número aleatorio en el rango
-    return distribucion(motor);
+    return distribution(motor);
 }
 
 

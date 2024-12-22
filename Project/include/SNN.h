@@ -11,12 +11,13 @@ class SNN {
 private:
     int time;
     int dt;
+    int maxDelay;
     vector<Layer> layers;
 public:
     SNN();
     int getTime();
     int getDt();
-    // SNN(char &file);
+    
     int initNetwork(char &file);
     void linkLayers();
     void viewTopology();

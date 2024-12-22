@@ -1,15 +1,12 @@
 #include "../include/LIFneuron.h"
 
-// LIFneuron::LIFneuron(double vTh_, double vRest_, double vReset_, double lambdaV_, double tRefr_, double dt_, double lambdaX_, double alpha_)
-//     : v(vRest_), vTh(vTh_), vRest(vRest_), vReset(vReset_), lambdaV(lambdaV_), tRefr(tRefr_), dt(dt_), lambdaX(lambdaX_), alpha(alpha_) {}
-
-LIFneuron::LIFneuron(int multisynapses_, pair<int, int> delayRange_, double vTh_, double vRest_, double vReset_, double lambdaV_, double tRefr_, double dt_, double lambdaX_, double alpha_) {
+LIFneuron::LIFneuron(int multisynapses_, pair<int, int> delayRange_, double vTh_, double vRest_, double vReset_, double lambdaV_, double tRefr_, int dt_, double lambdaX_, double alpha_) {
     v = vRest_;
     vTh = vTh_;
     vRest = vRest_;
     vReset = vReset_;
     lambdaV = lambdaV_;
-    tRefr = tRefr_;
+    tRefr = static_cast<int>(tRefr_);
     dt = dt_;
     lambdaX = lambdaX_;
     alpha = alpha_;
@@ -17,105 +14,74 @@ LIFneuron::LIFneuron(int multisynapses_, pair<int, int> delayRange_, double vTh_
     delayRange = delayRange_;
 
     inRefraction = false;
-    timeLastSpike = 0.0;
+    timeLastSpike = 0;
 
-    postsynapticSpike = 0;
-    // spikes.resize(multisynapses, make_pair(0, 0));
+    spike = 0;
 }
 
 double LIFneuron::getMembranePotential() {
     return v;
 }
 
-int LIFneuron::getPostsynapticSpike() {
-    return postsynapticSpike;
+int LIFneuron::getSpike() {
+    return spike;
 } 
 
-void LIFneuron::setPostsynapticSpike(int spike) {
-    postsynapticSpike = spike;
+void LIFneuron::setSpike(int spike_) {
+    spike = spike_;
 }
 
 void LIFneuron::setPresynapticLink(LIFneuron &preNeuron) {
-    // LIFneuron *preNeuronPtr = &preNeuron;
+    int delay;
     for (int i = 0; i < multisynapses; i++) {
-        Synapse synapse(preNeuron, dt, lambdaX, alpha);
+        delay = randomNumber(delayRange.first, delayRange.second);
+        Synapse synapse(preNeuron, delay, dt, lambdaX, alpha);
         synapses.push_back(synapse);
     }
 }
 
-void LIFneuron::setSpikeAtributes(int sumDelays, int numSpikes, int multisynapticLink) {
-    synapses[multisynapticLink].setSpikeAtributes(sumDelays, numSpikes);
+void LIFneuron::updateSpikeAtributes() {
+    for (int i = 0; i < synapses.size(); i++) {
+        synapses[i].updateSpikeAtributes();
+    }
 }
 
 void LIFneuron::updatePresinapticTrace() {
-    // preSynapticTrace[i][j][d] = (-preSynapticTrace[i][j][d] + (alpha * neurons[j].getSpike(d))) * (0.1 / 20.0); // (dt / lambdaX);
     for (int i = 0; i < synapses.size(); i++) {
         synapses[i].updatePresinapticTrace();
     }
 }
 
-double LIFneuron::updateForcingFunction(int multisynapticLink) {
-    return synapses[multisynapticLink].obtainSpike() * synapses[multisynapticLink].getWeight() - synapses[multisynapticLink].getPreSynapticTrace();
+double LIFneuron::updateForcingFunction() {
+    double forcingFunction = 0.0;
+
+    for (int i = 0; i < synapses.size(); i++) {
+        forcingFunction += synapses[i].updateForcingFunction();
+    }
+    return forcingFunction;
 }
 
-int LIFneuron::updateMembranePotential(double forcingFunction, double t) {
+int LIFneuron::updateMembranePotential(double forcingFunction, int t) {
+    spike = 0; // s(t) = 0
+
     if (inRefraction) { // Handle refraction
         if (t - timeLastSpike >= tRefr) {
             inRefraction = false;
         } else {
-            return 0; // s(t) = 0
+            return spike; // s(t) = 0
         }
     }
 
-    v += (-(v - vRest) + forcingFunction) * (dt / lambdaV);
+    v = (-(v - vRest) + forcingFunction) * (dt / lambdaV);
+    // v += (-(v - vRest) + forcingFunction) * (dt / lambdaV);
 
     if (v >= vTh) { // Check the firing threshold
+        spike = 1; // s(t) = 1
         v = vReset;
         inRefraction = true;
         timeLastSpike = t;
-        std::cout << "Neuron fired at time " << t << " ms" << std::endl;
-        return 1; // s(t) = 1
+        cout << "Neuron fired at time " << t << " ms" << " - V = " << v << endl;
     }
 
-    return 0; // s(t) = 0
+    return spike;
 }
-
-// int LIFneuron::getSpike(int ms) {
-//     int spike = 0;
-//     if (spikes[ms].second > 0) {
-//         spike = spikes[ms].first % spikes[ms].second == 0 ? 1 : 0;
-//         spikes[ms].first -= 1; // dt Check this
-//         spikes[ms].second -= spike;
-//     }
-
-//     return spike;
-//     // return sumTau % numSpikes == 0 ? 1 : 0;
-// }
-
-// void LIFneuron::setPostSynapticLink(LIFneuron &postNeuron) {
-//     postNeurons.push_back(&postNeuron);
-// }
-
-// void LIFneuron::setSpikeAtributes(int sumTau, int numSpikes, int multisynaptic) {
-//     spikes[multisynaptic].first += sumTau - spikes[multisynaptic].first;
-//     spikes[multisynaptic].second = numSpikes;
-// }
-
-
-// int LIFneuron::getSpike(int multisynapticLink) {
-//     return synapses[multisynapticLink].obtainSpike();
-// }
-
-// void LIFneuron::setPostsynapticLink(LIFneuron &postNeuron) {
-//     // LIFneuron *postNeuronPtr = &postNeuron;
-//     for (int i = 0; i < multisynapses; i++) {
-//         Synapse synapse(postNeuron, dt);
-//         synapses.push_back(synapse);
-//     }
-// }
-
-// void LIFneuron::setPresynapticTrace(int multisynapticLink) {
-//     double presynapticTrace = (synapses[multisynapticLink].getPreSynapticTrace());
-//     int spike = synapses[multisynapticLink].getSpike();
-//     synapses[multisynapticLink].setPresynapticTrace(((-presynapticTrace) + (alpha * spike)) * (dt / lambdaX));
-// }

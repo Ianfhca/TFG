@@ -14,7 +14,7 @@ using namespace std;
 
 double roundTo(double value, double precision);
 int convertTime(double value, string originUnit, string destinyUnit);
-int generarNumeroAleatorio(int min, int max);
+int randomNumber(int min, int max);
 // int convertToInt(double valor);
 // long long convertToLong(double valor);
 // long long convertTime(double value, string originUnit, string destinyUnit);

@@ -8,7 +8,7 @@
 
 using namespace std;
 
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[]) { 
 
 	if (argc != 2) {
 		cout << "Usage: " << argv[0] << " <input file>" << endl;
@@ -18,32 +18,9 @@ int main(int argc, char *argv[]) {
 	SNN snn;
 	snn.initNetwork(*argv[1]);
 	snn.linkLayers();
-	snn.viewTopology();
+	// snn.viewTopology();
 
-    int numeroAleatorio = generarNumeroAleatorio(0, 10);
-    cout << numeroAleatorio << endl;
-
-	// snn.trainNetwork();
-
-
-
-	// double valor;
-    // string unidadOrigen, unidadDestino;
-
-    // cout << "Ingrese el valor de tiempo: ";
-    // cin >> valor;
-
-    // cout << "Ingrese la unidad de origen (minutos, segundos, milisegundos, microsegundos, nanosegundos): ";
-    // cin >> unidadOrigen;
-
-    // cout << "Ingrese la unidad de destino (minutos, segundos, milisegundos, microsegundos, nanosegundos): ";
-    // cin >> unidadDestino;
-
-    // long long resultado = convertirTiempo(valor, unidadOrigen, unidadDestino);
-
-    // if (resultado != -1.0) {
-    //     cout << valor << " " << unidadOrigen << " son " << resultado << " " << unidadDestino << "." << endl;
-    // }
-
+	snn.trainNetwork();
+    
 	return 0;
 }

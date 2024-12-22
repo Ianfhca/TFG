@@ -1,8 +1,8 @@
 -- PARAMETERS --
 
 # Time stages (m, s, ms, us, ns)
-time 5 m
-dt 1 ms # Integer value
+time 1 s
+dt 100 ms # Integer value
 >
 
 -- HYPERPARAMETERS --
@@ -37,7 +37,7 @@ neurons 3
 type 0 num_neurons 3
 connections dense
 multisynapses 1
-delay 100 150 # Same unit as dt
+delay 100 250 # Same unit as dt
 >
 
 # Capa 1 (oculta 1)
@@ -73,6 +73,8 @@ delay 100 150
 # Eliminar las matrices de pesos etc. y cambiar por parametro en synapse
 
 # Sparse connections de capa 1 a capa 0 o de capa 0 a capa 1?
+# Ver de que neurona tiene que tomar lambdaX, de la actual o de la anterior?
+# Hay que eliminar las spikes que se queden en una multisinapsis que no ha sido la encargada de que la post neurona llegue al umbral para el periodo de refraccion?
 
 #connections sparse
 #sparse_connection 0 0

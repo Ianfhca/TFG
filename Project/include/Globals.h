@@ -1,15 +1,23 @@
 #pragma once
+#include <string>
 
-const double MIN_DELAY = 0.1;
-const double MAX_DELAY = 0.9;
+using namespace std;
+
+const int MIN_DELAY = 50;
+const int MAX_DELAY = 150;
 
 const int MAX_INTEGER = 9;
 const int MAX_LONG = 16;
 
+const string UNDEFINED = "Undefined";
+const int NONE = -1;
+
 //Hiperparameters
 
-const double TIME = 1;
-const double DT = 0.1; 
+const int TIME = 10;
+const string TIME_UNIT = "s";
+const int DT = 100;
+const string DT_UNIT = "ms";
 
 const double V_RESET = -65.0;
 const double V_REST = V_RESET;

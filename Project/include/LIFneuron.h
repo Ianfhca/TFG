@@ -2,6 +2,7 @@
 
 #include "Synapse.h"
 #include "Globals.h"
+#include "Utils.h"
 
 #include <iostream>
 #include <vector>
@@ -23,34 +24,27 @@ private:
     double vReset; // Reset potential
     double lambdaV; // Membrane time constant
     double iSyn; // Leak conductance
-    double tRefr; // Refractory period
-    double lambdaX; // Trace time constant -- REMOVE
+    int tRefr; // Refractory period
+    double lambdaX; // Trace time constant
     double alpha; // Scaling factor for traces
 
     bool inRefraction; // Refractory state
-    double timeLastSpike; // Last spike time
-    double dt; // Time step -- REMOVE
+    int timeLastSpike; // Last spike time
+    int dt; // Time step
 
-    int postsynapticSpike; // Postsynaptic spike value
-    // vector<pair<int, int>> spikes; // Spike times <sum of synaptic delays, number of spikes>
-
-    // vector<LIFneuron *> postNeurons; // Post-synaptic neurons
+    int spike; // Spike value
     vector<Synapse> synapses; // Post-synaptic neurons
 
 public:
-    LIFneuron(int multisynapses_ = 1, pair<int, int> delayRange_ = {-1, -1}, double vTh_ = V_TH, double vRest_ = V_REST, double vReset_ = V_RESET, double lambdaV_ = LAMBDA_V, double tRefr_ = T_REFR, double dt_ = DT, double lambdaX_ = LAMBDA_X, double alpha_ = ALPHA);
+    LIFneuron(int multisynapses_ = 1, pair<int, int> delayRange_ = {NONE, NONE}, double vTh_ = V_TH, double vRest_ = V_REST, double vReset_ = V_RESET, double lambdaV_ = LAMBDA_V, double tRefr_ = T_REFR, int dt_ = DT, double lambdaX_ = LAMBDA_X, double alpha_ = ALPHA);
     double getMembranePotential();
-    int getPostsynapticSpike();
-    // void setPostsynapticLink(LIFneuron &postNeuron);
-    void setPostsynapticSpike(int spike);
-    void setPresynapticLink(LIFneuron &preNeuron);
-    void setSpikeAtributes(int st, int ns, int multisynaptic);
-    
-    void updatePresinapticTrace();
-    double updateForcingFunction(int multisynapticLink);
-    int updateMembranePotential(double inputCurrent, double time);
+    int getSpike();
+    void setSpike(int spike_);
 
-    // int getSpike(int multisynapticLink);
-    // void setPresynapticTrace(int multisynapticLink);
-    // vector<Synapse> getSynapses();
+    void setPresynapticLink(LIFneuron &preNeuron);
+    // Join this three functions in one
+    void updateSpikeAtributes();
+    void updatePresinapticTrace();
+    double updateForcingFunction();
+    int updateMembranePotential(double forcingFunction, int time);
 };
