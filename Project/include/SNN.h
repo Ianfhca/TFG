@@ -9,6 +9,8 @@
 
 #include <functional>
 #include <unordered_map>
+#include <deque>
+#include <unordered_set>
 
 using namespace std;
 
@@ -21,10 +23,14 @@ private:
     int maxDelay;
     vector<pair<NeuronParameters, int>> neuronParams;
     vector<Layer> layers;
+    // unordered_map<string, deque<int>> inputSpikes;
+    vector<deque<int>> inputSpikes;
+
 
     void parseParameters(const string &line);
     void parseHyperparameters(const string &line, NeuronParameters &neuron);
     void parseTopology(const string &line, TopologyParameters &topology, int &neuronsAux);
+    void parseInput(const string &line);
 public:
     SNN();
     int getTime();
@@ -33,6 +39,7 @@ public:
     int initNetwork(char &file);
     void linkLayers();
     void viewTopology();
+    void viewInputSpikes();
     void trainNetwork();
     void testNetwork();
 };

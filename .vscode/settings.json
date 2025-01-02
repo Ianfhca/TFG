@@ -53,6 +53,7 @@
         "iomanip": "cpp",
         "ctime": "cpp",
         "chrono": "cpp",
-        "ratio": "cpp"
+        "ratio": "cpp",
+        "unordered_set": "cpp"
     }
 }

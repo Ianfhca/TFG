@@ -1,5 +1,6 @@
 #include "../include/SNN.h"
 
+
 SNN::SNN(): maxDelay(-1) {}
 
 NeuronParameters::NeuronParameters(): vReset(0), vRest(0), v(0), vTh(0), lambdaV(0), tRefr(0), lambdaX(0), alpha(0) {}
@@ -57,7 +58,7 @@ void SNN::parseTopology(const string &line, TopologyParameters &topology, int &n
 	int neuronType;
 	int numTypeNeurons;
 
-	cout << neuronsAux << endl;
+	// cout << neuronsAux << endl;
 	// cout << neuronParams.size() << endl;
 
     if (token == "layer") stream >> topology.type;
@@ -92,13 +93,56 @@ void SNN::parseTopology(const string &line, TopologyParameters &topology, int &n
 			cerr << "Error: The " << topology.type << " layer's number of neurons does not match the sum of neurons '"<< topology.numNeurons << "'." << endl;
 			throw runtime_error("Number of neurons does not match the sum of neuron types");
 		}
+		// if (topology.type == "input") {
+		// 	inputSpikes.resize(topology.numNeurons);
+		// }
 		Layer currentLayer(topology, neuronParams, dt);
 		layers.push_back(currentLayer);
 		for (int i = 0; i < neuronParams.size(); i++) neuronParams[i].second = 0;
 		neuronsAux = 0;
         topology = {};
+		cout << "LLEEEEEEGAAAA" << endl;
     }
 }
+
+void SNN::parseInput(const string &line) {
+    istringstream stream(line);
+    string neuronId;
+    stream >> neuronId;
+
+    // Validate format
+    if (neuronId[0] != 'N') {
+        cerr << "Error: Invalid neuron ID '" << neuronId << "' in INPUT section." << endl;
+        throw runtime_error("Invalid neuron ID");
+    }
+
+    deque<int> spikes;
+    int deltaTime, accumulatedTime = 0;
+	unordered_set<int> timeBuckets;
+
+	while (stream >> deltaTime) {
+        accumulatedTime += deltaTime;
+
+        int timeBucket = accumulatedTime / dt;
+
+        if (timeBuckets.find(timeBucket) != timeBuckets.end()) {
+            cerr << "Error: Spike at " << accumulatedTime << " ms for neuron '" << neuronId 
+                 << "' falls into the same interval as a previous spike (dt = " << dt << " ms)." << endl;
+            throw runtime_error("Multiple spikes in the same interval");
+        }
+
+        timeBuckets.insert(timeBucket);
+        spikes.push_back(accumulatedTime);
+    }
+
+    if (spikes.empty()) {
+        cerr << "Error: No spikes found for neuron '" << neuronId << "'." << endl;
+        throw runtime_error("No spikes found");
+    }
+	
+	inputSpikes.push_back(spikes);
+}
+
 
 /**
  * @brief  This function initializes the network topology from a file
@@ -132,9 +176,9 @@ int SNN::initNetwork(char &file) {
         {"PARAMETERS", [this](const string &line) { parseParameters(line); }},
         {"HYPERPARAMETERS", [this, &neuronDefaults](const string &line) { parseHyperparameters(line, neuronDefaults); }},
         {"TOPOLOGY", [this, &currentTopology, &neuronsAux](const string &line) { parseTopology(line, currentTopology, neuronsAux); }},
+		{"INPUT", [this](const string &line) { parseInput(line); }},
     };
 
-	// Read network file
 	ifstream network_file(&file);
 	if (!network_file.is_open()) {
 		cerr << "Error: Unable to open file " << &file << endl;
@@ -177,15 +221,14 @@ int SNN::initNetwork(char &file) {
  */
 void SNN::linkLayers() {
 	for (int i = 1; i < layers.size(); i++) {
-		// layers[i].setPostsynapticLinks(layers[i + 1]);
 		layers[i].setPresynapticLinks(layers[i - 1]);
 	}
 }
 
 void SNN::viewTopology() {
-	cout << "-- NETWORK TOPOLOGY --" << endl;
+	setColor("blue"); cout << "\n-- NETWORK TOPOLOGY --" << endl; setColor("reset");
 	for (int i = 0; i < layers.size(); i++) {
-		cout << "LAYER " << i << ": " << endl;
+		setStyle("bold"); cout << "\nLAYER " << i << endl; setStyle("reset");
 		cout << "Type: " << layers[i].getType() << endl;
 		cout << "Neurons: " << layers[i].getNumNeurons() << endl;
 		cout << "Connections: " << layers[i].getConnections() << endl;
@@ -197,199 +240,51 @@ void SNN::viewTopology() {
 			}
 		}
 		layers[i].getNeuronsType();
+		// cout << endl;
+	}
+}
+
+void SNN::viewInputSpikes() {
+	setColor("blue"); cout << "\n-- INPUT SPIKES --\n" << endl; setColor("reset");
+	cout << "Number of inputs: " << inputSpikes.size() << endl;
+	for (int i = 0; i < inputSpikes.size(); i++) {
+		cout << "- INPUT " << i << ": ";
+		for (auto &spike : inputSpikes[i]) {
+			cout << spike << " ";
+		}
 		cout << endl;
 	}
 }
 
 void SNN::trainNetwork() {
 	int symTime = (time + maxDelay);
+	int auxSD = 0;
 	cout << "SymTime: " << symTime << endl;
-	cout << "-- TRAINING NETWORK --" << endl;
+	setColor("blue"); cout << "\n-- TRAINING NETWORK --" << endl; setColor("reset");
 	
 	for (int t = 0; t < symTime; t+=dt) {
-		cout << "- Layer " << 0 << " -" << endl;
-		// Check this tratar la capa de entrada
+		setStyle("bold"); setColor("green"); cout << "\nITERATION " << t/dt << endl; setStyle("reset");
+		setStyle("bold"); cout << "Layer 0" << endl; setStyle("reset");
+		for (int i = 0; i < inputSpikes.size(); i++) {
+			if (!inputSpikes[i].empty() && inputSpikes[i].front() <= dt) {
+				auxSD = inputSpikes[i].front();
+				inputSpikes[i].pop_front();
+				inputSpikes[i].front() -= auxSD;
+				layers[0].getNeuron(i).setSpike(1);
+				cout << "Neuron " << i << " spiked at time " << t << " ms" << endl;
+			} else {
+				inputSpikes[i].front() -= dt;
+				layers[0].getNeuron(i).setSpike(0);
+			}
+		}
 		for (int i = 1; i < layers.size(); i++) {	
-			cout << "- Layer " << i << " -" << endl;
-			layers[i].feedForward(t);
+			setStyle("bold"); cout << "Layer " << i << endl; setStyle("reset");
+			layers[i].feedForward(i, t);
 		}
 	}
-	cout << "-- THE END --" << endl;
+	setColor("blue"); cout << "\n-- TRAIN FINISHED --" << endl; setColor("reset");
 }
 
 void SNN::testNetwork() {
 	cout << "-- TESTING NETWORK --" << endl;
 }
-
-
-// int SNN::initNetwork(char &file) {
-
-// 	maxDelay = 0;
-// 	double timeAux = TIME;
-// 	int dtAux = DT;
-// 	string timeUnit = TIME_UNIT;
-// 	string dtUnit = DT_UNIT;
-
-// 	double vReset = V_RESET;
-// 	double vRest = V_REST;
-// 	double v = V;
-// 	double vTh = V_TH;
-// 	double lambdaV = LAMBDA_V;
-// 	double tRefr = T_REFR;
-// 	double lambdaX = LAMBDA_X;
-// 	double alpha = ALPHA;
-// 	vector<pair<vector<double>, int>> neuronParams;
-
-// 	string type = UNDEFINED;
-//     int numNeurons = NONE;
-//     string connections = UNDEFINED;
-// 	int multisynapses = NONE;
-// 	pair<int, int> delayRange = {MIN_DELAY, MAX_DELAY};
-//     vector<pair<int, int>> sparseConnections;
-
-// 	string currentSection, line;
-
-// 	// Read network file
-// 	ifstream network_file(&file);
-// 	if (!network_file.is_open()) {
-// 		cout << "Error: Unable to open file " << &file << endl;
-// 		return -1;
-// 	} else {
-// 		cout << "Reading file " << &file << endl;
-// 		while (getline(network_file, line)) {
-
-// 			if (line.length() == 0 || line[0] == '#') continue;
-
-// 			 if (line.rfind("--", 0) == 0) {
-//                 currentSection = line.substr(3, line.size() - 6);
-//                 cout << "Entering section: " << currentSection << endl;
-//                 continue;
-//             }
-
-// 			if (currentSection == "PARAMETERS") {
-//                 istringstream stream(line);
-// 				string token;
-				
-// 				stream >> token;
-
-// 				if (token.compare("time") == 0) {
-// 					stream >> timeAux;
-// 					stream >> timeUnit;
-// 					// cout << "Time: " << time << " " << timeUnit << endl;
-// 				} else if (token.compare("dt") == 0) {
-// 					stream >> dtAux;
-// 					stream >> dtUnit;
-// 				} else if (token.compare(">") == 0) {
-// 					time = convertTime(timeAux, timeUnit, dtUnit);
-// 					dt = dtAux;
-// 					if (time == -1) {
-// 						cout << "Error: Invalid time conversion." << endl;
-// 						return -1;
-// 					}
-// 					// cout << "Time: " << time << " " << dtUnit << endl;
-// 					// cout << "dt: " << dt << " " << dtUnit << endl;
-// 				}
-// 			} else if (currentSection == "HYPERPARAMETERS") {
-//                 istringstream stream(line);
-// 				string token;
-				
-// 				stream >> token;
-				
-// 				if (token.compare("v_reset") == 0) {
-// 					stream >> vReset;
-// 				} else if (token.compare("v_rest") == 0) {
-// 					stream >> vRest;
-// 				} else if (token.compare("v") == 0) {
-// 					stream >> v;
-// 				} else if (token.compare("v_th") == 0) {
-// 					stream >> vTh;
-// 				} else if (token.compare("lambda_v") == 0) {
-// 					stream >> lambdaV;
-// 				} else if (token.compare("t_refr") == 0) {
-// 					stream >> tRefr;
-// 				} else if (token.compare("lambda_x") == 0) {
-// 					stream >> lambdaX;
-// 				} else if (token.compare("alpha") == 0) {
-// 					stream >> alpha;
-// 				} else if (token.compare(">") == 0) {
-// 					neuronParams.push_back(make_pair(vector<double>{vReset, vRest, v, vTh, lambdaV, tRefr, lambdaX, alpha}, 0));
-
-// 					vReset = V_RESET;
-// 					vRest = V_REST;
-// 					v = V;
-// 					vTh = V_TH;
-// 					lambdaV = LAMBDA_V;
-// 					tRefr = T_REFR;
-// 					lambdaX = LAMBDA_X;
-// 					alpha = ALPHA;
-// 				}
-//             } else if (currentSection == "TOPOLOGY") {
-// 				istringstream stream(line);
-// 				string token;
-// 				vector<pair<int, int>> packNeuronsType;
-// 				int neuronType;
-// 				int numTypeNeurons;
-// 				int neuronsAux = 0;
-				
-// 				stream >> token;
-// 				if (token.compare("layer") == 0) {
-// 					stream >> type;
-// 				} else if (token.compare("neurons") == 0) {
-// 					stream >> numNeurons;
-// 				} else if (token.compare("type") == 0) {
-// 					stream >> neuronType;
-// 					if (neuronType < neuronParams.size()) {
-// 						stream >> token;
-// 						stream >> numTypeNeurons;
-// 						if (neuronsAux + numTypeNeurons <= numNeurons) {
-// 							neuronParams[neuronType].second = numTypeNeurons;
-// 							neuronsAux += numTypeNeurons;
-// 						} else {
-// 							cout << "Error: Neuron type '" << neuronType << "' out of number of neurons range '"<< numTypeNeurons << "'." << endl;
-// 							return -1;
-// 						}
-// 					} else {
-// 						cout << "Error: Neuron type '" << neuronType << "' out of range." << endl;
-// 						return -1;
-// 					}
-// 				} else if (token.compare("connections") == 0) {
-// 					stream >> connections;
-// 				} else if (token.compare("sparse_connection") == 0 && connections == "sparse") {
-// 					int from, to;
-// 					stream >> from >> to;
-// 					sparseConnections.push_back(make_pair(from, to));
-// 				} else if (token.compare("multisynapses") == 0) {
-// 					stream >> multisynapses;
-// 				} else if (token.compare("delay") == 0) {
-// 					stream >> delayRange.first;
-// 					stream >> delayRange.second;
-// 					if (delayRange.first > delayRange.second) {
-// 						cout << "Error: Invalid delay range." << endl;
-// 						return -1;
-// 					}
-// 					if (delayRange.second > maxDelay) maxDelay = delayRange.second;
-// 				} else if (token.compare(">") == 0) {
-// 					Layer currentLayer(type, numNeurons, neuronParams, connections, multisynapses, delayRange, sparseConnections);
-// 					layers.push_back(currentLayer);
-
-// 					for (int i = 0; i < neuronParams.size(); i++) neuronParams[i].second = 0;
-// 					type = "undefined";
-// 					numNeurons = -1;
-// 					connections = "undefined";
-// 					multisynapses = -1;
-// 					sparseConnections = {};
-// 					neuronsAux = 0;
-// 				}
-// 			} else if (currentSection == "INPUT") {
-//                 cout << "Processing INPUT section (not implemented)." << endl;
-//             }
-// 		}
-// 		network_file.close();
-// 	}
-
-// 	if (maxDelay == 0) maxDelay = MAX_DELAY;
-// 	cout << "Max delay: " << maxDelay << endl;
-// 	// linkLayers();
-
-// 	return 0;
-// };

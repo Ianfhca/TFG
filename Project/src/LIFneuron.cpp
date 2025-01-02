@@ -20,7 +20,8 @@
 // }
 
 // Good one
-LIFneuron::LIFneuron(int type_, int multisynapses_, int delayMin_, int delayMax_, double vTh_, double vRest_, double vReset_, double lambdaV_, int tRefr_, double lambdaX_, double alpha_, int dt_) {
+LIFneuron::LIFneuron(int neuronId_, int type_, int multisynapses_, int delayMin_, int delayMax_, double vTh_, double vRest_, double vReset_, double lambdaV_, int tRefr_, double lambdaX_, double alpha_, int dt_) {
+    neuronId = neuronId_;
     type = type_;
     multisynapses = multisynapses_;
     delayMin = delayMin_;
@@ -67,48 +68,60 @@ void LIFneuron::setPresynapticLink(LIFneuron &preNeuron) {
     }
 }
 
-void LIFneuron::updateSpikeAtributes() {
-    for (int i = 0; i < synapses.size(); i++) {
-        synapses[i].updateSpikeAtributes();
-    }
-}
+// void LIFneuron::updateSpikeAtributes() {
+//     for (int i = 0; i < synapses.size(); i++) {
+//         synapses[i].updateSpikeAtributes();
+//     }
+// }
 
-void LIFneuron::updatePresinapticTrace() {
-    for (int i = 0; i < synapses.size(); i++) {
-        synapses[i].updatePresinapticTrace();
-    }
-}
+// void LIFneuron::updatePresinapticTrace() {
+//     for (int i = 0; i < synapses.size(); i++) {
+//         synapses[i].updatePresinapticTrace();
+//     }
+// }
 
-double LIFneuron::updateForcingFunction() {
+// double LIFneuron::updateForcingFunction() {
+//     double forcingFunction = 0.0;
+
+//     for (int i = 0; i < synapses.size(); i++) {
+//         forcingFunction += synapses[i].updateForcingFunction();
+//     }
+//     return forcingFunction;
+// }
+
+int LIFneuron::updateNeuronState(int t) {
+    // int spike = 0;
     double forcingFunction = 0.0;
 
     for (int i = 0; i < synapses.size(); i++) {
+        synapses[i].updatePresinapticTrace();
         forcingFunction += synapses[i].updateForcingFunction();
+        synapses[i].updateSpikeAtributes(); // Check this maybe it should be outside the loop
     }
-    return forcingFunction;
+
+    spike = updateMembranePotential(forcingFunction, t);
+
+    return spike;
 }
 
-int LIFneuron::updateMembranePotential(double forcingFunction, int t) {
-    spike = 0; // s(t) = 0
+int LIFneuron::updateMembranePotential(double forcingFunction, int t) { // Check this make private
+    int s = 0; // s(t) = 0
 
-    if (inRefraction) { // Handle refraction
-        if (t - timeLastSpike >= tRefr) {
-            inRefraction = false;
-        } else {
-            return spike; // s(t) = 0
-        }
+    if (inRefraction) {
+        if (t - timeLastSpike >= tRefr) inRefraction = false;
+        else return s; // s(t) = 0
     }
 
-    v = (-(v - vRest) + forcingFunction) * (dt / lambdaV);
-    // v += (-(v - vRest) + forcingFunction) * (dt / lambdaV);
+    v = (((-v) + vRest) + forcingFunction) * (dt / lambdaV);
+    // cout << " V: " << v << " FF: " << forcingFunction << " dt: " << dt << " Vrest: " << vRest << " lambdaV: " << lambdaV << endl;
 
     if (v >= vTh) { // Check the firing threshold
-        spike = 1; // s(t) = 1
+        s = 1; // s(t) = 1
         v = vReset;
         inRefraction = true;
         timeLastSpike = t;
-        cout << "Neuron fired at time " << t << " ms" << " - V = " << v << endl;
+        cout << " Neuron " << neuronId << " fired at " << t << " ms" << " - V = " << v << " f: " << forcingFunction << endl;
     }
 
-    return spike;
+     return s;
 }

@@ -38,6 +38,48 @@ int randomNumber(int min, int max) {
     return distribution(motor);
 }
 
+void setColor(string color) {
+    if (color == "red") cout << "\033[31m";
+    else if (color == "green") cout << "\033[32m";
+    else if (color == "yellow") cout << "\033[33m";
+    else if (color == "blue") cout << "\033[34m";
+    else if (color == "magenta") cout << "\033[35m";
+    else if (color == "cyan") cout << "\033[36m";
+    else if (color == "white") cout << "\033[37m";
+    else cout << "\033[0m";
+}
+
+void setStyle(string style) {
+    if (style == "bold") cout << "\033[1m";
+    else if (style == "underline") cout << "\033[4m";
+    else if (style == "blink") cout << "\033[5m";
+    else if (style == "reverse") cout << "\033[7m";
+    else cout << "\033[0m";
+}
+
+// int getStartPoint(int number, int max) {
+//     // if (number > max) {
+//     //     cerr << "Error: El número es mayor que el valor máximo permitido." << endl;
+//     //     return -1; // Código de error
+//     // }
+//     int result = 0;
+//     if (number < max) {
+//         result = max - number;
+//     } else {
+//         max += 1;
+
+//         int power = 1;
+//         while (max / power > 0 && number % (power * 10) < max) {
+//             power *= 10;
+//         }
+        
+//         max -= 1;
+
+//         result = max - (number % power);
+//     }
+//     return result;
+// }
+
 
 // int convertToInt(double value) {
 //     // Convert the number to a string with a fixed format

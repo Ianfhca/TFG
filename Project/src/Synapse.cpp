@@ -41,9 +41,14 @@ int Synapse::obtainSpike() {
 }
 
 void Synapse::updateSpikeAtributes() {
-    if (preNeuron->getSpike() == 1) {
-        sumCycles += cycles;
-        numSpikes += 1;
+    // cout << "PreNeuron: " << preNeuron->getSpike() << endl;
+    if (preNeuron != nullptr) {
+        if (preNeuron->getSpike() == 1) {
+            sumCycles += cycles;
+            numSpikes += 1;
+        }
+    } else {
+        std::cerr << "Error: preNeuron is null" << std::endl;
     }
 }
 
@@ -54,5 +59,8 @@ void Synapse::updatePresinapticTrace() {
 
 double Synapse::updateForcingFunction() {
     // forcingFunction += neurons[j].obtainSpike(d) * weights[i][j][d] - preSynapticTrace[i][j][d];
-    return (obtainSpike() * weight - preSynapticTrace);
+    int spike = obtainSpike();
+    // cout << "Spike: " << spike << " pS:" << preSynapticTrace << endl;
+    return (spike * weight - preSynapticTrace);
+    // return (obtainSpike() * weight - preSynapticTrace);
 }

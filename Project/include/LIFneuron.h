@@ -13,7 +13,9 @@ using namespace std;
 class Synapse;
 
 class LIFneuron {
-private: 
+
+private:
+    int neuronId; // Neuron ID 
     int type; // Neuron type
     int multisynapses; // Number of synapses
     pair<int, int> delayRange; // Range of synaptic delays
@@ -36,9 +38,11 @@ private:
     int spike; // Spike value 1 / 0
     vector<Synapse> synapses; // Presynaptic neurons
 
+    int updateMembranePotential(double forcingFunction, int time);
+
 public:
     // LIFneuron(int multisynapses_ = 1, pair<int, int> delayRange_ = {NONE, NONE}, double vTh_ = V_TH, double vRest_ = V_REST, double vReset_ = V_RESET, double lambdaV_ = LAMBDA_V, double tRefr_ = T_REFR, int dt_ = DT, double lambdaX_ = LAMBDA_X, double alpha_ = ALPHA);
-    LIFneuron(int type_, int multisynapses_, int delayMin_, int delayMax_, double vTh_, double vRest_, double vReset_, double lambdaV_, int tRefr_, double lambdaX_, double alpha_, int dt_);
+    LIFneuron(int neuronId_, int type_, int multisynapses_, int delayMin_, int delayMax_, double vTh_, double vRest_, double vReset_, double lambdaV_, int tRefr_, double lambdaX_, double alpha_, int dt_);
     int getType();
     double getMembranePotential();
     int getSpike();
@@ -46,8 +50,9 @@ public:
 
     void setPresynapticLink(LIFneuron &preNeuron);
     // Join this three functions in one
-    void updateSpikeAtributes();
-    void updatePresinapticTrace();
-    double updateForcingFunction();
-    int updateMembranePotential(double forcingFunction, int time);
+    // void updateSpikeAtributes();
+    // void updatePresinapticTrace();
+    // double updateForcingFunction();
+    int updateNeuronState(int time);
+    // int updateMembranePotential(double forcingFunction, int time);
 };

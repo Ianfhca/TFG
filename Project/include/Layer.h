@@ -27,9 +27,10 @@ public:
     string getConnections();
     int getMultisynapses();
     vector<pair<int, int>>& getSparseConnections();
+    LIFneuron& getNeuron(int i);
     vector<LIFneuron>& getNeurons();
     void getNeuronsType();
 
     void setPresynapticLinks(Layer &preLayer);
-    void feedForward(int time);
+    void feedForward(int layerId, int time);
 };

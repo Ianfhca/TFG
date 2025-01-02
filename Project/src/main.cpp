@@ -21,11 +21,14 @@ int main(int argc, char *argv[]) {
 		return 1;
 	}
 	// snn.initNetwork(*argv[1]);
-	
+
 	snn.linkLayers();
 	snn.viewTopology();
+	snn.viewInputSpikes();
 
-	// snn.trainNetwork();
+	snn.trainNetwork();
+
+	setColor("blue"); cout << "-- END OF PROGRAM --" << endl; setColor("reset");
     
 	return 0;
 }
