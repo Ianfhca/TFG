@@ -94,9 +94,12 @@ int LIFneuron::updateNeuronState(int t) {
     double forcingFunction = 0.0;
 
     for (int i = 0; i < synapses.size(); i++) {
-        synapses[i].updatePresinapticTrace();
-        forcingFunction += synapses[i].updateForcingFunction();
-        synapses[i].updateSpikeAtributes(); // Check this maybe it should be outside the loop
+        forcingFunction = synapses[i].update();
+
+
+        // synapses[i].updatePresinapticTrace();
+        // forcingFunction += synapses[i].updateForcingFunction();
+        // synapses[i].updateSpikeAtributes(); // Check this maybe it should be outside the loop
     }
 
     spike = updateMembranePotential(forcingFunction, t);
@@ -104,6 +107,8 @@ int LIFneuron::updateNeuronState(int t) {
     return spike;
 }
 
+// Change the membrane potential formula to a discrete version
+// Check the membrane potential never goes below the reset potential
 int LIFneuron::updateMembranePotential(double forcingFunction, int t) { // Check this make private
     int s = 0; // s(t) = 0
 
@@ -112,15 +117,19 @@ int LIFneuron::updateMembranePotential(double forcingFunction, int t) { // Check
         else return s; // s(t) = 0
     }
 
-    v = (((-v) + vRest) + forcingFunction) * (dt / lambdaV);
-    // cout << " V: " << v << " FF: " << forcingFunction << " dt: " << dt << " Vrest: " << vRest << " lambdaV: " << lambdaV << endl;
+    // v += (((-v) + vRest) + forcingFunction) * (dt / lambdaV);
+
+    v += exp(-dt/lambdaV) * v + forcingFunction; // lambdaV = exp(-dt/tauM) && tauM = lambdaV.value(input parameter)
+
+    // cout << " v: " << v << " ff: " << forcingFunction << endl;
+    v = (v < vRest) ? vRest : v;
 
     if (v >= vTh) { // Check the firing threshold
         s = 1; // s(t) = 1
         v = vReset;
         inRefraction = true;
         timeLastSpike = t;
-        cout << " Neuron " << neuronId << " fired at " << t << " ms" << " - V = " << v << " f: " << forcingFunction << endl;
+        cout << " Neuron " << neuronId << " fired at " << t << " ms" << " #V = " << v << " f: " << forcingFunction << endl;
     }
 
      return s;

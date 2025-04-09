@@ -101,9 +101,51 @@ void SNN::parseTopology(const string &line, TopologyParameters &topology, int &n
 		for (int i = 0; i < neuronParams.size(); i++) neuronParams[i].second = 0;
 		neuronsAux = 0;
         topology = {};
-		cout << "LLEEEEEEGAAAA" << endl;
+		// cout << "LLEEEEEEGAAAA" << endl;
     }
 }
+
+// void SNN::parseInput(const string &line) {
+//     istringstream stream(line);
+//     string neuronId;
+//     stream >> neuronId;
+
+//     // Validate format
+//     if (neuronId[0] != 'N') {
+//         cerr << "Error: Invalid neuron ID '" << neuronId << "' in INPUT section." << endl;
+//         throw runtime_error("Invalid neuron ID");
+//     }
+
+//     deque<int> spikes;
+//     int deltaTime, accumulatedTime = 0;
+// 	unordered_set<int> timeBuckets;
+
+// 	while (stream >> deltaTime) {
+//         accumulatedTime += deltaTime;
+
+//         int timeBucket = accumulatedTime / dt;
+
+//         if (timeBuckets.find(timeBucket) != timeBuckets.end()) {
+//             cerr << "Error: Spike at " << accumulatedTime << " ms for neuron '" << neuronId 
+//                  << "' falls into the same interval as a previous spike (dt = " << dt << " ms)." << endl;
+//             throw runtime_error("Multiple spikes in the same interval");
+//         }
+
+//         timeBuckets.insert(timeBucket);
+//         spikes.push_back(accumulatedTime);
+// 		// spikes.push_back(deltaTime);
+//     }
+
+//     if (spikes.empty()) {
+//         cerr << "Error: No spikes found for neuron '" << neuronId << "'." << endl;
+//         throw runtime_error("No spikes found");
+//     }
+	
+// 	inputSpikes.push_back(spikes);
+// }
+
+
+
 
 void SNN::parseInput(const string &line) {
     istringstream stream(line);
@@ -117,31 +159,32 @@ void SNN::parseInput(const string &line) {
     }
 
     deque<int> spikes;
-    int deltaTime, accumulatedTime = 0;
-	unordered_set<int> timeBuckets;
+    int spikeTime, timeLeft, iterations = 0;
 
-	while (stream >> deltaTime) {
-        accumulatedTime += deltaTime;
+	while (stream >> spikeTime) {
+		if (spikeTime - timeLeft <= 0) {
+			cerr << "Error: Spike at " << spikeTime << " ms for neuron '" << neuronId 
+				 << "' falls into the same interval as a previous spike (dt = " << dt << " ms)." << endl;
+			throw runtime_error("Multiple spikes in the same interval");
+		} else {
+			spikes.push_back(spikeTime);
+		}
 
-        int timeBucket = accumulatedTime / dt;
+		iterations = ((spikeTime - timeLeft) / dt) + 1;
+		timeLeft = (iterations * dt) - spikeTime;
 
-        if (timeBuckets.find(timeBucket) != timeBuckets.end()) {
-            cerr << "Error: Spike at " << accumulatedTime << " ms for neuron '" << neuronId 
-                 << "' falls into the same interval as a previous spike (dt = " << dt << " ms)." << endl;
-            throw runtime_error("Multiple spikes in the same interval");
-        }
+	}
 
-        timeBuckets.insert(timeBucket);
-        spikes.push_back(accumulatedTime);
-    }
-
-    if (spikes.empty()) {
-        cerr << "Error: No spikes found for neuron '" << neuronId << "'." << endl;
-        throw runtime_error("No spikes found");
-    }
+	// if (spikes.empty()) {
+    //     cerr << "Error: No spikes found for neuron '" << neuronId << "'." << endl;
+    //     throw runtime_error("No spikes found");
+    // }
 	
 	inputSpikes.push_back(spikes);
+
 }
+
+
 
 
 /**
@@ -256,34 +299,120 @@ void SNN::viewInputSpikes() {
 	}
 }
 
-void SNN::trainNetwork() {
-	int symTime = (time + maxDelay);
-	int auxSD = 0;
-	cout << "SymTime: " << symTime << endl;
-	setColor("blue"); cout << "\n-- TRAINING NETWORK --" << endl; setColor("reset");
+// void SNN::trainNetwork() {
+// 	int symTime = (time + maxDelay);
+// 	int auxSD = 0;
+// 	cout << "SymTime: " << symTime << endl;
+// 	setColor("blue"); cout << "\n-- TRAINING NETWORK --" << endl; setColor("reset");
 	
-	for (int t = 0; t < symTime; t+=dt) {
-		setStyle("bold"); setColor("green"); cout << "\nITERATION " << t/dt << endl; setStyle("reset");
+// 	for (int t = 0; t < symTime; t+=dt) {
+// 		setStyle("bold"); setColor("green"); cout << "\nITERATION " << t/dt << endl; setStyle("reset");
+// 		setStyle("bold"); cout << "Layer 0" << endl; setStyle("reset");
+// 		for (int i = 0; i < inputSpikes.size(); i++) {
+// 			if (!inputSpikes[i].empty() && inputSpikes[i].front() <= dt) {
+// 				auxSD = inputSpikes[i].front();
+// 				inputSpikes[i].pop_front();
+// 				inputSpikes[i].front() -= auxSD;
+// 				layers[0].getNeuron(i).setSpike(1);
+// 				cout << " Neuron " << i << " spiked at time " << t << " ms" << endl;
+// 			} else {
+// 				inputSpikes[i].front() -= dt;
+// 				layers[0].getNeuron(i).setSpike(0);
+// 				cout << "Time Left: " << inputSpikes[i].front() << endl;
+// 			}
+// 		}
+// 		for (int i = 1; i < layers.size(); i++) {	
+// 			setStyle("bold"); cout << "Layer " << i << endl; setStyle("reset");
+// 			layers[i].feedForward(i, t);
+// 		}
+// 	}
+// 	setColor("blue"); cout << "\n-- TRAIN FINISHED --" << endl; setColor("reset");
+// }
+
+
+
+// void SNN::trainNetwork() {
+// 	int symTime = (time + maxDelay);
+// 	int auxSD = 0;
+// 	vector<deque<int>> spikeTimes = inputSpikes;
+// 	setColor("blue"); cout << "\n-- TRAINING NETWORK --" << endl; setColor("reset");
+// 	cout << "SymTime: " << symTime << endl;
+// 	// cout << inputSpikes.size() << endl;
+// 	// cout << inputSpikes[0].size() << endl;
+	
+// 	for (int t = 0; t < symTime; t+=dt) {
+// 		setStyle("bold"); setColor("green"); cout << "\nITERATION " << t/dt << endl; setStyle("reset");
+// 		setStyle("bold"); cout << "Layer 0" << endl; setStyle("reset");
+// 		for (int i = 0; i < inputSpikes.size(); i++) {
+// 			if (!inputSpikes[i].empty()) {
+// 				inputSpikes[i].front() -= dt;
+// 				if (inputSpikes[i].front() <= 0) {
+// 					auxSD = inputSpikes[i].front();
+// 					inputSpikes[i].pop_front();
+// 					inputSpikes[i].front() -= abs(auxSD);
+// 					layers[0].getNeuron(i).setSpike(1);
+
+// 					auxSD = spikeTimes[i].front();
+// 					cout << " Neuron " << i << " spiked at time " << spikeTimes[i].front() << " ms" << endl;
+// 					spikeTimes[i].pop_front();
+// 					spikeTimes[i].front() += auxSD;
+// 				} else {
+// 					layers[0].getNeuron(i).setSpike(0);
+// 				}
+// 			}
+// 		}
+// 		for (int i = 1; i < layers.size(); i++) {	
+// 			setStyle("bold"); cout << "Layer " << i << endl; setStyle("reset");
+// 			layers[i].feedForward(i, t);
+// 		}
+// 	}
+// 	setColor("blue"); cout << "\n-- TRAIN FINISHED --" << endl; setColor("reset");
+// }
+
+
+
+void SNN::trainNetwork() {
+	int symTime = (time + maxDelay) / dt;
+	// int symTime = (time + maxDelay);
+	int auxSD = 0;
+	vector<deque<int>> spikeTimes = inputSpikes;
+	setColor("blue"); cout << "\n-- TRAINING NETWORK --" << endl; setColor("reset");
+	cout << "SymTime: " << symTime << endl;
+	// cout << inputSpikes.size() << endl;
+	// cout << inputSpikes[0].size() << endl;
+	
+	for (int t = 0; t <= symTime; t++) {
+		setStyle("bold"); setColor("green"); cout << "\nITERATION " << t << endl; setStyle("reset");
 		setStyle("bold"); cout << "Layer 0" << endl; setStyle("reset");
 		for (int i = 0; i < inputSpikes.size(); i++) {
-			if (!inputSpikes[i].empty() && inputSpikes[i].front() <= dt) {
-				auxSD = inputSpikes[i].front();
-				inputSpikes[i].pop_front();
-				inputSpikes[i].front() -= auxSD;
-				layers[0].getNeuron(i).setSpike(1);
-				cout << "Neuron " << i << " spiked at time " << t << " ms" << endl;
-			} else {
+			if (!inputSpikes[i].empty()) {
 				inputSpikes[i].front() -= dt;
-				layers[0].getNeuron(i).setSpike(0);
+				if (inputSpikes[i].front() <= 0) {
+					auxSD = inputSpikes[i].front();
+					inputSpikes[i].pop_front();
+					inputSpikes[i].front() -= abs(auxSD);
+					layers[0].getNeuron(i).setSpike(1);
+
+					auxSD = spikeTimes[i].front();
+					cout << " Neuron " << i << " spiked at time " << spikeTimes[i].front() << " ms" << endl;
+					spikeTimes[i].pop_front();
+					spikeTimes[i].front() += auxSD;
+				} else {
+					layers[0].getNeuron(i).setSpike(0);
+				}
 			}
 		}
 		for (int i = 1; i < layers.size(); i++) {	
 			setStyle("bold"); cout << "Layer " << i << endl; setStyle("reset");
 			layers[i].feedForward(i, t);
 		}
+		layers[0].getNeuron(0).setSpike(0);
 	}
 	setColor("blue"); cout << "\n-- TRAIN FINISHED --" << endl; setColor("reset");
 }
+
+
+
 
 void SNN::testNetwork() {
 	cout << "-- TESTING NETWORK --" << endl;

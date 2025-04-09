@@ -2,7 +2,7 @@
 
 # Time stages (m, s, ms, us, ns)
 time 1 s
-dt 200 ms # Integer value
+dt 200 ms #Integer value
 >
 
 -- HYPERPARAMETERS --
@@ -34,10 +34,10 @@ alpha 0.1
 # Capa 0 (entrada)
 layer input
 neurons 3
-type 0 3
+type 0 3 #(type amount)
 connections dense
 multisynapses 1
-delay 100 250 # Same unit as dt
+delay 100 250 #Same unit as dt
 >
 
 # Capa 1 (oculta 1)
@@ -90,12 +90,18 @@ N2 250 150 500
 # Falta realizar correctamente las sparse connections
 # Eliminar las matrices de pesos etc. y cambiar por parametro en synapse
 
-# Sparse connections de capa 1 a capa 0 o de capa 0 a capa 1?
-# Ver de que neurona tiene que tomar lambdaX, de la actual o de la anterior?
+# Sparse connections de capa 0 a capa 1
+
 # Hay que eliminar las spikes que se queden en una multisinapsis que no ha sido la encargada de que la post neurona llegue al umbral para el periodo de refraccion?
+# Con la multisinapsis se envia la información por los multiples canales y se reciben todos en la neurona posterior con sus respectivos delays. ENTRA EN REFRACCION LA NEURONA ENTERA.
+
 # El input de una neurona puede estar vacio?
+# Si puede ser vacio pero pero no hacer ahora.
+
 # Como gestiono que se generen multiples spikes en la capa de entrada por debajo de la cantidad de dt?
-# V decae hasta cero pero realmente nunca es cero. 0,0000000000000000000000000008
+
+# V decae hasta cero pero realmente nunca es cero. 0,0000000000000000000000000008 NO TIENE SENTIDO YA
+
 # Gestionar el maxDelay en el bucle. Que pasa si hay mas spikes que tiempo de simulación?
 
 #connections sparse
@@ -104,3 +110,22 @@ N2 250 150 500
 #sparse_connection 2 1
 #sparse_connection 3 0
 
+# Tener en cuenta los delays acumulados para la finalización de la simulación
+
+# Mirar delays para saber si se envian correctamente las spikes desde la capa 0
+
+#lamdaX = -1/tau_m
+#0.1 o 1 ms -> pasar a microsegundos
+
+#codificación de datos para SNN
+
+# Mirar esto si puede ser en el mismo ciclo de la spike: cycles = (dt == delay) ? 1 : (dt / delay) + 1;
+# Con dos obtainSpike() funciona pero solo debería haber 1
+
+# TODO ------------------------------------------------------------------------------------- Modificar t del membrane potential
+# Arreglar delays
+# Funcionamiento multisinapsis
+# Separar ficheros datos y estructura
+# Enlazar dataset
+# STDP (Backpropagation)
+# Gráficos

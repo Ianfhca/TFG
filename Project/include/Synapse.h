@@ -6,10 +6,11 @@
 #include <iostream>
 #include <vector>
 #include <cstdlib>
+// #include <cstdint>
 
 using namespace std;
 
-class LIFneuron;
+class LIFneuron; 
 
 class Synapse {
 private:
@@ -21,6 +22,7 @@ private:
 
     int sumCycles; // Sum of synaptic delays
     int numSpikes; // Amount of spikes
+    // uint8_t flags;
 
     double weight; // Weight of the synapse
     int delay; // Tau of the synapse
@@ -34,7 +36,8 @@ public:
     double getPreSynapticTrace();
     
     int obtainSpike();
-    void updateSpikeAtributes();
-    void updatePresinapticTrace();
-    double updateForcingFunction();
+    double update();
+    bool updateSpikeAtributes();
+    void updatePresinapticTrace(int spike);
+    double updateForcingFunction(int spike);
 };
