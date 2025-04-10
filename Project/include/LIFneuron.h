@@ -8,6 +8,7 @@
 #include <vector>
 #include <cstdlib>
 #include <cmath>
+#include <memory>
 
 using namespace std;
 
@@ -37,19 +38,22 @@ private:
     
 
     int spike; // Spike value 1 / 0
-    vector<Synapse> synapses; // Presynaptic neurons
+    // vector<Synapse> synapses; // Presynaptic neurons
+    vector<shared_ptr<Synapse>> synapses; // Presynaptic neurons
 
     int updateMembranePotential(double forcingFunction, int time);
 
 public:
     // LIFneuron(int multisynapses_ = 1, pair<int, int> delayRange_ = {NONE, NONE}, double vTh_ = V_TH, double vRest_ = V_REST, double vReset_ = V_RESET, double lambdaV_ = LAMBDA_V, double tRefr_ = T_REFR, int dt_ = DT, double lambdaX_ = LAMBDA_X, double alpha_ = ALPHA);
     LIFneuron(int neuronId_, int type_, int multisynapses_, int delayMin_, int delayMax_, double vTh_, double vRest_, double vReset_, double lambdaV_, int tRefr_, double lambdaX_, double alpha_, int dt_);
+    ~LIFneuron();
+    
     int getType();
     double getMembranePotential();
     int getSpike();
     void setSpike(int spike_);
 
-    void setPresynapticLink(LIFneuron &preNeuron);
+    void setPresynapticLink(shared_ptr<LIFneuron> preNeuron);
     // Join this three functions in one
     // void updateSpikeAtributes();
     // void updatePresinapticTrace();

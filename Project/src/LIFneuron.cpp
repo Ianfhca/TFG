@@ -42,6 +42,12 @@ LIFneuron::LIFneuron(int neuronId_, int type_, int multisynapses_, int delayMin_
     spike = 0;
 }
 
+LIFneuron::~LIFneuron() {
+    cout << "Destroying LIFneuron with ID: " << neuronId << endl;
+    cout << "Number of synapses: " << synapses.size() << endl;
+    synapses.clear();
+}
+
 int LIFneuron::getType() {
     return type;
 }
@@ -58,13 +64,15 @@ void LIFneuron::setSpike(int spike_) {
     spike = spike_;
 }
 
-void LIFneuron::setPresynapticLink(LIFneuron &preNeuron) {
+void LIFneuron::setPresynapticLink(shared_ptr<LIFneuron> preNeuron) {
     int delay;
     for (int i = 0; i < multisynapses; i++) {
         // delay = randomNumber(delayRange.first, delayRange.second);
         delay = randomNumber(delayMin, delayMax);
-        Synapse synapse(preNeuron, delay, dt, lambdaX, alpha);
-        synapses.push_back(synapse);
+        synapses.emplace_back(make_shared<Synapse>(preNeuron, delay, dt, lambdaX, alpha));
+        // synapses.emplace_back(preNeuron, delay, dt, lambdaX, alpha);
+        // Synapse synapse(preNeuron, delay, dt, lambdaX, alpha);
+        // synapses.push_back(synapse);
     }
 }
 
@@ -94,7 +102,12 @@ int LIFneuron::updateNeuronState(int t) {
     double forcingFunction = 0.0;
 
     for (int i = 0; i < synapses.size(); i++) {
-        forcingFunction = synapses[i].update();
+        if (!synapses.empty() && synapses[i]) {
+            forcingFunction = synapses[i]->update();
+        } else {
+            std::cerr << "Error: synapse is null" << std::endl;
+        }
+        // forcingFunction = synapses[i]->update();
 
 
         // synapses[i].updatePresinapticTrace();

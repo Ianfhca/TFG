@@ -13,6 +13,11 @@ int SNN::getDt() {
 	return dt;
 }
 
+SNN::~SNN() {
+    cout << "\nDestroying SNN" << endl;
+    layers.clear();
+}
+
 void SNN::parseParameters(const string &line) {
     istringstream stream(line);
     string token;
@@ -96,8 +101,14 @@ void SNN::parseTopology(const string &line, TopologyParameters &topology, int &n
 		// if (topology.type == "input") {
 		// 	inputSpikes.resize(topology.numNeurons);
 		// }
-		Layer currentLayer(topology, neuronParams, dt);
-		layers.push_back(currentLayer);
+		// Layer currentLayer(topology, neuronParams, dt);
+		// layers.push_back(currentLayer);
+		// layers.emplace_back(currentLayer);
+
+		// layers.emplace_back(topology, neuronParams, dt);
+		layers.emplace_back(make_shared<Layer>(topology, neuronParams, dt));
+
+		
 		for (int i = 0; i < neuronParams.size(); i++) neuronParams[i].second = 0;
 		neuronsAux = 0;
         topology = {};
@@ -159,7 +170,9 @@ void SNN::parseInput(const string &line) {
     }
 
     deque<int> spikes;
-    int spikeTime, timeLeft, iterations = 0;
+    int spikeTime = 0;
+	int timeLeft = 0;
+	int iterations = 0;
 
 	while (stream >> spikeTime) {
 		if (spikeTime - timeLeft <= 0) {
@@ -214,6 +227,7 @@ int SNN::initNetwork(char &file) {
 	int neuronsAux = 0;
 	NeuronParameters neuronDefaults;
 	TopologyParameters currentTopology;
+	// layers.reserve(2);
 
 	unordered_map<string, function<void(const string &)>> sectionHandlers = {
         {"PARAMETERS", [this](const string &line) { parseParameters(line); }},
@@ -264,7 +278,7 @@ int SNN::initNetwork(char &file) {
  */
 void SNN::linkLayers() {
 	for (int i = 1; i < layers.size(); i++) {
-		layers[i].setPresynapticLinks(layers[i - 1]);
+		layers[i]->setPresynapticLinks(*layers[i - 1]);
 	}
 }
 
@@ -272,17 +286,17 @@ void SNN::viewTopology() {
 	setColor("blue"); cout << "\n-- NETWORK TOPOLOGY --" << endl; setColor("reset");
 	for (int i = 0; i < layers.size(); i++) {
 		setStyle("bold"); cout << "\nLAYER " << i << endl; setStyle("reset");
-		cout << "Type: " << layers[i].getType() << endl;
-		cout << "Neurons: " << layers[i].getNumNeurons() << endl;
-		cout << "Connections: " << layers[i].getConnections() << endl;
-		cout << "Multisynapses: " << layers[i].getMultisynapses() << endl;
-		if (layers[i].getConnections() == "sparse") {
+		cout << "Type: " << layers[i]->getType() << endl;
+		cout << "Neurons: " << layers[i]->getNumNeurons() << endl;
+		cout << "Connections: " << layers[i]->getConnections() << endl;
+		cout << "Multisynapses: " << layers[i]->getMultisynapses() << endl;
+		if (layers[i]->getConnections() == "sparse") {
 			cout << "Sparse connections: " << endl;
-			for (int j = 0; j < layers[i].getSparseConnections().size(); j++) {
-				cout << layers[i].getSparseConnections()[j].first << " -> " << layers[i].getSparseConnections()[j].second << endl;
+			for (int j = 0; j < layers[i]->getSparseConnections().size(); j++) {
+				cout << layers[i]->getSparseConnections()[j].first << " -> " << layers[i]->getSparseConnections()[j].second << endl;
 			}
 		}
-		layers[i].getNeuronsType();
+		layers[i]->getNeuronsType();
 		// cout << endl;
 	}
 }
@@ -391,22 +405,22 @@ void SNN::trainNetwork() {
 					auxSD = inputSpikes[i].front();
 					inputSpikes[i].pop_front();
 					inputSpikes[i].front() -= abs(auxSD);
-					layers[0].getNeuron(i).setSpike(1);
+					layers[0]->getNeuron(i)->setSpike(1);
 
 					auxSD = spikeTimes[i].front();
 					cout << " Neuron " << i << " spiked at time " << spikeTimes[i].front() << " ms" << endl;
 					spikeTimes[i].pop_front();
 					spikeTimes[i].front() += auxSD;
 				} else {
-					layers[0].getNeuron(i).setSpike(0);
+					layers[0]->getNeuron(i)->setSpike(0);
 				}
 			}
 		}
 		for (int i = 1; i < layers.size(); i++) {	
 			setStyle("bold"); cout << "Layer " << i << endl; setStyle("reset");
-			layers[i].feedForward(i, t);
+			layers[i]->feedForward(i, t);
 		}
-		layers[0].getNeuron(0).setSpike(0);
+		layers[0]->getNeuron(0)->setSpike(0);
 	}
 	setColor("blue"); cout << "\n-- TRAIN FINISHED --" << endl; setColor("reset");
 }

@@ -123,6 +123,7 @@ N2 250 150 500
 # Con dos obtainSpike() funciona pero solo debería haber 1
 
 # TODO ------------------------------------------------------------------------------------- Modificar t del membrane potential
+# Comprobar que la forcing function no sea += en vez de =
 # Arreglar delays
 # Funcionamiento multisinapsis
 # Separar ficheros datos y estructura

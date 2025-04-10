@@ -11,6 +11,7 @@
 #include <unordered_map>
 #include <deque>
 #include <unordered_set>
+#include <memory>
 
 using namespace std;
 
@@ -22,7 +23,8 @@ private:
     string dtUnit;
     int maxDelay;
     vector<pair<NeuronParameters, int>> neuronParams;
-    vector<Layer> layers;
+    // vector<Layer> layers;
+    vector<shared_ptr<Layer>> layers;
     // unordered_map<string, deque<int>> inputSpikes;
     vector<deque<int>> inputSpikes;
 
@@ -33,6 +35,8 @@ private:
     void parseInput(const string &line);
 public:
     SNN();
+    ~SNN();
+    
     int getTime();
     int getDt();
     

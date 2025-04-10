@@ -1,7 +1,12 @@
 #include "../include/Synapse.h"
 
-Synapse::Synapse(LIFneuron &preNeuron_, int delay_, int dt_, double lambdaX_, double alpha_) {
-    preNeuron = &preNeuron_;
+// Synapse::Synapse(std::shared_ptr<LIFneuron> preNeuron_, int delay_, int dt_, double lambdaX_, double alpha_)
+//     : preNeuron(preNeuron_), delay(delay_), dt(dt_), lambdaX(lambdaX_), alpha(alpha_), weight(0.5), cycles((delay / dt) + 1), preSynapticTrace(0.0), sumCycles(0), numSpikes(0) {
+//     std::cout << "Synapse created with delay: " << delay << " and cycles: " << cycles << std::endl;
+// }
+
+Synapse::Synapse(shared_ptr<LIFneuron> preNeuron_, int delay_, int dt_, double lambdaX_, double alpha_) {
+    preNeuron = preNeuron_;
     dt = dt_;
     lambdaX = lambdaX_;
     alpha = alpha_;
@@ -13,7 +18,12 @@ Synapse::Synapse(LIFneuron &preNeuron_, int delay_, int dt_, double lambdaX_, do
     preSynapticTrace = 0.0;
     sumCycles = 0;
     numSpikes = 0;
+    // bitmap = 0;
     cout << delay << endl;
+}
+
+Synapse::~Synapse() {
+    cout << "Destroying Synapse" << endl;
 }
 
 double Synapse::getWeight() {
@@ -88,16 +98,17 @@ int Synapse::obtainSpike() {
 
 bool Synapse::updateSpikeAtributes() {
     bool spike = false;
+    auto preNeuronShared = preNeuron.lock();
 
-    if (preNeuron != nullptr) {
-        if (preNeuron->getSpike() == 1) {
+    if (preNeuronShared) {
+        if (preNeuronShared->getSpike() == 1) {
             sumCycles += cycles;
-            numSpikes += 1;     
-            spike = true;   
-            cout << "sumCycles new: " << sumCycles << " NumSpikes new: " << numSpikes << endl;
+            numSpikes += 1;
+            std::cout << "sumCycles new: " << sumCycles << " NumSpikes new: " << numSpikes << std::endl;
+            spike = true;
         }
     } else {
-        std::cerr << "Error: preNeuron is null" << std::endl;
+        std::cerr << "Error: preNeuron is null or destroyed" << std::endl;
     }
     return spike;
 }
