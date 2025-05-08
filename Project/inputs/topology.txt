@@ -125,9 +125,10 @@ N2 250 155 500
 # Mirar esto si puede ser en el mismo ciclo de la spike: cycles = (dt == delay) ? 1 : (dt / delay) + 1;
 # Con dos obtainSpike() funciona pero solo debería haber 1
 
-# TODO ------------------------------------------------------------------------------------- Modificar t del membrane potential
 # Comprobar que la forcing function no sea += en vez de =
-#Corregir updateNeuron. Mirar si forcing function se tiene que hacer para multisyinapsis tambn. for(i; i < multisyinapsis; i++)
+# TODO ------------------------------------------------------------------------------------- Modificar t del membrane potential
+
+# Corregir updateNeuron. Mirar si forcing function se tiene que hacer para multisyinapsis tambn. for(i; i < multisyinapsis; i++)
 # Arreglar delays
 # Cambiar nombres tau etc. para los delays (Jose)
 # Funcionamiento multisinapsis

@@ -11,8 +11,8 @@ dt 200 ms # Integer value
 v_reset -65.0
 v_rest -65.0
 v -65.0
-v_th -63.0
-#v_th -50.0
+#v_th -63.0
+v_th -50.0
 lambda_v 20.0
 t_refr 2
 lambda_x 20.0
