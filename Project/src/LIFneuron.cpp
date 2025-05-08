@@ -31,7 +31,8 @@ LIFneuron::LIFneuron(int neuronId_, int type_, int multisynapses_, int delayMin_
     vRest = vRest_;
     vReset = vReset_;
     lambdaV = lambdaV_;
-    tRefr = tRefr_;
+    // tRefr = tRefr_;
+    tRefr = tRefr_ / dt_;
     lambdaX = lambdaX_;
     alpha = alpha_;
     dt = dt_;
@@ -43,8 +44,8 @@ LIFneuron::LIFneuron(int neuronId_, int type_, int multisynapses_, int delayMin_
 }
 
 LIFneuron::~LIFneuron() {
-    cout << "Destroying LIFneuron with ID: " << neuronId << endl;
-    cout << "Number of synapses: " << synapses.size() << endl;
+    // cout << "Destroying LIFneuron with ID: " << neuronId << endl;
+    // cout << "Number of synapses: " << synapses.size() << endl;
     synapses.clear();
 }
 
@@ -69,6 +70,9 @@ void LIFneuron::setPresynapticLink(shared_ptr<LIFneuron> preNeuron) {
     for (int i = 0; i < multisynapses; i++) {
         // delay = randomNumber(delayRange.first, delayRange.second);
         delay = randomNumber(delayMin, delayMax);
+        // cout << delay << dt << endl;
+        // shared_ptr<Synapse> synapse = make_shared<Synapse>(preNeuron, delay, dt, lambdaX, alpha);
+        // synapses.emplace_back(synapse);
         synapses.emplace_back(make_shared<Synapse>(preNeuron, delay, dt, lambdaX, alpha));
         // synapses.emplace_back(preNeuron, delay, dt, lambdaX, alpha);
         // Synapse synapse(preNeuron, delay, dt, lambdaX, alpha);
@@ -124,7 +128,7 @@ int LIFneuron::updateNeuronState(int t) {
 // Check the membrane potential never goes below the reset potential
 int LIFneuron::updateMembranePotential(double forcingFunction, int t) { // Check this make private
     int s = 0; // s(t) = 0
-
+    // cout << "Esto es " << t << " - " << timeLastSpike << " = " << t - timeLastSpike << endl;
     if (inRefraction) {
         if (t - timeLastSpike >= tRefr) inRefraction = false;
         else return s; // s(t) = 0
@@ -134,7 +138,7 @@ int LIFneuron::updateMembranePotential(double forcingFunction, int t) { // Check
 
     v += exp(-dt/lambdaV) * v + forcingFunction; // lambdaV = exp(-dt/tauM) && tauM = lambdaV.value(input parameter)
 
-    // cout << " v: " << v << " ff: " << forcingFunction << endl;
+    cout << " Neuron " << neuronId << " (v: " << v << " ff: " << forcingFunction << ")" << endl;
     v = (v < vRest) ? vRest : v;
 
     if (v >= vTh) { // Check the firing threshold
@@ -142,7 +146,7 @@ int LIFneuron::updateMembranePotential(double forcingFunction, int t) { // Check
         v = vReset;
         inRefraction = true;
         timeLastSpike = t;
-        cout << " Neuron " << neuronId << " fired at " << t << " ms" << " #V = " << v << " f: " << forcingFunction << endl;
+        cout << " Neuron " << neuronId << " fired at iteration " << t << " #V = " << v << " f: " << forcingFunction << endl;
     }
 
      return s;

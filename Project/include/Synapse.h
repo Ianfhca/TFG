@@ -2,10 +2,10 @@
 
 #include "LIFneuron.h"
 #include "Globals.h"
+#include "Utils.h"
 
 #include <iostream>
 #include <cstdlib>
-#include <cstdint>
 #include <memory>
 
 using namespace std;
@@ -23,13 +23,14 @@ private:
 
     int sumCycles; // Sum of synaptic delays
     int numSpikes; // Amount of spikes
-    // uint8_t bitmap; // Bitmap for the synapse
-    // uint16_t bitmap;
 
     double weight; // Weight of the synapse
     int delay; // Tau of the synapse
     int cycles; // Time constant of the synapse
     double preSynapticTrace; // Pre-synaptic trace
+
+    // Queue spikesQ;
+    vector<int> spikesQ;
 public:
     // Synapse(LIFneuron &preNeuron_, int delay_ = MIN_DELAY, int dt_ = DT, double lambdaX_ = LAMBDA_X, double alpha_ = ALPHA);
     Synapse(shared_ptr<LIFneuron> preNeuron_, int delay_, int dt_, double lambdaX_, double alpha_);
@@ -45,7 +46,8 @@ public:
     
     int obtainSpike();
     double update();
-    bool updateSpikeAtributes();
+    void updateSpikeAtributes();
+    // bool updateSpikeAtributes();
     void updatePresinapticTrace(int spike);
     double updateForcingFunction(int spike);
 };

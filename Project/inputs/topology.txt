@@ -2,7 +2,7 @@
 
 # Time stages (m, s, ms, us, ns)
 time 1 s
-dt 200 ms #Integer value
+dt 200 ms #Integer value gratter than 0
 >
 
 -- HYPERPARAMETERS --
@@ -75,17 +75,20 @@ delay 100 150
 #para 100 N0 30 90 90 40
 #para 100 N0 110 150 230 300
 #para 500 N0 200
-N0 250 150 500
+#N0 250 150 500
+N0 250 155 500
 
 # Neuron 2 spikes
 #N1 50 180 270 100
 #N1 200 350
-N1 250 150 500
+#N1 250 150 500
+N1 250 155 500
 
 # Neuron 3 spikes
 #N2 20 100 350 400
 #N2 200 350
-N2 250 150 500
+#N2 250 150 500
+N2 250 155 500
 
 # Falta realizar correctamente las sparse connections
 # Eliminar las matrices de pesos etc. y cambiar por parametro en synapse
@@ -124,9 +127,12 @@ N2 250 150 500
 
 # TODO ------------------------------------------------------------------------------------- Modificar t del membrane potential
 # Comprobar que la forcing function no sea += en vez de =
+#Corregir updateNeuron. Mirar si forcing function se tiene que hacer para multisyinapsis tambn. for(i; i < multisyinapsis; i++)
 # Arreglar delays
+# Cambiar nombres tau etc. para los delays (Jose)
 # Funcionamiento multisinapsis
 # Separar ficheros datos y estructura
 # Enlazar dataset
 # STDP (Backpropagation)
+# Documentar cada método
 # Gráficos

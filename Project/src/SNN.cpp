@@ -178,6 +178,7 @@ void SNN::parseInput(const string &line) {
 		if (spikeTime - timeLeft <= 0) {
 			cerr << "Error: Spike at " << spikeTime << " ms for neuron '" << neuronId 
 				 << "' falls into the same interval as a previous spike (dt = " << dt << " ms)." << endl;
+			cerr << iterations << " - " << timeLeft << " - " << spikeTime << endl;
 			throw runtime_error("Multiple spikes in the same interval");
 		} else {
 			spikes.push_back(spikeTime);
@@ -286,9 +287,9 @@ void SNN::viewTopology() {
 	setColor("blue"); cout << "\n-- NETWORK TOPOLOGY --" << endl; setColor("reset");
 	for (int i = 0; i < layers.size(); i++) {
 		setStyle("bold"); cout << "\nLAYER " << i << endl; setStyle("reset");
-		cout << "Type: " << layers[i]->getType() << endl;
-		cout << "Neurons: " << layers[i]->getNumNeurons() << endl;
-		cout << "Connections: " << layers[i]->getConnections() << endl;
+		cout << "Layer type: " << layers[i]->getType() << endl;
+		cout << "Neuron model: " << layers[i]->getNumNeurons() << endl;
+		cout << "Neural connections: " << layers[i]->getConnections() << endl;
 		cout << "Multisynapses: " << layers[i]->getMultisynapses() << endl;
 		if (layers[i]->getConnections() == "sparse") {
 			cout << "Sparse connections: " << endl;

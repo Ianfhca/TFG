@@ -20,7 +20,6 @@ int main(int argc, char *argv[]) {
 		cerr << "Error: Unable to initialize network." << endl;
 		return 1;
 	}
-	// snn.initNetwork(*argv[1]);
 
 	snn.linkLayers();
 	snn.viewTopology();

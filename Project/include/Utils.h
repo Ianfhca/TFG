@@ -9,6 +9,8 @@
 #include <unordered_map>
 #include <chrono>
 #include <random>
+#include <vector>
+#include <stdexcept>
 
 using namespace std;
 

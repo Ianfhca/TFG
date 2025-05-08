@@ -30,10 +30,10 @@ int convertTime(double value, string originUnit, string destinyUnit) {
 
 int randomNumber(int min, int max) {
     // A motor to generate random numbers
-    std::mt19937 motor(std::chrono::steady_clock::now().time_since_epoch().count());
+    mt19937 motor(chrono::steady_clock::now().time_since_epoch().count());
 
     // Uniform distribution for integers in the range [min, max]
-    std::uniform_int_distribution<int> distribution(min, max);
+    uniform_int_distribution<int> distribution(min, max);
 
     return distribution(motor);
 }
