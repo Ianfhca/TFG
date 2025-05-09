@@ -1,8 +1,8 @@
 #pragma once
 
-#include "LIFneuron.h"
-#include "Globals.h"
-#include "Utils.h"
+#include "LIFneuron.hpp"
+#include "Globals.hpp"
+#include "Utils.hpp"
 
 #include <iostream>
 #include <cstdlib>
@@ -24,6 +24,7 @@ private:
     int sumCycles; // Sum of synaptic delays
     int numSpikes; // Amount of spikes
 
+    double winit;
     double weight; // Weight of the synapse
     int delay; // Tau of the synapse
     int cycles; // Time constant of the synapse

@@ -1,8 +1,8 @@
 #pragma once
 
-#include "LIFneuron.h"
-#include "Globals.h"
-#include "Utils.h"
+#include "LIFneuron.hpp"
+#include "Globals.hpp"
+#include "Utils.hpp"
 
 #include <random>
 

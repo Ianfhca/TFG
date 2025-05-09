@@ -1,6 +1,6 @@
-#include "../include/Globals.h"
-#include "../include/SNN.h"
-#include "../include/Utils.h"
+#include "../include/Globals.hpp"
+#include "../include/SNN.hpp"
+#include "../include/Utils.hpp"
 
 #include <iostream>
 #include <iomanip>
@@ -30,4 +30,4 @@ int main(int argc, char *argv[]) {
 	setColor("blue"); cout << "-- END OF PROGRAM --" << endl; setColor("reset");
     
 	return 0;
-}
+} 

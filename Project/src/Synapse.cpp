@@ -1,4 +1,4 @@
-#include "../include/Synapse.h"
+#include "../include/Synapse.hpp"
 
 // Synapse::Synapse(std::shared_ptr<LIFneuron> preNeuron_, int delay_, int dt_, double lambdaX_, double alpha_)
 //     : preNeuron(preNeuron_), delay(delay_), dt(dt_), lambdaX(lambdaX_), alpha(alpha_), weight(0.5), cycles((delay / dt) + 1), preSynapticTrace(0.0), sumCycles(0), numSpikes(0) {
@@ -6,7 +6,7 @@
 // }
 
 Synapse::Synapse(shared_ptr<LIFneuron> preNeuron_, int delay_, int dt_, double lambdaX_, double alpha_)
-: preNeuron(preNeuron_), delay(delay_), dt(dt_), lambdaX(lambdaX_), alpha(alpha_), weight(0.5), cycles(0) {
+: preNeuron(preNeuron_), delay(delay_), dt(dt_), lambdaX(lambdaX_), alpha(alpha_), winit(0.5), weight(0.5), cycles(0) {
     if (dt_ <= 0) throw std::invalid_argument("dt must be greater than 0");
     if (delay_ < 0) throw std::invalid_argument("delay must be non-negative");
     cycles = (delay / dt) + 1;

@@ -1,4 +1,4 @@
-#include "../include/LIFneuron.h"
+#include "../include/LIFneuron.hpp"
 
 // LIFneuron::LIFneuron(int multisynapses_, pair<int, int> delayRange_, double vTh_, double vRest_, double vReset_, double lambdaV_, double tRefr_, int dt_, double lambdaX_, double alpha_) {
 //     v = vRest_;

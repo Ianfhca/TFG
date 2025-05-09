@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Layer.h"
-#include "Globals.h"
-#include "Utils.h"
+#include "Layer.hpp"
+#include "Globals.hpp"
+#include "Utils.hpp"
 
 #include <fstream>
 #include <sstream>

@@ -1,4 +1,4 @@
-#include "../include/SNN.h"
+#include "../include/SNN.hpp"
 
 
 SNN::SNN(): maxDelay(-1) {}

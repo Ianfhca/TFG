@@ -1,4 +1,4 @@
-#include "../include/Layer.h"
+#include "../include/Layer.hpp"
 
 Layer::Layer(const TopologyParameters &topology, const vector<pair<NeuronParameters, int>> &neuronParams, int dt) {
     type = topology.type;

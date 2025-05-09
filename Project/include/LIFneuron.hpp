@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Synapse.h"
-#include "Globals.h"
-#include "Utils.h"
+#include "Synapse.hpp"
+#include "Globals.hpp"
+#include "Utils.hpp"
 
 #include <iostream>
 #include <vector>
