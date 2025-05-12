@@ -41,9 +41,12 @@ public:
     Synapse(const Synapse&) = delete;
     Synapse& operator=(const Synapse&) = delete;
 
+    double getWinit();
     double getWeight();
     int getDelay();
     double getPreSynapticTrace();
+    double getNormPreSynapticTrace();
+    void setWeight(double deltaWeight);
     
     int obtainSpike();
     double update();

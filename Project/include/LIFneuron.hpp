@@ -41,6 +41,7 @@ private:
     // vector<Synapse> synapses; // Presynaptic neurons
     vector<shared_ptr<Synapse>> synapses; // Presynaptic neurons
 
+    // void STDP();
     int updateMembranePotential(double forcingFunction, int time);
 
 public:
@@ -59,5 +60,7 @@ public:
     // void updatePresinapticTrace();
     // double updateForcingFunction();
     int updateNeuronState(int time);
+    void STDP();
+
     // int updateMembranePotential(double forcingFunction, int time);
 };

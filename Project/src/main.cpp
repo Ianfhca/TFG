@@ -29,5 +29,5 @@ int main(int argc, char *argv[]) {
 
 	setColor("blue"); cout << "-- END OF PROGRAM --" << endl; setColor("reset");
     
-	return 0;
+	return 0; 
 } 

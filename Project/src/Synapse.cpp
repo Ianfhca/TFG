@@ -40,6 +40,10 @@ Synapse::~Synapse() {
     // cout << "Destroying Synapse" << endl;
 }
 
+double Synapse::getWinit() {
+    return winit;
+}
+
 double Synapse::getWeight() {
     return weight;
 }
@@ -50,6 +54,19 @@ int Synapse::getDelay() {
 
 double Synapse::getPreSynapticTrace() {
     return preSynapticTrace;
+}
+
+double Synapse::getNormPreSynapticTrace() {
+    // value - min) / (max - min);
+    // return preSynapticTrace / lambdaX;
+    double maxTrace = (alpha * lambdaX) / (lambdaX + 1);
+    return preSynapticTrace / maxTrace;
+}
+
+void Synapse::setWeight(double deltaWeight) {
+    weight += deltaWeight;
+    // if (weight < 0) weight = 0;
+    // if (weight > 1) weight = 1;
 }
 
 int Synapse::obtainSpike() {

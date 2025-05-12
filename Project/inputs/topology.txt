@@ -3,6 +3,7 @@
 # Time stages (m, s, ms, us, ns)
 time 1 s
 dt 200 ms #Integer value gratter than 0
+#learning_rate
 >
 
 -- HYPERPARAMETERS --
@@ -137,9 +138,10 @@ N2 250 155 500
 
 # Separar ficheros datos y estructura
 
-# Enlazar dataset ·
+# Enlazar dataset
 
-# STDP (Backpropagation)
+# STDP (Backpropagation) ·
+# a and learning_rate as parameters
 
 # Documentar cada método
 # Gráficos

@@ -95,14 +95,14 @@ void Layer::setPresynapticLinks(Layer &preLayer) {
 }
 
 void Layer::feedForward(int layerId, int t) {
-    // int spike = 0;
+    int spike = 0;
     
     for (int i = 0; i < numNeurons; i++) {
         // if (layerId == 0) {
         //     spike = neurons[i].updateMembranePotential(0.0, t);
         //     neurons[i].setSpike(spike);
         // }
-        neurons[i]->updateNeuronState(t);
-        // spike = neurons[i]->updateNeuronState(t);
+        // neurons[i]->updateNeuronState(t);
+        spike = neurons[i]->updateNeuronState(t);
     }
 }

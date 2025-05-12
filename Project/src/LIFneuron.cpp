@@ -105,7 +105,7 @@ int LIFneuron::updateNeuronState(int t) {
     // int spike = 0;
     double forcingFunction = 0.0;
 
-    for (int i = 0; i < synapses.size(); i++) {
+    for (int i = 0; i < synapses.size(); i++) { // Check this for para la multisinapsis
         if (!synapses.empty() && synapses[i]) {
             forcingFunction = synapses[i]->update();
         } else {
@@ -141,13 +141,39 @@ int LIFneuron::updateMembranePotential(double forcingFunction, int t) { // Check
     cout << " Neuron " << neuronId << " (v: " << v << " ff: " << forcingFunction << ")" << endl;
     v = (v < vRest) ? vRest : v;
 
-    if (v >= vTh) { // Check the firing threshold
+    if (v >= vTh) {
         s = 1; // s(t) = 1
         v = vReset;
         inRefraction = true;
         timeLastSpike = t;
-        cout << " Neuron " << neuronId << " fired at iteration " << t << " #V = " << v << " f: " << forcingFunction << endl;
+        cout << " Neuron " << neuronId << " fired at iteration " << t << " | V = " << v << " f: " << forcingFunction << endl;
+
+        STDP();
     }
 
      return s;
+}
+
+void LIFneuron::STDP() {
+    double LTP = 0.0;
+    double LTD = 0.0;
+    double weight = 0.0;
+    double winit = 0.0;
+    double normXPre = 0.0;
+    double a = 0.0; // Check this use as parameter
+    double learningRate = 0.1; // Check this use as parameter
+
+    for (int i = 0; i < synapses.size(); i++) {
+        winit = synapses[i]->getWinit();
+        weight = synapses[i]->getWeight();
+        normXPre = synapses[i]->getNormPreSynapticTrace();
+
+        // LTD = exp(-weight-winit);
+        // LTP = exp(weight-winit);
+        LTP = exp(-weight + winit) * exp(normXPre) - a; // LTPw *LTPx
+        LTD = -exp(weight - winit) * exp(1 - normXPre) - a; // LTDw *LTDx
+        synapses[i]->setWeight(learningRate * (LTP + LTD));
+        // print weight
+        cout << "Weight: " << weight << endl;
+    }
 }
