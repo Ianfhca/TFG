@@ -35,11 +35,11 @@ alpha 0.1
 
 # Capa 0 (entrada)
 layer input
-neurons 16384 # (128x128)
-type 0 16384 # (type amount)
+neurons 3
+type 0 3 #(type amount)
 connections dense
 multisynapses 1
-delay 100 250 # (Same unit as dt)
+delay 100 250 #Same unit as dt
 >
 
 # Capa 1 (oculta 1)
@@ -69,21 +69,29 @@ multisynapses 1
 delay 100 250
 >
 
-#-- INPUT --
+-- INPUT --
 
 # *There must be a "dt" time gap between each spike*
 
 # Neuron 1 spikes
-#N0 250 155 500
+#para 100 N0 30 90 90 40
+#para 100 N0 110 150 230 300
+#para 500 N0 200
+#N0 250 150 500
+N0 250 155 500
 
 # Neuron 2 spikes
-#N1 250 155 500
+#N1 50 180 270 100
+#N1 200 350
+#N1 250 150 500
+N1 250 155 500
 
 # Neuron 3 spikes
-#N2 250 155 500
+#N2 20 100 350 400
+#N2 200 350
+#N2 250 150 500
+N2 250 155 500
 
-
-#----------------------------------------------------------------------------------------------------------------
 # Falta realizar correctamente las sparse connections
 # Eliminar las matrices de pesos etc. y cambiar por parametro en synapse
 

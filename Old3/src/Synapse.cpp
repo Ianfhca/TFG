@@ -68,7 +68,7 @@ double Synapse::getNormPreSynapticTrace(double minPreX, double maxPreX) {
     // cout << "MinPreX: " << minPreX << endl;
     // cout << "MaxPreX: " << maxPreX << endl;
     if (maxPreX == minPreX) {
-        // std::cerr << "Error: maxPreX and minPreX are equal, cannot normalize." << std::endl;
+        std::cerr << "Error: maxPreX and minPreX are equal, cannot normalize." << std::endl;
         return 0.0;
     }
     return (preSynapticTrace - minPreX) / (maxPreX - minPreX);

@@ -72,7 +72,7 @@ shared_ptr<LIFneuron> Layer::getNeuron(int i) {
 
 void Layer::getNeuronsType() {
     for (int i = 0; i < neurons.size(); i++) {
-        // cout << "- Neuron " << i << " type: " << neurons[i]->getType() << endl;
+        cout << "- Neuron " << i << " type: " << neurons[i]->getType() << endl;
     }
 }
 

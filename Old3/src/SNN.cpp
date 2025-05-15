@@ -14,7 +14,7 @@ int SNN::getDt() {
 }
 
 SNN::~SNN() {
-    cout << "Destroying SNN" << endl;
+    cout << "\nDestroying SNN" << endl;
     layers.clear();
 }
 
@@ -63,6 +63,9 @@ void SNN::parseTopology(const string &line, TopologyParameters &topology, int &n
 	int neuronType;
 	int numTypeNeurons;
 
+	// cout << neuronsAux << endl;
+	// cout << neuronParams.size() << endl;
+
     if (token == "layer") stream >> topology.type;
     else if (token == "neurons") stream >> topology.numNeurons;
 	else if (token == "type") {
@@ -95,12 +98,21 @@ void SNN::parseTopology(const string &line, TopologyParameters &topology, int &n
 			cerr << "Error: The " << topology.type << " layer's number of neurons does not match the sum of neurons '"<< topology.numNeurons << "'." << endl;
 			throw runtime_error("Number of neurons does not match the sum of neuron types");
 		}
+		// if (topology.type == "input") {
+		// 	inputSpikes.resize(topology.numNeurons);
+		// }
+		// Layer currentLayer(topology, neuronParams, dt);
+		// layers.push_back(currentLayer);
+		// layers.emplace_back(currentLayer);
 
+		// layers.emplace_back(topology, neuronParams, dt);
 		layers.emplace_back(make_shared<Layer>(topology, neuronParams, dt));
+
 		
 		for (int i = 0; i < neuronParams.size(); i++) neuronParams[i].second = 0;
 		neuronsAux = 0;
         topology = {};
+		// cout << "LLEEEEEEGAAAA" << endl;
     }
 }
 
@@ -109,34 +121,85 @@ void SNN::parseTopology(const string &line, TopologyParameters &topology, int &n
 //     string neuronId;
 //     stream >> neuronId;
 
+//     // Validate format
 //     if (neuronId[0] != 'N') {
 //         cerr << "Error: Invalid neuron ID '" << neuronId << "' in INPUT section." << endl;
 //         throw runtime_error("Invalid neuron ID");
 //     }
 
 //     deque<int> spikes;
-//     int spikeTime = 0;
-// 	int timeLeft = 0;
-// 	int iterations = 0;
+//     int deltaTime, accumulatedTime = 0;
+// 	unordered_set<int> timeBuckets;
 
-// 	while (stream >> spikeTime) {
-// 		if (spikeTime - timeLeft <= 0) {
-// 			cerr << "Error: Spike at " << spikeTime << " ms for neuron '" << neuronId 
-// 				 << "' falls into the same interval as a previous spike (dt = " << dt << " ms)." << endl;
-// 			cerr << iterations << " - " << timeLeft << " - " << spikeTime << endl;
-// 			throw runtime_error("Multiple spikes in the same interval");
-// 		} else {
-// 			spikes.push_back(spikeTime);
-// 		}
+// 	while (stream >> deltaTime) {
+//         accumulatedTime += deltaTime;
 
-// 		iterations = ((spikeTime - timeLeft) / dt) + 1;
-// 		timeLeft = (iterations * dt) - spikeTime;
+//         int timeBucket = accumulatedTime / dt;
 
-// 	}
+//         if (timeBuckets.find(timeBucket) != timeBuckets.end()) {
+//             cerr << "Error: Spike at " << accumulatedTime << " ms for neuron '" << neuronId 
+//                  << "' falls into the same interval as a previous spike (dt = " << dt << " ms)." << endl;
+//             throw runtime_error("Multiple spikes in the same interval");
+//         }
+
+//         timeBuckets.insert(timeBucket);
+//         spikes.push_back(accumulatedTime);
+// 		// spikes.push_back(deltaTime);
+//     }
+
+//     if (spikes.empty()) {
+//         cerr << "Error: No spikes found for neuron '" << neuronId << "'." << endl;
+//         throw runtime_error("No spikes found");
+//     }
 	
 // 	inputSpikes.push_back(spikes);
-
 // }
+
+
+
+
+void SNN::parseInput(const string &line) {
+    istringstream stream(line);
+    string neuronId;
+    stream >> neuronId;
+
+    // Validate format
+    if (neuronId[0] != 'N') {
+        cerr << "Error: Invalid neuron ID '" << neuronId << "' in INPUT section." << endl;
+        throw runtime_error("Invalid neuron ID");
+    }
+
+    deque<int> spikes;
+    int spikeTime = 0;
+	int timeLeft = 0;
+	int iterations = 0;
+
+	while (stream >> spikeTime) {
+		if (spikeTime - timeLeft <= 0) {
+			cerr << "Error: Spike at " << spikeTime << " ms for neuron '" << neuronId 
+				 << "' falls into the same interval as a previous spike (dt = " << dt << " ms)." << endl;
+			cerr << iterations << " - " << timeLeft << " - " << spikeTime << endl;
+			throw runtime_error("Multiple spikes in the same interval");
+		} else {
+			spikes.push_back(spikeTime);
+		}
+
+		iterations = ((spikeTime - timeLeft) / dt) + 1;
+		timeLeft = (iterations * dt) - spikeTime;
+
+	}
+
+	// if (spikes.empty()) {
+    //     cerr << "Error: No spikes found for neuron '" << neuronId << "'." << endl;
+    //     throw runtime_error("No spikes found");
+    // }
+	
+	inputSpikes.push_back(spikes);
+
+}
+
+
+
 
 /**
  * @brief  This function initializes the network topology from a file
@@ -171,7 +234,7 @@ int SNN::initNetwork(char &file) {
         {"PARAMETERS", [this](const string &line) { parseParameters(line); }},
         {"HYPERPARAMETERS", [this, &neuronDefaults](const string &line) { parseHyperparameters(line, neuronDefaults); }},
         {"TOPOLOGY", [this, &currentTopology, &neuronsAux](const string &line) { parseTopology(line, currentTopology, neuronsAux); }},
-		// {"INPUT", [this](const string &line) { parseInput(line); }},
+		{"INPUT", [this](const string &line) { parseInput(line); }},
     };
 
 	ifstream network_file(&file);
@@ -239,181 +302,52 @@ void SNN::viewTopology() {
 	}
 }
 
-// void SNN::viewInputSpikes() {
-// 	setColor("blue"); cout << "\n-- INPUT SPIKES --\n" << endl; setColor("reset");
-// 	cout << "Number of inputs: " << inputSpikes.size() << endl;
-// 	for (int i = 0; i < inputSpikes.size(); i++) {
-// 		cout << "- INPUT " << i << ": ";
-// 		for (auto &spike : inputSpikes[i]) {
-// 			cout << spike << " ";
+void SNN::viewInputSpikes() {
+	setColor("blue"); cout << "\n-- INPUT SPIKES --\n" << endl; setColor("reset");
+	cout << "Number of inputs: " << inputSpikes.size() << endl;
+	for (int i = 0; i < inputSpikes.size(); i++) {
+		cout << "- INPUT " << i << ": ";
+		for (auto &spike : inputSpikes[i]) {
+			cout << spike << " ";
+		}
+		cout << endl;
+	}
+}
+
+// void SNN::trainNetwork() {
+// 	int symTime = (time + maxDelay);
+// 	int auxSD = 0;
+// 	cout << "SymTime: " << symTime << endl;
+// 	setColor("blue"); cout << "\n-- TRAINING NETWORK --" << endl; setColor("reset");
+	
+// 	for (int t = 0; t < symTime; t+=dt) {
+// 		setStyle("bold"); setColor("green"); cout << "\nITERATION " << t/dt << endl; setStyle("reset");
+// 		setStyle("bold"); cout << "Layer 0" << endl; setStyle("reset");
+// 		for (int i = 0; i < inputSpikes.size(); i++) {
+// 			if (!inputSpikes[i].empty() && inputSpikes[i].front() <= dt) {
+// 				auxSD = inputSpikes[i].front();
+// 				inputSpikes[i].pop_front();
+// 				inputSpikes[i].front() -= auxSD;
+// 				layers[0].getNeuron(i).setSpike(1);
+// 				cout << " Neuron " << i << " spiked at time " << t << " ms" << endl;
+// 			} else {
+// 				inputSpikes[i].front() -= dt;
+// 				layers[0].getNeuron(i).setSpike(0);
+// 				cout << "Time Left: " << inputSpikes[i].front() << endl;
+// 			}
 // 		}
-// 		cout << endl;
+// 		for (int i = 1; i < layers.size(); i++) {	
+// 			setStyle("bold"); cout << "Layer " << i << endl; setStyle("reset");
+// 			layers[i].feedForward(i, t);
+// 		}
 // 	}
+// 	setColor("blue"); cout << "\n-- TRAIN FINISHED --" << endl; setColor("reset");
 // }
 
 
 
-
-
-void readAedat(const string& filename, vector<DVSEvent>& eventsOut) {
-    ifstream file(filename, ios::binary);
-
-    if (!file.is_open()) {
-        cerr << "Error: No se pudo abrir el archivo " << filename << "\n";
-        return;
-    }
-
-    while (true) {
-        char c;
-        file.get(c);
-        if (!file) break;
-
-        if (c != '#') {
-            file.unget();
-            break;
-        }
-
-        while (file.get(c) && c != '\n') {}
-    }
-
-    while (file) {
-        AedatBlockHeader header;
-        file.read(reinterpret_cast<char*>(&header), sizeof(header));
-        if ((unsigned long int)file.gcount() < sizeof(header)) break;
-
-        if (header.eventType != 1 || header.eventValid == 0) {
-            file.seekg(header.eventNumber * 8, ios::cur);
-            continue;
-        }
-
-        for (uint32_t i = 0; i < header.eventValid; ++i) {
-            DVSEvent evt;
-            file.read(reinterpret_cast<char*>(&evt.data), sizeof(evt.data));
-            file.read(reinterpret_cast<char*>(&evt.timestamp), sizeof(evt.timestamp));
-
-            if (!file) break;
-            eventsOut.push_back(evt);
-        }
-    }
-
-    cout << eventsOut.size() << " events have been read.\n";
-}
-
-void readAnnotationsCSV(const string& filename, vector<GestureAnnotation>& annotationsOut) {
-    ifstream file(filename);
-    if (!file.is_open()) {
-		cerr << "Error: The CSV file " << filename << " could not be opened.\n";
-        return;
-    }
-
-    string line;
-
-    if (!getline(file, line)) {
-        cerr << "Error: The CSV file is empty.\n";
-        return;
-    }
-
-    while (getline(file, line)) {
-        if (line.empty()) continue;
-
-        stringstream ss(line);
-        string item;
-
-        GestureAnnotation ga;
-
-        getline(ss, item, ',');
-        if (item.empty() || !isdigit(item[0])) continue;
-        ga.classLabel = stoi(item);
-
-        getline(ss, item, ',');
-        ga.startTime_usec = stoul(item);
-
-        getline(ss, item, ',');
-        ga.endTime_usec = stoul(item);
-
-        annotationsOut.push_back(ga);
-    }
-
-    cout <<  annotationsOut.size() << " anotations have been read.\n";
-}
-
-SpikeCube convertToSpikeCube(
-    const vector<DVSEvent>& events,
-    uint32_t startTime,
-    uint32_t endTime,
-    uint32_t dt, // timestep duration in µs
-    int width,
-    int height
-) {
-    int timeSteps = (endTime - startTime) / dt + 1;
-
-    SpikeCube cube(timeSteps, vector<vector<uint8_t>>(height, vector<uint8_t>(width, 0)));
-
-    for (const auto& e : events) {
-        if (e.timestamp < startTime || e.timestamp > endTime)
-            continue;
-
-        int tIndex = (e.timestamp - startTime) / dt;
-        if (tIndex >= timeSteps || e.x() >= width || e.y() >= height)
-            continue;
-
-        cube[tIndex][e.y()][e.x()] = 1;
-    }
-
-
-    return cube;
-}
-
-
-
-void SNN::trainNetwork() {
-	string aedatFile = "./dataset/DvsGesture/user10_fluorescent_led.aedat";
-    string csvFile = "./dataset/DvsGesture/user10_fluorescent_led_labels.csv";
-
-    vector<DVSEvent> events;
-    vector<GestureAnnotation> annotations;
-
-    readAedat(aedatFile, events);
-    readAnnotationsCSV(csvFile, annotations);
-
-    // Choose the first gesture for training
-    GestureAnnotation gesture = annotations[0];
-    uint32_t dt = 10000; // 1ms
-
-    SpikeCube spikeData = convertToSpikeCube(events, gesture.startTime_usec, gesture.endTime_usec, dt, 128, 128);
-
-	for (size_t i = 0; i < annotations.size(); ++i) {
-        auto& ann = annotations[i];
-        size_t count = count_if(events.begin(), events.end(), [&](const DVSEvent& evt) {
-            return evt.timestamp >= ann.startTime_usec && evt.timestamp <= ann.endTime_usec;
-        });
-
-        cout << "Gesture " << i + 1
-                  << " (class " << ann.classLabel << ") has "
-                  << count << " events.\n";
-    }
-
-    cout << "Mapa de spikes generado con "
-              << spikeData.size() << " pasos temporales.\n";
-
-	// for (size_t t = 0; t < spikeData.size(); ++t) {
-	// 	for (int y = 0; y < 128; ++y) {
-	// 		for (int x = 0; x < 128; ++x) {
-	// 			layers[0]->getNeuron(y * 128 + x)->setSpike(spikeData[t][y][x]); // Reset neuron spike state
-	// 		}
-	// 	}
-
-	// 	for (int i = 1; i < layers.size(); i++) {
-	// 		// setStyle("bold"); cout << "Layer " << i << endl; setStyle("reset");
-	// 		layers[i]->feedForward(i, t);
-	// 	}
-	// }
-}
-
-
 // void SNN::trainNetwork() {
-// 	int symTime = (time + maxDelay) / dt;
-// 	// int symTime = (time + maxDelay);
+// 	int symTime = (time + maxDelay);
 // 	int auxSD = 0;
 // 	vector<deque<int>> spikeTimes = inputSpikes;
 // 	setColor("blue"); cout << "\n-- TRAINING NETWORK --" << endl; setColor("reset");
@@ -421,8 +355,8 @@ void SNN::trainNetwork() {
 // 	// cout << inputSpikes.size() << endl;
 // 	// cout << inputSpikes[0].size() << endl;
 	
-// 	for (int t = 0; t <= symTime; t++) {
-// 		setStyle("bold"); setColor("green"); cout << "\nITERATION " << t << endl; setStyle("reset");
+// 	for (int t = 0; t < symTime; t+=dt) {
+// 		setStyle("bold"); setColor("green"); cout << "\nITERATION " << t/dt << endl; setStyle("reset");
 // 		setStyle("bold"); cout << "Layer 0" << endl; setStyle("reset");
 // 		for (int i = 0; i < inputSpikes.size(); i++) {
 // 			if (!inputSpikes[i].empty()) {
@@ -431,27 +365,66 @@ void SNN::trainNetwork() {
 // 					auxSD = inputSpikes[i].front();
 // 					inputSpikes[i].pop_front();
 // 					inputSpikes[i].front() -= abs(auxSD);
-// 					layers[0]->getNeuron(i)->setSpike(1);
+// 					layers[0].getNeuron(i).setSpike(1);
 
 // 					auxSD = spikeTimes[i].front();
 // 					cout << " Neuron " << i << " spiked at time " << spikeTimes[i].front() << " ms" << endl;
 // 					spikeTimes[i].pop_front();
 // 					spikeTimes[i].front() += auxSD;
 // 				} else {
-// 					layers[0]->getNeuron(i)->setSpike(0);
+// 					layers[0].getNeuron(i).setSpike(0);
 // 				}
 // 			}
 // 		}
 // 		for (int i = 1; i < layers.size(); i++) {	
 // 			setStyle("bold"); cout << "Layer " << i << endl; setStyle("reset");
-// 			layers[i]->feedForward(i, t);
+// 			layers[i].feedForward(i, t);
 // 		}
-// 		layers[0]->getNeuron(0)->setSpike(0);
 // 	}
 // 	setColor("blue"); cout << "\n-- TRAIN FINISHED --" << endl; setColor("reset");
 // }
 
 
+
+void SNN::trainNetwork() {
+	int symTime = (time + maxDelay) / dt;
+	// int symTime = (time + maxDelay);
+	int auxSD = 0;
+	vector<deque<int>> spikeTimes = inputSpikes;
+	setColor("blue"); cout << "\n-- TRAINING NETWORK --" << endl; setColor("reset");
+	cout << "SymTime: " << symTime << endl;
+	// cout << inputSpikes.size() << endl;
+	// cout << inputSpikes[0].size() << endl;
+	
+	for (int t = 0; t <= symTime; t++) {
+		setStyle("bold"); setColor("green"); cout << "\nITERATION " << t << endl; setStyle("reset");
+		setStyle("bold"); cout << "Layer 0" << endl; setStyle("reset");
+		for (int i = 0; i < inputSpikes.size(); i++) {
+			if (!inputSpikes[i].empty()) {
+				inputSpikes[i].front() -= dt;
+				if (inputSpikes[i].front() <= 0) {
+					auxSD = inputSpikes[i].front();
+					inputSpikes[i].pop_front();
+					inputSpikes[i].front() -= abs(auxSD);
+					layers[0]->getNeuron(i)->setSpike(1);
+
+					auxSD = spikeTimes[i].front();
+					cout << " Neuron " << i << " spiked at time " << spikeTimes[i].front() << " ms" << endl;
+					spikeTimes[i].pop_front();
+					spikeTimes[i].front() += auxSD;
+				} else {
+					layers[0]->getNeuron(i)->setSpike(0);
+				}
+			}
+		}
+		for (int i = 1; i < layers.size(); i++) {	
+			setStyle("bold"); cout << "Layer " << i << endl; setStyle("reset");
+			layers[i]->feedForward(i, t);
+		}
+		layers[0]->getNeuron(0)->setSpike(0);
+	}
+	setColor("blue"); cout << "\n-- TRAIN FINISHED --" << endl; setColor("reset");
+}
 
 
 

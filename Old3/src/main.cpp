@@ -25,6 +25,7 @@ int main(int argc, char *argv[]) {
 
 	snn.linkLayers();
 	snn.viewTopology();
+	snn.viewInputSpikes();
 
 	snn.trainNetwork();
 
@@ -32,7 +33,7 @@ int main(int argc, char *argv[]) {
 
 	auto stop = high_resolution_clock::now();
     auto duration = duration_cast<milliseconds>(stop - start);
-    cout << "Duration: " << (duration.count() / 1000) << " s" << endl;
+    cout << "Duration: " << duration.count() << " ms\n";
     
-	return 0;
-}
+	return 0; 
+} 

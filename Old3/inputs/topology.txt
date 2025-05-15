@@ -69,18 +69,18 @@ multisynapses 1
 delay 100 250
 >
 
-#-- INPUT --
+-- INPUT --
 
 # *There must be a "dt" time gap between each spike*
 
 # Neuron 1 spikes
-#N0 250 155 500
+N0 250 155 500
 
 # Neuron 2 spikes
-#N1 250 155 500
+N1 250 155 500
 
 # Neuron 3 spikes
-#N2 250 155 500
+N2 250 155 500
 
 
 #----------------------------------------------------------------------------------------------------------------

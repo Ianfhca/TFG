@@ -3,7 +3,6 @@
 #include "Layer.hpp"
 #include "Globals.hpp"
 #include "Utils.hpp"
-#include "Dataset.hpp"
 
 #include <fstream>
 #include <sstream>
