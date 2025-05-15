@@ -2,7 +2,7 @@
 CXX = g++
 
 # Definir las banderas de compilación # -fsanitize=address
-CXXFLAGS = -o -Wall -g -Iinclude -fsanitize=address
+CXXFLAGS = -o -Wall -g -Iinclude -fsanitize=address -std=c++11
 
 # Definir las carpetas
 SRC_DIR = src

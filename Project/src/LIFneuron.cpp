@@ -18,6 +18,16 @@
 
 //     spike = 0;
 // }
+// LIFneuron::LIFneuron(int neuronId_, int type_, int multisynapses_, int delayMin_, int delayMax_, double vTh_, double vRest_, double vReset_, double lambdaV_, int tRefr_, double lambdaX_, double alpha_, int dt_)
+//     : neuronId(neuronId_), type(type_), multisynapses(multisynapses_), delayMin(delayMin_), delayMax(delayMax_), v(vRest_), vTh(vTh_), vRest(vRest_), vReset(vReset_), lambdaV(lambdaV_), tRefr(tRefr_ / dt_), lambdaX(lambdaX_), alpha(alpha_), dt(dt_) {
+//     // maxPreX = __DBL_MIN__;
+//     // minPreX = __DBL_MAX__;
+//     // maxWeight = __DBL_MIN__;
+//     // minWeight = __DBL_MAX__;
+//     inRefraction = false;
+//     timeLastSpike = 0;
+//     spike = 0;
+// }
 
 // Good one
 LIFneuron::LIFneuron(int neuronId_, int type_, int multisynapses_, int delayMin_, int delayMax_, double vTh_, double vRest_, double vReset_, double lambdaV_, int tRefr_, double lambdaX_, double alpha_, int dt_) {
@@ -36,6 +46,11 @@ LIFneuron::LIFneuron(int neuronId_, int type_, int multisynapses_, int delayMin_
     lambdaX = lambdaX_;
     alpha = alpha_;
     dt = dt_;
+
+    maxPreX = -DBL_MAX;
+    minPreX = DBL_MAX;
+    maxWeight = -DBL_MAX; 
+    minWeight = DBL_MAX;
 
     inRefraction = false;
     timeLastSpike = 0;
@@ -65,7 +80,7 @@ void LIFneuron::setSpike(int spike_) {
     spike = spike_;
 }
 
-void LIFneuron::setPresynapticLink(shared_ptr<LIFneuron> preNeuron) {
+void LIFneuron::setPresynapticLink(shared_ptr<LIFneuron> preNeuron) { 
     int delay;
     for (int i = 0; i < multisynapses; i++) {
         // delay = randomNumber(delayRange.first, delayRange.second);
@@ -104,13 +119,37 @@ void LIFneuron::setPresynapticLink(shared_ptr<LIFneuron> preNeuron) {
 int LIFneuron::updateNeuronState(int t) {
     // int spike = 0;
     double forcingFunction = 0.0;
+    double aux;
+    maxPreX = -DBL_MAX;
+    minPreX = DBL_MAX;
+    maxWeight = -DBL_MAX; 
+    minWeight = DBL_MAX;
+
+    // if (synapses.empty()) {
+    //     std::cerr << "Neuron " << neuronId << " has no synapses!" << std::endl;
+    // }
 
     for (int i = 0; i < synapses.size(); i++) { // Check this for para la multisinapsis
+        
+        // if (!synapses[i]) {
+        //     std::cerr << "Null synapse at index " << i << " in neuron " << neuronId << std::endl;
+        //     continue;
+        // }
+        // forcingFunction += synapses[i]->update();
+
         if (!synapses.empty() && synapses[i]) {
-            forcingFunction = synapses[i]->update();
+            forcingFunction += synapses[i]->update();
+            // forcingFunction = synapses[i]->update();
+            aux = synapses[i]->getPreSynapticTrace();
+            if (aux > maxPreX) maxPreX = aux;
+            if (aux < minPreX) minPreX = aux;
+            aux = synapses[i]->getWeight();
+            if (aux > maxWeight) maxWeight = aux;
+            if (aux < minWeight) minWeight = aux;
         } else {
             std::cerr << "Error: synapse is null" << std::endl;
         }
+
         // forcingFunction = synapses[i]->update();
 
 
@@ -138,6 +177,9 @@ int LIFneuron::updateMembranePotential(double forcingFunction, int t) { // Check
 
     v += exp(-dt/lambdaV) * v + forcingFunction; // lambdaV = exp(-dt/tauM) && tauM = lambdaV.value(input parameter)
 
+    // double decay = exp(-dt / lambdaV);
+    // v = decay * (v - vRest) + vRest + forcingFunction;
+
     cout << " Neuron " << neuronId << " (v: " << v << " ff: " << forcingFunction << ")" << endl;
     v = (v < vRest) ? vRest : v;
 
@@ -159,21 +201,21 @@ void LIFneuron::STDP() {
     double LTD = 0.0;
     double weight = 0.0;
     double winit = 0.0;
-    double normXPre = 0.0;
+    double normPreX = 0.0;
     double a = 0.0; // Check this use as parameter
     double learningRate = 0.1; // Check this use as parameter
 
     for (int i = 0; i < synapses.size(); i++) {
         winit = synapses[i]->getWinit();
         weight = synapses[i]->getWeight();
-        normXPre = synapses[i]->getNormPreSynapticTrace();
+        normPreX = synapses[i]->getNormPreSynapticTrace(minPreX, maxPreX);
 
         // LTD = exp(-weight-winit);
         // LTP = exp(weight-winit);
-        LTP = exp(-weight + winit) * exp(normXPre) - a; // LTPw *LTPx
-        LTD = -exp(weight - winit) * exp(1 - normXPre) - a; // LTDw *LTDx
+        LTP = exp(-weight + winit) * exp(normPreX) - a; // LTPw *LTPx
+        LTD = -exp(weight - winit) * exp(1 - normPreX) - a; // LTDw *LTDx
         synapses[i]->setWeight(learningRate * (LTP + LTD));
         // print weight
-        cout << "Weight: " << weight << endl;
+        // cout << "Weight: " << weight << endl;
     }
 }

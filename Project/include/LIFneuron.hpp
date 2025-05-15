@@ -9,6 +9,7 @@
 #include <cstdlib>
 #include <cmath>
 #include <memory>
+#include <cfloat>
 
 using namespace std;
 
@@ -33,15 +34,18 @@ private:
     double alpha; // Scaling factor for traces
     int dt; // Time step
 
+    double maxPreX;
+    double minPreX;
+    double maxWeight;
+    double minWeight;
+
     bool inRefraction; // Refractory state
-    int timeLastSpike; // Last spike time
-    
+    int timeLastSpike; // Last spike time 
 
     int spike; // Spike value 1 / 0
     // vector<Synapse> synapses; // Presynaptic neurons
     vector<shared_ptr<Synapse>> synapses; // Presynaptic neurons
 
-    // void STDP();
     int updateMembranePotential(double forcingFunction, int time);
 
 public:

@@ -45,7 +45,8 @@ public:
     double getWeight();
     int getDelay();
     double getPreSynapticTrace();
-    double getNormPreSynapticTrace();
+    double getNormPreSynapticTrace(double minPreX, double maxPreX);
+    double getNormWeight(double minWeight, double maxWeight);
     void setWeight(double deltaWeight);
     
     int obtainSpike();

@@ -12,7 +12,8 @@ dt 200 ms #Integer value gratter than 0
 v_reset -65.0
 v_rest -65.0
 v -65.0
-v_th -50.0
+v_th -64.0
+#v_th -50.0
 lambda_v 20.0
 t_refr 2
 lambda_x 20.0
@@ -47,7 +48,7 @@ neurons 5
 type 0 5
 connections dense
 multisynapses 1
-delay 100 150
+delay 100 450
 >
 
 # Capa 2 (oculta 2)
@@ -56,7 +57,7 @@ neurons 4
 type 0 4
 connections dense
 multisynapses 2
-delay 100 150
+delay 100 600
 >
 
 # Capa 3 (salida)
@@ -65,7 +66,7 @@ neurons 2
 type 0 2
 connections none
 multisynapses 1
-delay 100 150
+delay 100 250
 >
 
 -- INPUT --
@@ -145,3 +146,7 @@ N2 250 155 500
 
 # Documentar cada método
 # Gráficos
+
+
+# Preguntas JOSE:
+# El forcing function hay que sumarlo?

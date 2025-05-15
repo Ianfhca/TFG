@@ -11,19 +11,20 @@ Synapse::Synapse(shared_ptr<LIFneuron> preNeuron_, int delay_, int dt_, double l
     if (delay_ < 0) throw std::invalid_argument("delay must be non-negative");
     cycles = (delay / dt) + 1;
     // spikesQ = Queue(cycles);
-    spikesQ.reserve(cycles);
+    // spikesQ.reserve(cycles);
+    spikesQ.resize(cycles);
     preSynapticTrace = 0.0;
     sumCycles = 0;
     numSpikes = 0;
 }
- 
+
 // Synapse::Synapse(shared_ptr<LIFneuron> preNeuron_, int delay_, int dt_, double lambdaX_, double alpha_) {
 //     preNeuron = preNeuron_;
 //     dt = dt_;
 //     lambdaX = lambdaX_;
 //     alpha = alpha_;
 //     weight = 0.5;
-//     delay = delay_;
+//     delay = delay_; 
 //     // cycles = (dt == delay) ? 1 : (dt / delay) + 1;
 //     if (dt > 0) cycles = (delay / dt) + 1;
 //     else throw std::invalid_argument("dt must be greater than 0");
@@ -56,16 +57,34 @@ double Synapse::getPreSynapticTrace() {
     return preSynapticTrace;
 }
 
-double Synapse::getNormPreSynapticTrace() {
+double Synapse::getNormPreSynapticTrace(double minPreX, double maxPreX) {
+    // (value - min) / (max - min);
+    // print presinaptic trace min and max
+    
+    // double maxTrace = (alpha * lambdaX) / (lambdaX + 1);
+    // return preSynapticTrace / maxTrace;
+
+    // cout << "PreSynapticTrace: " << preSynapticTrace << endl;
+    // cout << "MinPreX: " << minPreX << endl;
+    // cout << "MaxPreX: " << maxPreX << endl;
+    if (maxPreX == minPreX) {
+        std::cerr << "Error: maxPreX and minPreX are equal, cannot normalize." << std::endl;
+        return 0.0;
+    }
+    return (preSynapticTrace - minPreX) / (maxPreX - minPreX);
+}
+
+double Synapse::getNormWeight(double minWeight, double maxWeight) {
     // value - min) / (max - min);
-    // return preSynapticTrace / lambdaX;
-    double maxTrace = (alpha * lambdaX) / (lambdaX + 1);
-    return preSynapticTrace / maxTrace;
+    // return weight / 1;
+    // double maxWeight = 1.0; // Assuming weight is normalized between 0 and 1
+    // return weight / maxWeight;
+    return (weight - minWeight) / (maxWeight - minWeight);
 }
 
 void Synapse::setWeight(double deltaWeight) {
     weight += deltaWeight;
-    // if (weight < 0) weight = 0;
+    if (weight < 0) weight = 0; // Check this es >= 0?
     // if (weight > 1) weight = 1;
 }
 
@@ -99,7 +118,7 @@ void Synapse::updatePresinapticTrace(int spike) {
     // preSynapticTrace[i][j][d] = (-preSynapticTrace[i][j][d] + (alpha * neurons[j].obtainSpike(d))) * (dt / lambdaX);
     // int spike = obtainSpike();
     preSynapticTrace = (-preSynapticTrace * (1/lambdaX)) + (alpha * spike);
-    if (preSynapticTrace < 0) preSynapticTrace = 0;
+    if (preSynapticTrace < 0) preSynapticTrace = 0; // Check this tiene que ser >= 0
     // cout << "Spike: " << spike << " PreSynapticTrace: " << preSynapticTrace << endl;
 }
 
