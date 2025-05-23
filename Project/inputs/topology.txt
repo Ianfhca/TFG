@@ -20,21 +20,10 @@ lambda_v 20.0
 t_refr 2
 lambda_x 20.0
 alpha 0.1
-#weights 0.5
-#learning_rate 0.0001
-#a 0
-#convergence_th 0.05
->
-
-# Type 1
-v_reset -60.0
-v_rest -60.0
-v -60.0
-v_th -45.0
-lambda_v 20.0
-t_refr 1
-lambda_x 20.0
-alpha 0.1
+weight 0.5
+learning_rate 0.1 # learning_rate 0.0001
+a 0
+convergence_th 0.05
 >
 
 -- TOPOLOGY --
@@ -144,3 +133,5 @@ delay 1 1
 # Los setWeight() hay que sumar o no? +=
 # la neurona 13078 deja de aprender
 # la traza presinaptica y los pesos se están normalizando mal puede
+# corregir el input para que pueda tener cualquier dimensión, no solo 128x128 SpikeCubePolarity
+# corregir los parametros de la topologia

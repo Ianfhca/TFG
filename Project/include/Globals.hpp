@@ -30,8 +30,9 @@ const double LAMBDA_X = 20.0; // 10
 const double ALPHA = 0.1;
 
 struct NeuronParameters {
-    double vReset, vRest, v, vTh, lambdaV, lambdaX, alpha;
+    double vReset, vRest, v, vTh, tauM, lambdaX, alpha, weight, learningRate, a, convergenceTh;
     int tRefr;
+    // double lambdaV;
 };
 
 struct TopologyParameters {

@@ -25,8 +25,8 @@ Layer::Layer(const TopologyParameters &topology, const NeuronParameters &neuronP
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 neuronIdx = ((ch * height * width) + (i * width) + j);
-                // cout << neuronIdx << " H: " << i << " W: " << j << " Ch: " << ch << endl;
-                neurons.emplace_back(make_shared<LIFneuron>(neuronIdx, topology.neuronType, topology.multisynapses, topology.delayMin, topology.delayMax, neuronParams.vTh, neuronParams.vRest, neuronParams.vReset, neuronParams.lambdaV, neuronParams.tRefr, neuronParams.lambdaX, neuronParams.alpha, dt));
+                neurons.emplace_back(make_shared<LIFneuron>(neuronIdx, topology, neuronParams, dt));
+                // neurons.emplace_back(make_shared<LIFneuron>(neuronIdx, topology.neuronType, topology.multisynapses, topology.delayMin, topology.delayMax, neuronParams.vTh, neuronParams.vRest, neuronParams.vReset, neuronParams.lambdaV, neuronParams.tRefr, neuronParams.lambdaX, neuronParams.alpha, dt));
             }
         }
     }

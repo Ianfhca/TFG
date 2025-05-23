@@ -5,15 +5,15 @@
 //     cout << "Synapse created with delay: " << delay << " and cycles: " << cycles << endl;
 // }
  
-Synapse::Synapse(shared_ptr<LIFneuron> preNeuron_, int delay_, int dt_, double lambdaX_, double alpha_)
-: preNeuron(preNeuron_), delay(delay_), dt(dt_), lambdaX(lambdaX_), alpha(alpha_), winit(0.5), weight(0.5), cycles(0) {
+Synapse::Synapse(shared_ptr<LIFneuron> preNeuron_, double lambdaX_, double alpha_, double weight_, int delay_, int dt_)
+: preNeuron(preNeuron_), lambdaX(lambdaX_), alpha(alpha_), weight(weight_), delay(delay_), dt(dt_) {
     if (delay_ < 0) throw invalid_argument("delay must be non-negative");
     if (dt_ <= 0) throw invalid_argument("dt must be greater than 0");
     cycles = (delay / dt) + 1;
     spikesQ.resize(cycles);
     preSynapticTrace = 0.0;
-    sumCycles = 0;
-    numSpikes = 0;
+    // sumCycles = 0;
+    // numSpikes = 0;
 }
 
 // Synapse::Synapse(shared_ptr<LIFneuron> preNeuron_, int delay_, int dt_, double lambdaX_, double alpha_) {
@@ -37,10 +37,6 @@ Synapse::Synapse(shared_ptr<LIFneuron> preNeuron_, int delay_, int dt_, double l
 
 Synapse::~Synapse() {
     // cout << "Destroying Synapse" << endl;
-}
-
-double Synapse::getWinit() {
-    return winit;
 }
 
 double Synapse::getWeight() {

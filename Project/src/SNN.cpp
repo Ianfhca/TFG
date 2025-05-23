@@ -48,11 +48,16 @@ void SNN::parseHyperparameters(const string &line, NeuronParameters &neuron) {
     else if (token == "v_rest") stream >> neuron.vRest;
     else if (token == "v") stream >> neuron.v;
     else if (token == "v_th") stream >> neuron.vTh;
-    else if (token == "lambda_v") stream >> neuron.lambdaV;
+    else if (token == "tau_m") stream >> neuron.tauM;
     else if (token == "t_refr") stream >> neuron.tRefr;
     else if (token == "lambda_x") stream >> neuron.lambdaX;
     else if (token == "alpha") stream >> neuron.alpha;
+    else if (token == "weight") stream >> neuron.weight;
+    else if (token == "learning_rate") stream >> neuron.learningRate;
+    else if (token == "a") stream >> neuron.a;
+    else if (token == "convergence_th") stream >> neuron.convergenceTh;
     else if (token == ">") neuronParams.push_back(neuron);
+    // else if (token == "lambda_v") stream >> neuron.lambdaV;
 }
 
 void SNN::parseTopology(const string &line, TopologyParameters &topology) {
@@ -462,11 +467,13 @@ void SNN::trainNetwork() {
                 layers[index]->feedForward(index, t);
                 // layers[i]->visualizeSpikes(t);
             }
-            if (t % 50 == 0) cout << "Time step " << t << endl;
-            // layers[3]->showSpikeHistory();
+            if (t % 50 == 0) {
+                cout << "Time step " << t << endl;
+                layers[3]->showSpikeHistory();
+            }
         }
-        layers[2]->showSpikeHistory();
-        layers[3]->showSpikeHistory();
+        // layers[2]->showSpikeHistory();
+        // layers[3]->showSpikeHistory();
     }
 }
 

@@ -1,68 +1,55 @@
 #include "../include/LIFneuron.hpp"
 
-// LIFneuron::LIFneuron(int multisynapses_, pair<int, int> delayRange_, double vTh_, double vRest_, double vReset_, double lambdaV_, double tRefr_, int dt_, double lambdaX_, double alpha_) {
+LIFneuron::LIFneuron(int neuronId_, const TopologyParameters &topology, const NeuronParameters &neuronParams, int dt) 
+    : neuronId(neuronId_), type(topology.neuronType), multisynapses(topology.multisynapses), delayMin(topology.delayMin), 
+    delayMax(topology.delayMax), v(neuronParams.vRest), vTh(neuronParams.vTh), vRest(neuronParams.vRest), vReset(neuronParams.vReset), 
+    tauM(neuronParams.tauM), tRefr(neuronParams.tRefr), lambdaX(neuronParams.lambdaX), alpha(neuronParams.alpha), winit(neuronParams.weight), 
+    learningRate(neuronParams.learningRate), a(neuronParams.a), convergenceTh(neuronParams.convergenceTh), dt(dt) {
+
+    maxPreX = __DBL_MIN__;
+    minPreX = __DBL_MAX__;
+    maxWeight = __DBL_MIN__; 
+    minWeight = __DBL_MAX__;
+
+    tRefr = tRefr / dt;
+    inRefraction = false;
+    timeLastSpike = 0;
+    vMax = 0;
+    spike = 0;
+    learning = true;
+}
+
+// LIFneuron::LIFneuron(int neuronId_, int type_, int multisynapses_, int delayMin_, int delayMax_, double vTh_, double vRest_, double vReset_, double lambdaV_, int tRefr_, double lambdaX_, double alpha_, int dt_) {
+//     neuronId = neuronId_;
+//     type = type_;
+//     multisynapses = multisynapses_;
+//     delayMin = delayMin_;
+//     delayMax = delayMax_;
 //     v = vRest_;
 //     vTh = vTh_;
 //     vRest = vRest_;
 //     vReset = vReset_;
 //     lambdaV = lambdaV_;
-//     tRefr = static_cast<int>(tRefr_);
-//     dt = dt_;
+//     // tRefr = tRefr_;
+//     tRefr = tRefr_ / dt_;
 //     lambdaX = lambdaX_;
 //     alpha = alpha_;
-//     multisynapses = multisynapses_;
-//     delayRange = delayRange_;
+//     dt = dt_;
+
+//     maxPreX = -DBL_MAX;
+//     minPreX = DBL_MAX;
+//     maxWeight = -DBL_MAX; 
+//     minWeight = DBL_MAX;
 
 //     inRefraction = false;
 //     timeLastSpike = 0;
+//     vMax = 0;
 
 //     spike = 0;
+//     learning = true;
 // }
-// LIFneuron::LIFneuron(int neuronId_, int type_, int multisynapses_, int delayMin_, int delayMax_, double vTh_, double vRest_, double vReset_, double lambdaV_, int tRefr_, double lambdaX_, double alpha_, int dt_)
-//     : neuronId(neuronId_), type(type_), multisynapses(multisynapses_), delayMin(delayMin_), delayMax(delayMax_), v(vRest_), vTh(vTh_), vRest(vRest_), vReset(vReset_), lambdaV(lambdaV_), tRefr(tRefr_ / dt_), lambdaX(lambdaX_), alpha(alpha_), dt(dt_) {
-//     // maxPreX = __DBL_MIN__;
-//     // minPreX = __DBL_MAX__;
-//     // maxWeight = __DBL_MIN__;
-//     // minWeight = __DBL_MAX__;
-//     inRefraction = false;
-//     timeLastSpike = 0;
-//     spike = 0;
-// }
-
-// Good one
-LIFneuron::LIFneuron(int neuronId_, int type_, int multisynapses_, int delayMin_, int delayMax_, double vTh_, double vRest_, double vReset_, double lambdaV_, int tRefr_, double lambdaX_, double alpha_, int dt_) {
-    neuronId = neuronId_;
-    type = type_;
-    multisynapses = multisynapses_;
-    delayMin = delayMin_;
-    delayMax = delayMax_;
-    v = vRest_;
-    vTh = vTh_;
-    vRest = vRest_;
-    vReset = vReset_;
-    lambdaV = lambdaV_;
-    // tRefr = tRefr_;
-    tRefr = tRefr_ / dt_;
-    lambdaX = lambdaX_;
-    alpha = alpha_;
-    dt = dt_;
-
-    maxPreX = -DBL_MAX;
-    minPreX = DBL_MAX;
-    maxWeight = -DBL_MAX; 
-    minWeight = DBL_MAX;
-
-    inRefraction = false;
-    timeLastSpike = 0;
-    vMax = 0;
-
-    spike = 0;
-    learning = true;
-}
 
 LIFneuron::~LIFneuron() {
-    // cout << "Destroying LIFneuron with ID: " << neuronId << endl;
-    // cout << "Number of synapses: " << synapses.size() << endl;
     synapses.clear();
 }
 
@@ -94,7 +81,7 @@ void LIFneuron::setPresynapticLink(shared_ptr<LIFneuron> preNeuron) {
     int delay;
     for (int i = 0; i < multisynapses; i++) {
         delay = randomNumber(delayMin, delayMax);
-        synapses.emplace_back(make_shared<Synapse>(preNeuron, delay, dt, lambdaX, alpha));
+        synapses.emplace_back(make_shared<Synapse>(preNeuron, lambdaX, alpha, winit, delay, dt));
     }
 }
 
@@ -202,7 +189,8 @@ int LIFneuron::updateMembranePotential(double forcingFunction, int t) { // Check
 
     // v += (((-v) + vRest) + forcingFunction) * (dt / lambdaV);
 
-    v += exp(-dt/lambdaV) * v + forcingFunction; // lambdaV = exp(-dt/tauM) && tauM = lambdaV.value(input parameter)
+    // v += exp(-dt/lambdaV) * v + forcingFunction; // lambdaV = exp(-dt/tauM) && tauM = lambdaV.value(input parameter)
+    v += exp(-dt/tauM) * v + forcingFunction; // lambdaV = exp(-dt/tauM) && tauM = lambdaV.value(input parameter)
 
     // double decay = exp(-dt / lambdaV);
     // v = decay * (v - vRest) + vRest + forcingFunction;
@@ -225,14 +213,15 @@ int LIFneuron::updateMembranePotential(double forcingFunction, int t) { // Check
 
 void LIFneuron::STDP() {
     double LTP, LTD = 0.0;
-    double winit, weight, normPreX = 0.0;
-    double a = 0.0; // Check this use as parameter
-    double learningRate = 0.1; // Check this use as parameter
-    double lTh = 0.05; // Check this use as parameter
+    double weight, normPreX = 0.0;
     double mse = 0.0;
+    // double a = 0.0; // Check this use as parameter
+    // double learningRate = 0.1; // Check this use as parameter
+    // double lTh = 0.05; // Check this use as parameter
+    
 
     for (unsigned long i = 0; i < synapses.size(); i++) {
-        winit = synapses[i]->getWinit();
+        // winit = synapses[i]->getWinit();
         weight = synapses[i]->getWeight();
         normPreX = synapses[i]->getNormPreSynapticTrace(minPreX, maxPreX);
         LTP = exp(-weight + winit) * exp(normPreX) - a; // LTPw *LTPx
@@ -244,7 +233,7 @@ void LIFneuron::STDP() {
     
     mse /= synapses.size();
 
-    if (mse > lTh) {
+    if (mse > convergenceTh) {
         learning = false;
         cout << "Neuron " << neuronId << " stopped learning with MSE: " << mse << endl;
     }
