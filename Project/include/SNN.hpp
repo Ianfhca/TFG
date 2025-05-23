@@ -23,7 +23,7 @@ private:
     string timeUnit;
     string dtUnit;
     int maxDelay;
-    vector<pair<NeuronParameters, int>> neuronParams;
+    vector<NeuronParameters> neuronParams;
     // vector<Layer> layers;
     vector<shared_ptr<Layer>> layers;
     // unordered_map<string, deque<int>> inputSpikes;
@@ -32,7 +32,7 @@ private:
 
     void parseParameters(const string &line);
     void parseHyperparameters(const string &line, NeuronParameters &neuron);
-    void parseTopology(const string &line, TopologyParameters &topology, int &neuronsAux);
+    void parseTopology(const string &line, TopologyParameters &topology);
     void parseInput(const string &line);
 public:
     SNN();

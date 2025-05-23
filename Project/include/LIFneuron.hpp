@@ -32,17 +32,20 @@ private:
     int tRefr; // Refractory period
     double lambdaX; // Trace time constant
     double alpha; // Scaling factor for traces
+    // double lTh; // Threshold for learning
     int dt; // Time step
 
-    double maxPreX;
-    double minPreX;
-    double maxWeight;
-    double minWeight;
+    double maxPreX; // Maximum pre-synaptic trace
+    double minPreX; // Minimum pre-synaptic trace
+    double maxWeight; // Maximum weight
+    double minWeight; // Minimum weight
 
     bool inRefraction; // Refractory state
     int timeLastSpike; // Last spike time 
+    double vMax; // Maximum membrane potential
 
     int spike; // Spike value 1 / 0
+    bool learning; // Learning state
     // vector<Synapse> synapses; // Presynaptic neurons
     vector<shared_ptr<Synapse>> synapses; // Presynaptic neurons
 
@@ -53,8 +56,10 @@ public:
     LIFneuron(int neuronId_, int type_, int multisynapses_, int delayMin_, int delayMax_, double vTh_, double vRest_, double vReset_, double lambdaV_, int tRefr_, double lambdaX_, double alpha_, int dt_);
     ~LIFneuron();
     
+    int getNeuronId();
     int getType();
     double getMembranePotential();
+    double getVMax();
     int getSpike();
     void setSpike(int spike_);
 
@@ -63,8 +68,14 @@ public:
     // void updateSpikeAtributes();
     // void updatePresinapticTrace();
     // double updateForcingFunction();
+    void inhibitNeuron(int time);
     int updateNeuronState(int time);
+    // void STDP(unsigned long index);
+    
     void STDP();
+    // double MSE();
+    double MSE(unsigned long index);
 
     // int updateMembranePotential(double forcingFunction, int time);
+    void getFirstWeight();
 };

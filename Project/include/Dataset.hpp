@@ -8,7 +8,10 @@
 #include <algorithm>
 
 using namespace std;
-using SpikeCube = std::vector<std::vector<std::vector<uint8_t>>>;
+// using SpikeCube = vector<vector<vector<uint8_t>>>;
+using SpikePair = pair<vector<vector<uint8_t>>, vector<vector<uint8_t>>>; // ON/OFF
+using SpikeCubePolarity = vector<SpikePair>;
+
 
 struct GestureAnnotation {
     int classLabel; // Between 1 & 11
@@ -38,8 +41,16 @@ struct AedatBlockHeader {
 
 void readAedat(const string& filename, vector<DVSEvent>& eventsOut);
 void readAnnotationsCSV(const string& filename, vector<GestureAnnotation>& annotationsOut);
-SpikeCube convertToSpikeCube(
-    const std::vector<DVSEvent>& events,
+// SpikeCube convertToSpikeCube(
+//     const vector<DVSEvent>& events,
+//     uint32_t startTime,
+//     uint32_t endTime,
+//     uint32_t dt, // timestep duration in µs
+//     int width = 128,
+//     int height = 128
+// );
+SpikeCubePolarity convertToSpikeCubePolarity(
+    const vector<DVSEvent>& events,
     uint32_t startTime,
     uint32_t endTime,
     uint32_t dt, // timestep duration in µs

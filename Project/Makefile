@@ -1,8 +1,12 @@
 # Definir el compilador
 CXX = g++
 
-# Definir las banderas de compilación # -fsanitize=address
-CXXFLAGS = -o -Wall -g -Iinclude -fsanitize=address -std=c++11
+# OpenCV flags
+OPENCV_CFLAGS = $(shell pkg-config --cflags opencv4)
+OPENCV_LIBS = $(shell pkg-config --libs opencv4)
+
+# Definir las banderas de compilación
+CXXFLAGS = -Wall -g -Iinclude -fsanitize=address -std=c++11 $(OPENCV_CFLAGS)
 
 # Definir las carpetas
 SRC_DIR = src
@@ -26,7 +30,7 @@ all: $(EXEC)
 
 # Regla para enlazar el ejecutable
 $(EXEC): $(OBJS)
-	$(CXX) $(CXXFLAGS) -o $@ $^
+	$(CXX) $(CXXFLAGS) -o $@ $^ $(OPENCV_LIBS)
 
 # Regla para compilar los archivos fuente
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp

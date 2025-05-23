@@ -1,5 +1,5 @@
-#include "../include/Utils.h"
-#include "../include/Globals.h"
+#include "../include/Utils.hpp"
+#include "../include/Globals.hpp"
 
 double roundTo(double value, double precision) {
     return round(value / precision) * precision;

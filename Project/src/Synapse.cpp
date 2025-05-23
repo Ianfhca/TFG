@@ -1,17 +1,15 @@
 #include "../include/Synapse.hpp"
 
-// Synapse::Synapse(std::shared_ptr<LIFneuron> preNeuron_, int delay_, int dt_, double lambdaX_, double alpha_)
+// Synapse::Synapse(shared_ptr<LIFneuron> preNeuron_, int delay_, int dt_, double lambdaX_, double alpha_)
 //     : preNeuron(preNeuron_), delay(delay_), dt(dt_), lambdaX(lambdaX_), alpha(alpha_), weight(0.5), cycles((delay / dt) + 1), preSynapticTrace(0.0), sumCycles(0), numSpikes(0) {
-//     std::cout << "Synapse created with delay: " << delay << " and cycles: " << cycles << std::endl;
+//     cout << "Synapse created with delay: " << delay << " and cycles: " << cycles << endl;
 // }
-
+ 
 Synapse::Synapse(shared_ptr<LIFneuron> preNeuron_, int delay_, int dt_, double lambdaX_, double alpha_)
 : preNeuron(preNeuron_), delay(delay_), dt(dt_), lambdaX(lambdaX_), alpha(alpha_), winit(0.5), weight(0.5), cycles(0) {
-    if (dt_ <= 0) throw std::invalid_argument("dt must be greater than 0");
-    if (delay_ < 0) throw std::invalid_argument("delay must be non-negative");
+    if (delay_ < 0) throw invalid_argument("delay must be non-negative");
+    if (dt_ <= 0) throw invalid_argument("dt must be greater than 0");
     cycles = (delay / dt) + 1;
-    // spikesQ = Queue(cycles);
-    // spikesQ.reserve(cycles);
     spikesQ.resize(cycles);
     preSynapticTrace = 0.0;
     sumCycles = 0;
@@ -27,7 +25,7 @@ Synapse::Synapse(shared_ptr<LIFneuron> preNeuron_, int delay_, int dt_, double l
 //     delay = delay_; 
 //     // cycles = (dt == delay) ? 1 : (dt / delay) + 1;
 //     if (dt > 0) cycles = (delay / dt) + 1;
-//     else throw std::invalid_argument("dt must be greater than 0");
+//     else throw invalid_argument("dt must be greater than 0");
 //     cout << cycles << endl;
 //     preSynapticTrace = 0.0;
 //     sumCycles = 0;
@@ -58,34 +56,43 @@ double Synapse::getPreSynapticTrace() {
 }
 
 double Synapse::getNormPreSynapticTrace(double minPreX, double maxPreX) {
-    // (value - min) / (max - min);
-    // print presinaptic trace min and max
-    
-    // double maxTrace = (alpha * lambdaX) / (lambdaX + 1);
-    // return preSynapticTrace / maxTrace;
-
-    // cout << "PreSynapticTrace: " << preSynapticTrace << endl;
-    // cout << "MinPreX: " << minPreX << endl;
-    // cout << "MaxPreX: " << maxPreX << endl;
-    if (maxPreX == minPreX) {
-        // std::cerr << "Error: maxPreX and minPreX are equal, cannot normalize." << std::endl;
-        return 0.0;
-    }
+    if (maxPreX == minPreX) return 0.0;
     return (preSynapticTrace - minPreX) / (maxPreX - minPreX);
+    // double norm = (preSynapticTrace - minPreX) / (maxPreX - minPreX);
+    // return max(0.0, min(1.0, norm)); 
 }
 
 double Synapse::getNormWeight(double minWeight, double maxWeight) {
-    // value - min) / (max - min);
-    // return weight / 1;
-    // double maxWeight = 1.0; // Assuming weight is normalized between 0 and 1
-    // return weight / maxWeight;
+    if (maxWeight == minWeight) return 0.0;
     return (weight - minWeight) / (maxWeight - minWeight);
+    // double norm = (weight - minWeight) / (maxWeight - minWeight);
+    // return max(0.0, min(1.0, norm));
+}
+
+shared_ptr<LIFneuron> Synapse::getPreNeuron() {
+    auto preNeuronShared = preNeuron.lock();
+    if (preNeuronShared) {
+        return preNeuronShared;
+    } else {
+        cerr << "Error: preNeuron is null or destroyed" << endl;
+        return nullptr; // Return a null pointer
+    }
 }
 
 void Synapse::setWeight(double deltaWeight) {
     weight += deltaWeight;
-    if (weight < 0) weight = 0; // Check this es >= 0?
+    // if (weight < 0) weight = 0; // Check this es >= 0?
     // if (weight > 1) weight = 1;
+}
+
+void Synapse::updateSpikeAtributes() {
+    auto preNeuronShared = preNeuron.lock();
+
+    if (preNeuronShared) {
+        if (preNeuronShared->getSpike() == 1) spikesQ.push_back(cycles);
+    } else {
+        cerr << "Error: preNeuron is null or destroyed" << endl;
+    }
 }
 
 int Synapse::obtainSpike() {
@@ -104,16 +111,6 @@ int Synapse::obtainSpike() {
     return spike;
 }
 
-void Synapse::updateSpikeAtributes() {
-    auto preNeuronShared = preNeuron.lock();
-
-    if (preNeuronShared) {
-        if (preNeuronShared->getSpike() == 1) spikesQ.push_back(cycles);
-    } else {
-        std::cerr << "Error: preNeuron is null or destroyed" << std::endl;
-    }
-}
-
 void Synapse::updatePresinapticTrace(int spike) {
     // preSynapticTrace[i][j][d] = (-preSynapticTrace[i][j][d] + (alpha * neurons[j].obtainSpike(d))) * (dt / lambdaX);
     // int spike = obtainSpike();
@@ -129,90 +126,3 @@ double Synapse::updateForcingFunction(int spike) {
     return (spike * weight - preSynapticTrace);
     // return (obtainSpike() * weight - preSynapticTrace);
 }
-
-double Synapse::update() {
-    int spike = 0;
-    double forcingFunction = 0;
-
-    updateSpikeAtributes();
-    spike = obtainSpike();
-    updatePresinapticTrace(spike);
-    forcingFunction = updateForcingFunction(spike);
-    
-    return forcingFunction;
-}
-
-// int Synapse::obtainSpike() {
-//     int spike = 0;
-
-//     if (numSpikes > 0) {
-//         if (numSpikes == 1) spike = (sumCycles == numSpikes) ? 1 : 0;
-//         else spike = (sumCycles % numSpikes == 0) ? 1 : 0;
-        
-//         sumCycles -= 1;
-//         numSpikes -= spike;
-//     }
-//     cout << "Spike: " << spike << endl;
-
-//     return spike;
-// }
-
-// void Synapse::updateSpikeAtributes() {
-//     // cout << "PreNeuron: " << preNeuron->getSpike() << endl;
-//     if (preNeuron != nullptr) {
-//         if (preNeuron->getSpike() == 1) {
-//             sumCycles += cycles;
-//             numSpikes += 1;
-//             cout << "Cycles: " << cycles << " NumSpikes: " << numSpikes << endl;
-//         }
-//     } else {
-//         std::cerr << "Error: preNeuron is null" << std::endl;
-//     }
-// }
-
-// int Synapse::obtainSpike() {
-//     int spike = 0;
-
-//     if (numSpikes < 1) {
-//         updateSpikeAtributes();
-//         if (numSpikes == 1) spike = (sumCycles == 1) ? 1 : 0;
-//         if (sumCycles > 0) sumCycles--;
-//         cout << "SOY 1" << endl;
-//     } else if (numSpikes == 1) {
-//         if (sumCycles > 0) sumCycles--;
-//         if (numSpikes == 1) spike = (sumCycles == 1) ? 1 : 0;
-//         updateSpikeAtributes();
-//         if (numSpikes > 1) if (sumCycles % numSpikes == 0) spike =1;
-//         cout << "SOY 2" << endl;
-//     } else {
-//         if (sumCycles > 0) sumCycles--;
-//         if (sumCycles % numSpikes == 0) spike =1;
-//         updateSpikeAtributes();
-//         cout << "SOY 3" << endl;
-//     }
-
-//     if (spike == 1 && numSpikes > 0) numSpikes--;
-
-//     cout << "sumCycles: " << sumCycles << " NumSpikes: " << numSpikes << "\n" << endl;
-
-//     cout << "Spike: " << spike << endl;
-
-//     return spike;
-// }
-
-// bool Synapse::updateSpikeAtributes() {
-//     bool spike = false;
-//     auto preNeuronShared = preNeuron.lock();
-
-//     if (preNeuronShared) {
-//         if (preNeuronShared->getSpike() == 1) {
-//             sumCycles += cycles;
-//             numSpikes += 1;
-//             std::cout << "sumCycles new: " << sumCycles << " NumSpikes new: " << numSpikes << std::endl;
-//             spike = true;
-//         }
-//     } else {
-//         std::cerr << "Error: preNeuron is null or destroyed" << std::endl;
-//     }
-//     return spike;
-// }

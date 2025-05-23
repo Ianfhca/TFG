@@ -1,0 +1,32 @@
+# Layer 2 (Feature Aggregation)
+layer Merge
+neurons 0
+type 0
+connections sparse
+kernel_size 1
+kernels_amount 1
+multisynapses 1
+delay 1500 1500
+>
+
+# Layer 3 (Local Motion Perception)
+layer MS-Conv
+neurons 0
+type 0
+connections sparse
+kernel_size 7
+kernels_amount 16
+multisynapses 10
+delay 1500 1500
+>
+
+# Layer 4 (Local to Global)
+layer Pooling
+neurons 0
+type 0
+connections sparse
+kernel_size 8
+kernels_amount 16
+multisynapses 1
+delay 1500 1500
+>

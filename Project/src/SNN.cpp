@@ -3,7 +3,7 @@
 
 SNN::SNN(): maxDelay(-1) {}
 
-NeuronParameters::NeuronParameters(): vReset(0), vRest(0), v(0), vTh(0), lambdaV(0), tRefr(0), lambdaX(0), alpha(0) {}
+// NeuronParameters::NeuronParameters(): vReset(0), vRest(0), v(0), vTh(0), lambdaV(0), tRefr(0), lambdaX(0), alpha(0) {}
 
 int SNN::getTime() {
 	return time;
@@ -37,7 +37,7 @@ void SNN::parseParameters(const string &line) {
         }
 		// cout << "Time: " << time << " " << dtUnit << endl;
     }
-}
+} 
 
 void SNN::parseHyperparameters(const string &line, NeuronParameters &neuron) {
     istringstream stream(line);
@@ -52,55 +52,54 @@ void SNN::parseHyperparameters(const string &line, NeuronParameters &neuron) {
     else if (token == "t_refr") stream >> neuron.tRefr;
     else if (token == "lambda_x") stream >> neuron.lambdaX;
     else if (token == "alpha") stream >> neuron.alpha;
-    else if (token == ">") neuronParams.push_back({neuron, 0});
+    else if (token == ">") neuronParams.push_back(neuron);
 }
 
-void SNN::parseTopology(const string &line, TopologyParameters &topology, int &neuronsAux) {
+void SNN::parseTopology(const string &line, TopologyParameters &topology) {
     istringstream stream(line);
     string token;
     stream >> token;
 
-	int neuronType;
-	int numTypeNeurons;
+	// int neuronType;
+	// int numTypeNeurons;
 
-    if (token == "layer") stream >> topology.type;
-    else if (token == "neurons") stream >> topology.numNeurons;
-	else if (token == "type") {
-		stream >> neuronType;
-		stream >> numTypeNeurons;
-		if (neuronType >= neuronParams.size()) {
-			cerr << "Error: Neuron type '" << neuronType << "' out of range." << endl;
-			throw runtime_error("Neuron type out of range");
-		} else if (neuronsAux + numTypeNeurons > topology.numNeurons) {
-			cerr << "Error: Neuron type '" << neuronType << "' on " << topology.type << " layer exceeds the sum of neurons '"<< topology.numNeurons << "'." << endl;
-			throw runtime_error("Neuron type exceeds the number of neurons");	
-		}
-		neuronParams[neuronType].second += numTypeNeurons;
-		neuronsAux += numTypeNeurons;
-	} else if (token == "connections") stream >> topology.connections;
-    else if (token == "multisynapses") stream >> topology.multisynapses;
-    else if (token == "delay") {
+    if (token == "layer") {
+        stream >> topology.type;
+    } else if (token == "neurons") {
+        int aux;
+        stream >> aux;
+        if (aux > 0) {
+            topology.height = aux;
+            stream >> topology.width >> topology.channels;
+        }
+    } else if (token == "type") {
+        stream >> topology.neuronType;
+	} else if (token == "connections") {
+        stream >> topology.connections;
+    } else if (token == "kernel_size" && topology.connections == "sparse") {
+        stream >> topology.r;
+        topology.height = topology.height - topology.r + 1;
+        topology.width = topology.width - topology.r + 1;
+    } else if (token == "kernels_amount" && topology.connections == "sparse") {
+        stream >> topology.k;
+        topology.channels = topology.k;
+    } else if (token == "multisynapses") {
+        stream >> topology.multisynapses;
+    } else if (token == "delay") {
         stream >> topology.delayMin >> topology.delayMax;
-        if (topology.delayMin > topology.delayMin) {
+        if (topology.delayMin > topology.delayMax) {
             cerr << "Error: Invalid delay range." << endl;
             throw runtime_error("Invalid delay range");
         }
         maxDelay = max(maxDelay, topology.delayMax);
-    } else if (token == "sparse_connection" && topology.connections == "sparse") {
-        int from, to;
-        stream >> from >> to;
-        topology.sparseConnections.push_back({from, to});
     } else if (token == ">") {
-		if (neuronsAux != topology.numNeurons) {
-			cerr << "Error: The " << topology.type << " layer's number of neurons does not match the sum of neurons '"<< topology.numNeurons << "'." << endl;
-			throw runtime_error("Number of neurons does not match the sum of neuron types");
-		}
+        topology.numNeurons = topology.height * topology.width * topology.channels;
+        cout << "Creating layer " << topology.type << " with " << topology.numNeurons << " neurons." << endl;
+		layers.emplace_back(make_shared<Layer>(topology, neuronParams[topology.neuronType], dt));
 
-		layers.emplace_back(make_shared<Layer>(topology, neuronParams, dt));
-		
-		for (int i = 0; i < neuronParams.size(); i++) neuronParams[i].second = 0;
-		neuronsAux = 0;
-        topology = {};
+        // if (topology.connections == "sparse") {
+        //     topology = {};
+        // }
     }
 }
 
@@ -162,15 +161,13 @@ void SNN::parseTopology(const string &line, TopologyParameters &topology, int &n
  */
 int SNN::initNetwork(char &file) {
 	string currentSection, line;
-	int neuronsAux = 0;
 	NeuronParameters neuronDefaults;
 	TopologyParameters currentTopology;
-	// layers.reserve(2);
 
 	unordered_map<string, function<void(const string &)>> sectionHandlers = {
         {"PARAMETERS", [this](const string &line) { parseParameters(line); }},
         {"HYPERPARAMETERS", [this, &neuronDefaults](const string &line) { parseHyperparameters(line, neuronDefaults); }},
-        {"TOPOLOGY", [this, &currentTopology, &neuronsAux](const string &line) { parseTopology(line, currentTopology, neuronsAux); }},
+        {"TOPOLOGY", [this, &currentTopology](const string &line) { parseTopology(line, currentTopology); }},
 		// {"INPUT", [this](const string &line) { parseInput(line); }},
     };
 
@@ -186,7 +183,7 @@ int SNN::initNetwork(char &file) {
 
 			 if (line.rfind("--", 0) == 0) {
                 currentSection = line.substr(3, line.size() - 6);
-                cout << "Entering section: " << currentSection << endl;
+                cout << " - Reading section: " << currentSection << endl;
                 continue;
             }
 
@@ -215,27 +212,29 @@ int SNN::initNetwork(char &file) {
  * @return description
  */
 void SNN::linkLayers() {
-	for (int i = 1; i < layers.size(); i++) {
+	for (unsigned long i = 1; i < layers.size(); i++) {
 		layers[i]->setPresynapticLinks(*layers[i - 1]);
 	}
 }
 
 void SNN::viewTopology() {
 	setColor("blue"); cout << "\n-- NETWORK TOPOLOGY --" << endl; setColor("reset");
-	for (int i = 0; i < layers.size(); i++) {
+	for (unsigned long i = 0; i < layers.size(); i++) {
 		setStyle("bold"); cout << "\nLAYER " << i << endl; setStyle("reset");
-		cout << "Layer type: " << layers[i]->getType() << endl;
-		cout << "Neuron model: " << layers[i]->getNumNeurons() << endl;
-		cout << "Neural connections: " << layers[i]->getConnections() << endl;
-		cout << "Multisynapses: " << layers[i]->getMultisynapses() << endl;
-		if (layers[i]->getConnections() == "sparse") {
-			cout << "Sparse connections: " << endl;
-			for (int j = 0; j < layers[i]->getSparseConnections().size(); j++) {
-				cout << layers[i]->getSparseConnections()[j].first << " -> " << layers[i]->getSparseConnections()[j].second << endl;
-			}
+		cout << " Layer: " << layers[i]->getType() << endl;
+        cout << " Dimensions: " << layers[i]->getHeight() << " x " << layers[i]->getWidth() << " x " << layers[i]->getChannels() << endl;
+		// cout << "Neuron model: " << layers[i]->getNumNeurons() << endl;
+        cout << " Neuron type: " << layers[i]->getNeuronsType() << endl;
+		cout << " Neural connections: " << layers[i]->getConnections() << endl;
+        if (layers[i]->getConnections() == "sparse") {
+			// cout << "Sparse connections: " << endl;
+            cout << "  Windows size: " << layers[i]->getRDim() << " x " << layers[i]->getRDim() << endl;
+            cout << "  Kernels: " << layers[i]->getChannels() << endl;
+			// for (int j = 0; j < layers[i]->getSparseConnections().size(); j++) {
+			// 	cout << layers[i]->getSparseConnections()[j].first << " -> " << layers[i]->getSparseConnections()[j].second << endl;
+			// }
 		}
-		layers[i]->getNeuronsType();
-		// cout << endl;
+		cout << " Multisynapses: " << layers[i]->getMultisynapses() << endl;
 	}
 }
 
@@ -337,34 +336,65 @@ void readAnnotationsCSV(const string& filename, vector<GestureAnnotation>& annot
     cout <<  annotationsOut.size() << " anotations have been read.\n";
 }
 
-SpikeCube convertToSpikeCube(
-    const vector<DVSEvent>& events,
+// SpikeCube convertToSpikeCube(
+//     const vector<DVSEvent>& events,
+//     uint32_t startTime,
+//     uint32_t endTime,
+//     uint32_t dt, // timestep duration in µs
+//     int width,
+//     int height
+// ) {
+//     int timeSteps = (endTime - startTime) / dt + 1;
+
+//     SpikeCube cube(timeSteps, vector<vector<uint8_t>>(height, vector<uint8_t>(width, 0)));
+
+//     for (const auto& e : events) {
+//         if (e.timestamp < startTime || e.timestamp > endTime)
+//             continue;
+
+//         int tIndex = (e.timestamp - startTime) / dt;
+//         if (tIndex >= timeSteps || e.x() >= width || e.y() >= height)
+//             continue;
+
+//         cube[tIndex][e.y()][e.x()] = 1;
+//     }
+
+
+//     return cube;
+// }
+
+SpikeCubePolarity convertToSpikeCubesByPolarity(
+    const std::vector<DVSEvent>& events,
     uint32_t startTime,
     uint32_t endTime,
-    uint32_t dt, // timestep duration in µs
-    int width,
-    int height
+    uint32_t dt,
+    int width = 128,
+    int height = 128
 ) {
     int timeSteps = (endTime - startTime) / dt + 1;
+    SpikeCubePolarity cube;
 
-    SpikeCube cube(timeSteps, vector<vector<uint8_t>>(height, vector<uint8_t>(width, 0)));
-
-    for (const auto& e : events) {
-        if (e.timestamp < startTime || e.timestamp > endTime)
-            continue;
-
-        int tIndex = (e.timestamp - startTime) / dt;
-        if (tIndex >= timeSteps || e.x() >= width || e.y() >= height)
-            continue;
-
-        cube[tIndex][e.y()][e.x()] = 1;
+    for (int t = 0; t < timeSteps; ++t) {
+        std::vector<std::vector<uint8_t>> mapON(height, std::vector<uint8_t>(width, 0));
+        std::vector<std::vector<uint8_t>> mapOFF(height, std::vector<uint8_t>(width, 0));
+        cube.emplace_back(mapON, mapOFF);
     }
 
+    for (const auto& e : events) {
+        if (e.timestamp < startTime || e.timestamp > endTime) continue;
+
+        unsigned long tIndex = (e.timestamp - startTime) / dt;
+        if (tIndex >= cube.size() || e.x() >= width || e.y() >= height) continue;
+
+        if (e.polarity()) {
+            cube[tIndex].first[e.y()][e.x()] = 1;  // ON
+        } else {
+            cube[tIndex].second[e.y()][e.x()] = 1; // OFF
+        }
+    }
 
     return cube;
 }
-
-
 
 void SNN::trainNetwork() {
 	string aedatFile = "./dataset/DvsGesture/user10_fluorescent_led.aedat";
@@ -373,41 +403,63 @@ void SNN::trainNetwork() {
     vector<DVSEvent> events;
     vector<GestureAnnotation> annotations;
 
+    int indexON = 0;
+    int indexOFF = 0;
+
+    setColor("blue"); cout << "\n-- TRAINING NETWORK --\n" << endl; setColor("reset");
+
     readAedat(aedatFile, events);
     readAnnotationsCSV(csvFile, annotations);
 
     // Choose the first gesture for training
-    GestureAnnotation gesture = annotations[0];
-    uint32_t dt = 10000; // 1ms
+    // GestureAnnotation gesture = annotations[0];
+    // uint32_t dt = 100; // 1ms
 
-    SpikeCube spikeData = convertToSpikeCube(events, gesture.startTime_usec, gesture.endTime_usec, dt, 128, 128);
-
-	for (size_t i = 0; i < annotations.size(); ++i) {
-        auto& ann = annotations[i];
+    for (unsigned long i = 0; i < annotations.size(); ++i) {
+    // for (int i = 0; i < 1; ++i) {
+        GestureAnnotation gesture = annotations[i];
         size_t count = count_if(events.begin(), events.end(), [&](const DVSEvent& evt) {
-            return evt.timestamp >= ann.startTime_usec && evt.timestamp <= ann.endTime_usec;
-        });
-
+                return evt.timestamp >= gesture.startTime_usec && evt.timestamp <= gesture.endTime_usec;
+            });
+        // cout << "Gesture " << i + 1
+        //           << " (class " << gesture.classLabel << ") from "
+        //           << gesture.startTime_usec << " to "
+        //           << gesture.endTime_usec << " usec.\n";
         cout << "Gesture " << i + 1
-                  << " (class " << ann.classLabel << ") has "
-                  << count << " events.\n";
+                    << " (class " << gesture.classLabel << ") has "
+                    << count << " events.\n";
+
+        // SpikeCube spikeData = convertToSpikeCube(events, gesture.startTime_usec, gesture.endTime_usec, dt);
+        SpikeCubePolarity spikeData = convertToSpikeCubesByPolarity(events, gesture.startTime_usec, gesture.endTime_usec, dt);
+
+
+        cout << "Processing spike map with "
+                << spikeData.size() << " time steps.\n";
+
+        for (size_t t = 0; t < spikeData.size(); ++t) {
+            auto& mapON = spikeData[t].first;
+            auto& mapOFF = spikeData[t].second;
+
+            for (int y = 0; y < 128; ++y) {
+                for (int x = 0; x < 128; ++x) {
+                    indexON = ((y * 128) + x);
+                    indexOFF = ((128 * 128) + (y * 128) + x);
+
+                    layers[0]->getNeuron(indexON)->setSpike(mapON[y][x]);
+
+                    layers[0]->getNeuron(indexOFF)->setSpike(mapOFF[y][x]);
+                }
+            }
+
+            for (unsigned long index = 1; index < layers.size(); index++) {
+                // setStyle("bold"); cout << "Layer " << i << endl; setStyle("reset");
+                layers[index]->feedForward(index, t);
+                // layers[i]->visualizeSpikes(t);
+            }
+            if (t % 50 == 0) cout << "Time step " << t << endl;
+        }
+        layers[2]->showSpikeHistory();
     }
-
-    cout << "Mapa de spikes generado con "
-              << spikeData.size() << " pasos temporales.\n";
-
-	// for (size_t t = 0; t < spikeData.size(); ++t) {
-	// 	for (int y = 0; y < 128; ++y) {
-	// 		for (int x = 0; x < 128; ++x) {
-	// 			layers[0]->getNeuron(y * 128 + x)->setSpike(spikeData[t][y][x]); // Reset neuron spike state
-	// 		}
-	// 	}
-
-	// 	for (int i = 1; i < layers.size(); i++) {
-	// 		// setStyle("bold"); cout << "Layer " << i << endl; setStyle("reset");
-	// 		layers[i]->feedForward(i, t);
-	// 	}
-	// }
 }
 
 

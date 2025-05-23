@@ -1,9 +1,11 @@
 -- PARAMETERS --
 
 # Time stages (m, s, ms, us, ns)
-time 1 s
-dt 200 ms #Integer value gratter than 0
+time 1 s # Delete this value
 #learning_rate
+#dt 1000 us #Integer value gratter than 0
+dt 10000 us
+#dt 500 us
 >
 
 -- HYPERPARAMETERS --
@@ -18,6 +20,10 @@ lambda_v 20.0
 t_refr 2
 lambda_x 20.0
 alpha 0.1
+#weights 0.5
+#learning_rate 0.0001
+#a 0
+#convergence_th 0.05
 >
 
 # Type 1
@@ -33,73 +39,40 @@ alpha 0.1
 
 -- TOPOLOGY --
 
-# Capa 0 (entrada)
+# Layer 0 (Input Layer)
 layer input
-neurons 16384 # (128x128)
-type 0 16384 # (type amount)
-connections dense
-multisynapses 1
-delay 100 250 # (Same unit as dt)
->
-
-# Capa 1 (oculta 1)
-layer excitatory
-neurons 5
-type 0 5
-connections dense
-multisynapses 1
-delay 100 450
->
-
-# Capa 2 (oculta 2)
-layer excitatory
-neurons 4
-type 0 4
-connections dense
-multisynapses 2
-delay 100 600
->
-
-# Capa 3 (salida)
-layer output
-neurons 2
-type 0 2
+neurons 128 128 2 # (Height x Width x Channels)
+type 0
 connections none
 multisynapses 1
-delay 100 250
+delay 1 1 # (Same unit as dt)
 >
 
-#-- INPUT --
+# Layer 1 (Feature Extraction)
+layer SS-Conv
+neurons 0
+type 0
+connections sparse
+kernel_size 5 # (window size rxr)
+kernels_amount 2 # (output maps k)
+multisynapses 1
+delay 5000 15000
+>
 
-# *There must be a "dt" time gap between each spike*
-
-# Neuron 1 spikes
-#N0 250 155 500
-
-# Neuron 2 spikes
-#N1 250 155 500
-
-# Neuron 3 spikes
-#N2 250 155 500
-
+# Layer 5 (Global Motion Perception)
+layer Dense
+neurons 11 1 1
+type 0
+connections dense
+multisynapses 1
+#delay 1500 1500
+delay 5000 15000
+>
 
 #----------------------------------------------------------------------------------------------------------------
 # Falta realizar correctamente las sparse connections
-# Eliminar las matrices de pesos etc. y cambiar por parametro en synapse
 
 # Sparse connections de capa 0 a capa 1
-
-# Hay que eliminar las spikes que se queden en una multisinapsis que no ha sido la encargada de que la post neurona llegue al umbral para el periodo de refraccion?
-# Con la multisinapsis se envia la información por los multiples canales y se reciben todos en la neurona posterior con sus respectivos delays. ENTRA EN REFRACCION LA NEURONA ENTERA.
-
-# El input de una neurona puede estar vacio?
-# Si puede ser vacio pero pero no hacer ahora.
-
-# Como gestiono que se generen multiples spikes en la capa de entrada por debajo de la cantidad de dt?
-
-# V decae hasta cero pero realmente nunca es cero. 0,0000000000000000000000000008 NO TIENE SENTIDO YA
-
-# Gestionar el maxDelay en el bucle. Que pasa si hay mas spikes que tiempo de simulación?
 
 #connections sparse
 #sparse_connection 0 0
@@ -109,36 +82,40 @@ delay 100 250
 
 # Tener en cuenta los delays acumulados para la finalización de la simulación
 
-# Mirar delays para saber si se envian correctamente las spikes desde la capa 0
-
 #lamdaX = -1/tau_m
-#0.1 o 1 ms -> pasar a microsegundos
-
-#codificación de datos para SNN
-
-# Mirar esto si puede ser en el mismo ciclo de la spike: cycles = (dt == delay) ? 1 : (dt / delay) + 1;
-# Con dos obtainSpike() funciona pero solo debería haber 1
 
 # Comprobar que la forcing function no sea += en vez de = ·
 # Arreglar delays ·
+# Funcionamiento multisinapsis ·
+# Corregir updateNeuron. Mirar si forcing function se tiene que hacer para multisyinapsis tambn. for(i; i < multisyinapsis; i++) ·
+# Separar ficheros datos y estructura ·
+# Enlazar dataset ·
+# STDP (Backpropagation) ·
 # TODO ------------------------------------------------------------------------------------- Modificar t del membrane potential
-
-# Funcionamiento multisinapsis
-
-# Corregir updateNeuron. Mirar si forcing function se tiene que hacer para multisyinapsis tambn. for(i; i < multisyinapsis; i++)
 
 # Cambiar nombres tau etc. para los delays (Jose)
 
-# Separar ficheros datos y estructura
-
-# Enlazar dataset
-
-# STDP (Backpropagation) ·
 # a and learning_rate as parameters
 
 # Documentar cada método
 # Gráficos
 
 
+# Falta hacer bucle para recorrer todos los gestos de todos los ficheros de train. ·
+# Falta ajustar el dt para que coincida con el dt pasado por parametro. ·
+# Falta formula MSE del STDP.
+# Falta guardar pesos en fichero binario e implementar test.
+# Falta salida de la red ????
+# Falta graficos (mapa de calor, MSE...)
+
 # Preguntas JOSE:
 # El forcing function hay que sumarlo?
+# Que es la salida de la red? - Simplemente guardar las spikes de salida
+# Limitaciones pesos y trazas preX? (Sinapsis.cpp entre 0 y 1) Apendice B paper - No
+# El ganador es el que actualiza el STDP solamente? - Si
+# Las locally connected neurons comparten pesos? Hay que tener una W en neuron en la que se haga el dot product de todas las synapsis? - No
+
+
+# Los setWeight() hay que sumar o no? +=
+# la neurona 13078 deja de aprender
+# la traza presinaptica y los pesos se están normalizando mal puede

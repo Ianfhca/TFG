@@ -32,16 +32,21 @@ const double ALPHA = 0.1;
 struct NeuronParameters {
     double vReset, vRest, v, vTh, lambdaV, lambdaX, alpha;
     int tRefr;
-    NeuronParameters();
 };
 
 struct TopologyParameters {
     string type;
+    int height = 0;
+    int width = 0;
+    int channels = 0;
     int numNeurons = 0;
+    int neuronType = 0;
     string connections;
+    int r = 0;
+    int k = 0;
     int multisynapses = 0;
     int delayMin = 0;
     int delayMax = 0;
     bool sparse = false;
-    vector<pair<int, int>> sparseConnections;
+    // vector<pair<int, int>> sparseConnections;
 };
