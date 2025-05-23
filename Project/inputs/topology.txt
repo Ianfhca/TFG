@@ -40,7 +40,7 @@ alpha 0.1
 -- TOPOLOGY --
 
 # Layer 0 (Input Layer)
-layer input
+layer Input
 neurons 128 128 2 # (Height x Width x Channels)
 type 0
 connections none
@@ -52,7 +52,7 @@ delay 1 1 # (Same unit as dt)
 layer SS-Conv
 neurons 0
 type 0
-connections sparse
+connections local
 kernel_size 5 # (window size rxr)
 kernels_amount 2 # (output maps k)
 multisynapses 1
@@ -68,6 +68,31 @@ multisynapses 1
 #delay 1500 1500
 delay 5000 15000
 >
+
+# Layer 6 (Class prediction)
+layer Output
+neurons 11 1 1
+type 0
+connections sparse
+sparse_connection 0 0
+sparse_connection 1 1
+sparse_connection 2 2
+sparse_connection 3 3
+sparse_connection 4 4
+sparse_connection 5 5
+sparse_connection 6 6
+sparse_connection 7 7
+sparse_connection 8 8
+sparse_connection 9 9
+sparse_connection 10 10
+multisynapses 1
+delay 1 1
+>
+#connections sparse
+#sparse_connection 0 0
+#sparse_connection 1 1
+#sparse_connection 2 1
+#sparse_connection 3 0
 
 #----------------------------------------------------------------------------------------------------------------
 # Falta realizar correctamente las sparse connections

@@ -64,9 +64,9 @@ double Synapse::getNormPreSynapticTrace(double minPreX, double maxPreX) {
 
 double Synapse::getNormWeight(double minWeight, double maxWeight) {
     if (maxWeight == minWeight) return 0.0;
-    return (weight - minWeight) / (maxWeight - minWeight);
-    // double norm = (weight - minWeight) / (maxWeight - minWeight);
-    // return max(0.0, min(1.0, norm));
+    // return (weight - minWeight) / (maxWeight - minWeight);
+    double norm = (weight - minWeight) / (maxWeight - minWeight);
+    return max(0.0, min(1.0, norm)); // Check this clipping [0, 1]
 }
 
 shared_ptr<LIFneuron> Synapse::getPreNeuron() {
@@ -79,8 +79,10 @@ shared_ptr<LIFneuron> Synapse::getPreNeuron() {
     }
 }
 
-void Synapse::setWeight(double deltaWeight) {
+void Synapse::updateWeight(double deltaWeight) {
+    // cout << "Weight before: " << weight << "Weight after: " << weight+deltaWeight << endl;
     weight += deltaWeight;
+    // if (weight > 1 || weight < -1) cout << "Weight exceed: " << weight << endl;
     // if (weight < 0) weight = 0; // Check this es >= 0?
     // if (weight > 1) weight = 1;
 }
@@ -115,7 +117,8 @@ void Synapse::updatePresinapticTrace(int spike) {
     // preSynapticTrace[i][j][d] = (-preSynapticTrace[i][j][d] + (alpha * neurons[j].obtainSpike(d))) * (dt / lambdaX);
     // int spike = obtainSpike();
     preSynapticTrace = (-preSynapticTrace * (1/lambdaX)) + (alpha * spike);
-    if (preSynapticTrace < 0) preSynapticTrace = 0; // Check this tiene que ser >= 0
+    if (preSynapticTrace < 0) preSynapticTrace = 0;
+    // preSynapticTrace += (alpha * spike - preSynapticTrace) * (dt / lambdaX);
     // cout << "Spike: " << spike << " PreSynapticTrace: " << preSynapticTrace << endl;
 }
 
@@ -124,5 +127,4 @@ double Synapse::updateForcingFunction(int spike) {
     // int spike = obtainSpike();
     // cout << "Spike: " << spike << " pS:" << preSynapticTrace << endl;
     return (spike * weight - preSynapticTrace);
-    // return (obtainSpike() * weight - preSynapticTrace);
 }

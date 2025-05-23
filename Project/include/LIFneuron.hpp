@@ -70,11 +70,12 @@ public:
     // double updateForcingFunction();
     void inhibitNeuron(int time);
     int updateNeuronState(int time);
+    int gatherSpike(int time);
     // void STDP(unsigned long index);
     
     void STDP();
     // double MSE();
-    double MSE(unsigned long index);
+    double MSE(unsigned long index, double normPreX);
 
     // int updateMembranePotential(double forcingFunction, int time);
     void getFirstWeight();

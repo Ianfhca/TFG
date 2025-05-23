@@ -48,5 +48,5 @@ struct TopologyParameters {
     int delayMin = 0;
     int delayMax = 0;
     bool sparse = false;
-    // vector<pair<int, int>> sparseConnections;
+    vector<pair<int, int>> sparseConnections;
 };

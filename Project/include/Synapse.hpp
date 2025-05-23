@@ -49,7 +49,7 @@ public:
     // double getSpike();
     // double getMembranePotential();
     shared_ptr<LIFneuron> getPreNeuron();
-    void setWeight(double deltaWeight);
+    void updateWeight(double deltaWeight);
     
     void updateSpikeAtributes();
     int obtainSpike();

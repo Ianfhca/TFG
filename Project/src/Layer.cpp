@@ -12,7 +12,7 @@ Layer::Layer(const TopologyParameters &topology, const NeuronParameters &neuronP
     neuronType = topology.neuronType;
     connections = topology.connections;
     multisynapses = topology.multisynapses;
-    // sparseConnections = topology.sparseConnections;
+    sparseConnections = topology.sparseConnections;
     rDim = topology.r;
     // kDim = topology.k;
 
@@ -78,8 +78,12 @@ shared_ptr<LIFneuron> Layer::getNeuron(int i) {
     return neurons[i];
 };
 
+vector<pair<int, int>>& Layer::getSparseConnections() {
+    return sparseConnections;
+};
+
 void Layer::setPresynapticLinks(Layer &preLayer) {
-    if (connections == "sparse") { // Check this sparse connections
+    if (connections == "local") {
         int preHeight = preLayer.getHeight();
         int preWidth = preLayer.getWidth();
         int preChannels = preLayer.getChannels();
@@ -110,6 +114,15 @@ void Layer::setPresynapticLinks(Layer &preLayer) {
             }
             // cout << "Neuron " << neuronIdx << " connected to Pre-Neuron " << preNeuronIdx  << " (ch: " << ch << ")" << " (H: " << preY << ", W: " << preX << ", Ch: " << preCh << ")" << endl;
         }
+    } else if (connections == "sparse") {
+        int preNeuronIdx, neuronIdx = 0;
+
+        for (unsigned long i = 0; i < sparseConnections.size(); i++) {
+            preNeuronIdx = sparseConnections[i].first;
+            neuronIdx = sparseConnections[i].second;
+            neurons[neuronIdx]->setPresynapticLink(preLayer.neurons[preNeuronIdx]);
+            // cout << "Neuron " << neuronIdx << " connected to Pre-Neuron " << preNeuronIdx << endl;
+        }
     } else {
         int preNumNeurons = preLayer.getNumNeurons();
         for (int i = 0; i < numNeurons; i++) {
@@ -124,18 +137,23 @@ void Layer::feedForward(int layerId, int t) {
     int spike = 0;
     
     for (int i = 0; i < numNeurons; i++) {
-        // neurons[i]->updateNeuronState(t);
-        spike = neurons[i]->updateNeuronState(t);
-        if (type == "Dense") {
-            // if (i < 20) neurons[i]->getFirstWeight();
-            if (spike == 1) spikeHistory[i] +=1;
-            // cout << "Layer " << layerId << " Neuron " << i << " Spike: " << spike << " " << spikeHistory[i] << neurons[i]-> << endl;
+        if (type == "Output") {
+            spike = neurons[i]->gatherSpike(t);
+            spikeHistory[i] += spike;
+        } else {
+            spike = neurons[i]->updateNeuronState(t);
+            if (type == "Dense") {
+                spikeHistory[i] += spike;
+                if (i == 0) {
+                    // neurons[i]->getFirstWeight();
+                }
+            }
         }
     }
 }
 
 void Layer::showSpikeHistory() {
-    for (int i = 0; i < neurons.size(); i++) {
+    for (unsigned long i = 0; i < neurons.size(); i++) {
         cout << "Neuron " << i << " Spike History: " << spikeHistory[i] << endl;
     }
 }

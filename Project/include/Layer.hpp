@@ -25,7 +25,7 @@ private:
     int rDim;
     // int kDim;
     int multisynapses;
-    // vector<pair<int, int>> sparseConnections;
+    vector<pair<int, int>> sparseConnections;
 
     // vector<LIFneuron> neurons;
     vector<shared_ptr<LIFneuron>> neurons;
@@ -49,6 +49,7 @@ public:
     int getRDim();
     int getMultisynapses();
     shared_ptr<LIFneuron> getNeuron(int i);
+    vector<pair<int, int>>& getSparseConnections();
     // vector<LIFneuron>& getNeurons();
     
 

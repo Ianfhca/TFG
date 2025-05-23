@@ -76,13 +76,17 @@ void SNN::parseTopology(const string &line, TopologyParameters &topology) {
         stream >> topology.neuronType;
 	} else if (token == "connections") {
         stream >> topology.connections;
-    } else if (token == "kernel_size" && topology.connections == "sparse") {
+    } else if (token == "kernel_size" && topology.connections == "local") {
         stream >> topology.r;
         topology.height = topology.height - topology.r + 1;
         topology.width = topology.width - topology.r + 1;
-    } else if (token == "kernels_amount" && topology.connections == "sparse") {
+    } else if (token == "kernels_amount" && topology.connections == "local") {
         stream >> topology.k;
         topology.channels = topology.k;
+    } else if (token == "sparse_connection" && topology.connections == "sparse") {
+        int from, to;
+        stream >> from >> to;
+        topology.sparseConnections.push_back({from, to});
     } else if (token == "multisynapses") {
         stream >> topology.multisynapses;
     } else if (token == "delay") {
@@ -226,15 +230,17 @@ void SNN::viewTopology() {
 		// cout << "Neuron model: " << layers[i]->getNumNeurons() << endl;
         cout << " Neuron type: " << layers[i]->getNeuronsType() << endl;
 		cout << " Neural connections: " << layers[i]->getConnections() << endl;
-        if (layers[i]->getConnections() == "sparse") {
-			// cout << "Sparse connections: " << endl;
+        if (layers[i]->getConnections() == "local") {
             cout << "  Windows size: " << layers[i]->getRDim() << " x " << layers[i]->getRDim() << endl;
             cout << "  Kernels: " << layers[i]->getChannels() << endl;
-			// for (int j = 0; j < layers[i]->getSparseConnections().size(); j++) {
-			// 	cout << layers[i]->getSparseConnections()[j].first << " -> " << layers[i]->getSparseConnections()[j].second << endl;
-			// }
+		} else if (layers[i]->getConnections() == "sparse") {
+			cout << " Sparse connections: " << endl;
+			for (unsigned long j = 0; j < layers[i]->getSparseConnections().size(); j++) {
+				cout << "  " << layers[i]->getSparseConnections()[j].first << " -> " << layers[i]->getSparseConnections()[j].second << endl;
+			}
 		}
 		cout << " Multisynapses: " << layers[i]->getMultisynapses() << endl;
+        // cout << " Delay range: " << layers[i]->getDelayMin() << " - " << layers[i]->getDelayMax() << endl;
 	}
 }
 
@@ -457,8 +463,10 @@ void SNN::trainNetwork() {
                 // layers[i]->visualizeSpikes(t);
             }
             if (t % 50 == 0) cout << "Time step " << t << endl;
+            // layers[3]->showSpikeHistory();
         }
         layers[2]->showSpikeHistory();
+        layers[3]->showSpikeHistory();
     }
 }
 

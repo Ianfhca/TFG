@@ -147,7 +147,6 @@ int LIFneuron::updateNeuronState(int t) {
                         forcingFunction += synapses[winner]->updateForcingFunction(s);
 
                         preNeuron->STDP();
-
                         // cout << "Neuron " << neuronId << " winner synapse: " << winner << endl;
                     } else {
                         preNeuron->inhibitNeuron(t);
@@ -156,6 +155,14 @@ int LIFneuron::updateNeuronState(int t) {
                         synapses[i]->updatePresinapticTrace(s);
                         forcingFunction += synapses[i]->updateForcingFunction(s);
                     }
+
+                    aux = synapses[i]->getPreSynapticTrace();
+                    if (aux > maxPreX) maxPreX = aux;
+                    if (aux < minPreX) minPreX = aux;
+                    aux = synapses[i]->getWeight();
+                    if (aux > maxWeight) maxWeight = aux;
+                    if (aux < minWeight) minWeight = aux;
+
                 } else {
                     std::cerr << "Error: synapse is null" << std::endl;
                 }
@@ -223,7 +230,6 @@ void LIFneuron::STDP() {
     double learningRate = 0.1; // Check this use as parameter
     double lTh = 0.05; // Check this use as parameter
     double mse = 0.0;
-    // double aux = 0.0;
 
     for (unsigned long i = 0; i < synapses.size(); i++) {
         winit = synapses[i]->getWinit();
@@ -231,15 +237,11 @@ void LIFneuron::STDP() {
         normPreX = synapses[i]->getNormPreSynapticTrace(minPreX, maxPreX);
         LTP = exp(-weight + winit) * exp(normPreX) - a; // LTPw *LTPx
         LTD = -exp(weight - winit) * exp(1 - normPreX) - a; // LTDw *LTDx
-        synapses[i]->setWeight(learningRate * (LTP + LTD));
-        mse += MSE(i);
-        // aux = synapses[i]->getWeight();
-        // if (normPreX > 0) cout << neuronId << " PreSynapticTrace: " << synapses[i]->getPreSynapticTrace() << endl;
+        synapses[i]->updateWeight(learningRate * (LTP + LTD));
+        mse += MSE(i, normPreX);
+        // if (normPreX < 0 || normPreX > 1) cout << neuronId << " PreSynapticTrace: " << synapses[i]->getPreSynapticTrace() << endl;
     }
-
-    // if (aux != 0) cout << neuronId << " Weights: " << aux << endl;
     
-
     mse /= synapses.size();
 
     if (mse > lTh) {
@@ -248,17 +250,13 @@ void LIFneuron::STDP() {
     }
 }
 
-double LIFneuron::MSE(unsigned long index) {
-    double mse = 0.0;
+double LIFneuron::MSE(unsigned long index, double normPreX) {
     double normWeight = 0.0;
-    double normPreX = 0.0;
 
     normWeight = synapses[index]->getNormWeight(minWeight, maxWeight);
-    normPreX = synapses[index]->getNormPreSynapticTrace(minPreX, maxPreX);
+    // if (normWeight < 0 || normWeight > 1) cout << neuronId << " NormWeight: " << normWeight << endl;
 
-    mse += pow(normPreX - normWeight, 2);
-
-    return mse;
+    return pow((normPreX - normWeight), 2);
 }
 
 // void LIFneuron::STDP(unsigned long index) {
@@ -294,7 +292,7 @@ double LIFneuron::MSE(unsigned long index) {
 
 void LIFneuron::getFirstWeight() {
     if (!synapses.empty()) {
-        for (unsigned long i = 0; i < synapses.size(); i++) {
+        for (unsigned long i = 0; i < synapses.size() / 2; i++) {
             if (synapses[i]) {
                 cout << "Neuron " << neuronId << " synapse " << i << " weight: " << synapses[i]->getWeight() << endl;
             }
@@ -302,4 +300,21 @@ void LIFneuron::getFirstWeight() {
         // return synapses[0]->getWeight();
     }
     // return 0.0; 
+}
+
+int LIFneuron::gatherSpike(int t) {
+    int s = 0;
+    shared_ptr<LIFneuron> preNeuron = nullptr;
+
+    for (unsigned long i = 0; i < synapses.size(); i++) {
+        synapses[i]->updateSpikeAtributes();
+        s = synapses[i]->obtainSpike();
+        
+        if (s == 1) {
+            preNeuron = synapses[i]->getPreNeuron();
+            preNeuron->STDP();
+        }
+    }
+
+    return s;
 }
