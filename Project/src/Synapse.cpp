@@ -9,7 +9,7 @@ Synapse::Synapse(shared_ptr<LIFneuron> preNeuron_, double lambdaX_, double alpha
 : preNeuron(preNeuron_), lambdaX(lambdaX_), alpha(alpha_), weight(weight_), delay(delay_), dt(dt_) {
     if (delay_ < 0) throw invalid_argument("delay must be non-negative");
     if (dt_ <= 0) throw invalid_argument("dt must be greater than 0");
-    cycles = (delay / dt) + 1;
+    cycles = floor(delay / dt) + 1;
     spikesQ.resize(cycles);
     preSynapticTrace = 0.0;
     // sumCycles = 0;
@@ -65,6 +65,15 @@ double Synapse::getNormWeight(double minWeight, double maxWeight) {
     return max(0.0, min(1.0, norm)); // Check this clipping [0, 1]
 }
 
+void Synapse::setWeight(double weight_) {
+    // if (weight_ < 0 || weight_ > 1) {
+    //     cerr << "Error: Weight must be in the range [0, 1]. Setting to 0.5." << endl;
+    //     weight = 0.5; // Default value if out of range
+    // } else {
+        weight = weight_;
+    // }
+}
+
 shared_ptr<LIFneuron> Synapse::getPreNeuron() {
     auto preNeuronShared = preNeuron.lock();
     if (preNeuronShared) {
@@ -87,7 +96,10 @@ void Synapse::updateSpikeAtributes() {
     auto preNeuronShared = preNeuron.lock();
 
     if (preNeuronShared) {
-        if (preNeuronShared->getSpike() == 1) spikesQ.push_back(cycles);
+        if (preNeuronShared->getSpike() == 1) {
+            spikesQ.push_back(cycles);
+            // preNeuronShared->setSpike(0); // Check this
+        }
     } else {
         cerr << "Error: preNeuron is null or destroyed" << endl;
     }

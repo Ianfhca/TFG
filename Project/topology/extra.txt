@@ -1,0 +1,78 @@
+# Type 1
+v_reset -60.0
+v_rest -60.0
+v -60.0
+v_th -45.0
+tau_m 20.0 #lambda_v 20.0
+t_refr 1
+lambda_x 20.0
+alpha 0.1
+weights 0.5
+learning_rate 0.0001
+a 0
+convergence_th 0.05
+>
+
+#------------------------------------
+
+# Layer 2 (Feature Aggregation)
+layer Merge
+neurons 0
+type 0
+connections local
+kernel_size 1
+kernels_amount 1
+multisynapses 1
+delay 500 1500
+>
+
+# Layer 3 (Local Motion Perception)
+layer MS-Conv
+neurons 0
+type 0
+connections local
+kernel_size 7
+kernels_amount 16
+multisynapses 10
+delay 500 1500
+>
+
+# Layer 4 (Local to Global)
+layer Pooling
+neurons 0
+type 0
+connections local
+kernel_size 8
+kernels_amount 16
+multisynapses 1
+delay 500 1500
+>
+
+#--------------------------------
+
+# Layer 6 (Class prediction)
+layer Output
+neurons 11 1 1
+type 0
+connections sparse
+sparse_connection 0 0
+sparse_connection 1 1
+sparse_connection 2 2
+sparse_connection 3 3
+sparse_connection 4 4
+sparse_connection 5 5
+sparse_connection 6 6
+sparse_connection 7 7
+sparse_connection 8 8
+sparse_connection 9 9
+sparse_connection 10 10
+multisynapses 1
+#wta false
+delay 1 1
+>
+
+#connections sparse
+#sparse_connection 0 0
+#sparse_connection 1 1
+#sparse_connection 2 1
+#sparse_connection 3 0

@@ -10,6 +10,8 @@
 #include <memory>
 #include <vector>
 #include <string>
+#include <filesystem>
+#include <fstream>
 
 using namespace std;
 
@@ -54,7 +56,10 @@ public:
     
 
     void setPresynapticLinks(Layer &preLayer);
-    void feedForward(int layerId, int t);
+    void feedForward(const string& mode, int classLabel, int t);
+
+    void saveWeights(const string& baseName, const int layerId);
+    void loadWeights(const std::string& baseName, const int layerId);
 
     void showSpikeHistory();
 

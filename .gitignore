@@ -1,2 +1,5 @@
 # Ignore the dataset directory
 Project/dataset
+
+# Ignore output files
+Project/output

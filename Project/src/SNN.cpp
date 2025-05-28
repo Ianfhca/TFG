@@ -5,13 +5,13 @@ SNN::SNN(): maxDelay(-1) {}
 
 // NeuronParameters::NeuronParameters(): vReset(0), vRest(0), v(0), vTh(0), lambdaV(0), tRefr(0), lambdaX(0), alpha(0) {}
 
-int SNN::getTime() {
-	return time;
-}
+// int SNN::getTime() {
+// 	return time;
+// }
 
-int SNN::getDt() {
-	return dt;
-}
+// int SNN::getDt() {
+// 	return dt;
+// }
 
 SNN::~SNN() {
     cout << "Destroying SNN" << endl;
@@ -35,7 +35,7 @@ void SNN::parseParameters(const string &line) {
             cerr << "Error: Invalid time conversion." << endl;
             throw runtime_error("Invalid time conversion");
         }
-		// cout << "Time: " << time << " " << dtUnit << endl;
+		cout << "Time: " << time << " " << dtUnit << endl;
     }
 } 
 
@@ -54,7 +54,7 @@ void SNN::parseHyperparameters(const string &line, NeuronParameters &neuron) {
     else if (token == "alpha") stream >> neuron.alpha;
     else if (token == "weight") stream >> neuron.weight;
     else if (token == "learning_rate") stream >> neuron.learningRate;
-    else if (token == "a") stream >> neuron.a;
+    else if (token == "a") stream >> neuron.aValue;
     else if (token == "convergence_th") stream >> neuron.convergenceTh;
     else if (token == ">") neuronParams.push_back(neuron);
     // else if (token == "lambda_v") stream >> neuron.lambdaV;
@@ -101,8 +101,14 @@ void SNN::parseTopology(const string &line, TopologyParameters &topology) {
             throw runtime_error("Invalid delay range");
         }
         maxDelay = max(maxDelay, topology.delayMax);
+        // cout << "Max delay: " << maxDelay << endl;
     } else if (token == ">") {
         topology.numNeurons = topology.height * topology.width * topology.channels;
+        if (topology.type == "Input") {
+            height = topology.height;
+            width = topology.width;
+            channels = topology.channels;
+        }
         cout << "Creating layer " << topology.type << " with " << topology.numNeurons << " neurons." << endl;
 		layers.emplace_back(make_shared<Layer>(topology, neuronParams[topology.neuronType], dt));
 
@@ -347,47 +353,13 @@ void readAnnotationsCSV(const string& filename, vector<GestureAnnotation>& annot
     cout <<  annotationsOut.size() << " anotations have been read.\n";
 }
 
-// SpikeCube convertToSpikeCube(
-//     const vector<DVSEvent>& events,
-//     uint32_t startTime,
-//     uint32_t endTime,
-//     uint32_t dt, // timestep duration in µs
-//     int width,
-//     int height
-// ) {
-//     int timeSteps = (endTime - startTime) / dt + 1;
-
-//     SpikeCube cube(timeSteps, vector<vector<uint8_t>>(height, vector<uint8_t>(width, 0)));
-
-//     for (const auto& e : events) {
-//         if (e.timestamp < startTime || e.timestamp > endTime)
-//             continue;
-
-//         int tIndex = (e.timestamp - startTime) / dt;
-//         if (tIndex >= timeSteps || e.x() >= width || e.y() >= height)
-//             continue;
-
-//         cube[tIndex][e.y()][e.x()] = 1;
-//     }
-
-
-//     return cube;
-// }
-
-SpikeCubePolarity convertToSpikeCubesByPolarity(
-    const std::vector<DVSEvent>& events,
-    uint32_t startTime,
-    uint32_t endTime,
-    uint32_t dt,
-    int width = 128,
-    int height = 128
-) {
+SpikeCubePolarity convertToSpikeCubesByPolarity(const vector<DVSEvent>& events, uint32_t startTime, uint32_t endTime, uint32_t dt, int width = 128, int height = 128) {
     int timeSteps = (endTime - startTime) / dt + 1;
     SpikeCubePolarity cube;
 
     for (int t = 0; t < timeSteps; ++t) {
-        std::vector<std::vector<uint8_t>> mapON(height, std::vector<uint8_t>(width, 0));
-        std::vector<std::vector<uint8_t>> mapOFF(height, std::vector<uint8_t>(width, 0));
+        vector<vector<uint8_t>> mapON(height, vector<uint8_t>(width, 0));
+        vector<vector<uint8_t>> mapOFF(height, vector<uint8_t>(width, 0));
         cube.emplace_back(mapON, mapOFF);
     }
 
@@ -422,9 +394,12 @@ void SNN::trainNetwork() {
     readAedat(aedatFile, events);
     readAnnotationsCSV(csvFile, annotations);
 
-    // Choose the first gesture for training
-    // GestureAnnotation gesture = annotations[0];
+    unsigned long symTime = (time + maxDelay) / dt;
+    cout << "Symmetric time: " << symTime << " steps (dt = " << dt << " us)\n";
     // uint32_t dt = 100; // 1ms
+    if (filesystem::exists("output/spikes/training_output.txt")) {
+        filesystem::remove("output/spikes/training_output.txt");
+    }
 
     for (unsigned long i = 0; i < annotations.size(); ++i) {
     // for (int i = 0; i < 1; ++i) {
@@ -432,51 +407,58 @@ void SNN::trainNetwork() {
         size_t count = count_if(events.begin(), events.end(), [&](const DVSEvent& evt) {
                 return evt.timestamp >= gesture.startTime_usec && evt.timestamp <= gesture.endTime_usec;
             });
-        // cout << "Gesture " << i + 1
-        //           << " (class " << gesture.classLabel << ") from "
-        //           << gesture.startTime_usec << " to "
-        //           << gesture.endTime_usec << " usec.\n";
-        cout << "Gesture " << i + 1
-                    << " (class " << gesture.classLabel << ") has "
-                    << count << " events.\n";
 
-        // SpikeCube spikeData = convertToSpikeCube(events, gesture.startTime_usec, gesture.endTime_usec, dt);
+        cout << "Gesture " << i + 1 << " (class " << gesture.classLabel << ") has " << count << " events.\n";
+
         SpikeCubePolarity spikeData = convertToSpikeCubesByPolarity(events, gesture.startTime_usec, gesture.endTime_usec, dt);
 
-
-        cout << "Processing spike map with "
-                << spikeData.size() << " time steps.\n";
+        cout << "Processing spike map with " << spikeData.size() << " time steps.\n";
 
         for (size_t t = 0; t < spikeData.size(); ++t) {
             auto& mapON = spikeData[t].first;
             auto& mapOFF = spikeData[t].second;
 
-            for (int y = 0; y < 128; ++y) {
-                for (int x = 0; x < 128; ++x) {
-                    indexON = ((y * 128) + x);
-                    indexOFF = ((128 * 128) + (y * 128) + x);
+            if (symTime <= 0) {
+                cout << "Stopping training at time step " << t << " due to symmetric time limit.\n";
+                return;
+            }
 
-                    layers[0]->getNeuron(indexON)->setSpike(mapON[y][x]);
+            symTime--;
+            
+            for (int y = 0; y < height; ++y) {
+                for (int x = 0; x < width; ++x) {
+                    indexON = ((y * height) + x);
+                    indexOFF = ((height * width) + (y * height) + x);
 
-                    layers[0]->getNeuron(indexOFF)->setSpike(mapOFF[y][x]);
+                    layers[0]->getNeuron(indexON)->setSpike((int)mapON[y][x]);
+                    layers[0]->getNeuron(indexOFF)->setSpike((int)mapOFF[y][x]);
+                    // cout << "Time step " << t << ": Neuron ON " << indexON << " spiked: " << mapON[y][x] 
+                    //      << ", Neuron OFF " << indexOFF << " spiked: " << mapOFF[y][x] << endl;
                 }
             }
 
-            for (unsigned long index = 1; index < layers.size(); index++) {
-                // setStyle("bold"); cout << "Layer " << i << endl; setStyle("reset");
-                layers[index]->feedForward(index, t);
-                // layers[i]->visualizeSpikes(t);
-            }
-            if (t % 50 == 0) {
+            if (t % 20 == 0) {
                 cout << "Time step " << t << endl;
-                layers[3]->showSpikeHistory();
+                layers[layers.size()-1]->showSpikeHistory();
+            }
+            for (unsigned long index = 1; index < layers.size(); index++) {
+                layers[index]->feedForward("train", gesture.classLabel, t);
             }
         }
-        // layers[2]->showSpikeHistory();
-        // layers[3]->showSpikeHistory();
     }
 }
 
+void SNN::saveWeights() {
+    string baseName = "output/weights/weights_";
+    for (unsigned long i = 1; i < layers.size(); i++) {
+        // string baseName = "output/weights/weights_" + to_string(i) + "_" + layers[i]->getType() + "_";
+        layers[i]->saveWeights(baseName, i);
+        // if (layers[i]->getType() == "Output") {
+        //     layers[i]->showSpikeHistory();
+        // }
+    }
+
+}
 
 // void SNN::trainNetwork() {
 // 	int symTime = (time + maxDelay) / dt;
@@ -520,9 +502,85 @@ void SNN::trainNetwork() {
 
 
 
-
-
+int SNN::loadWeights(const int numFile) {
+    string baseName = "output/weights/weights_";
+    if (numFile < 10) {
+        baseName += "0" + to_string(numFile) + "_";
+    } else {
+        baseName += to_string(numFile) + "_";
+    }
+    for (unsigned long i = 1; i < layers.size(); i++) {
+        layers[i]->loadWeights(baseName, i);
+        cout << "Loaded weights for layer " << i << " (" << layers[i]->getType() << ")." << endl;
+    }
+    return 0;
+}
 
 void SNN::testNetwork() {
+    string aedatFile = "./dataset/DvsGesture/user10_fluorescent_led.aedat";
+    string csvFile = "./dataset/DvsGesture/user10_fluorescent_led_labels.csv";
+
+    vector<DVSEvent> events;
+    vector<GestureAnnotation> annotations;
+
+    int indexON = 0;
+    int indexOFF = 0;
+
 	cout << "-- TESTING NETWORK --" << endl;
+
+    readAedat(aedatFile, events);
+    readAnnotationsCSV(csvFile, annotations);
+
+    unsigned long symTime = (time + maxDelay) / dt;
+    cout << "Symmetric time: " << symTime << " steps (dt = " << dt << " us)\n";
+    // uint32_t dt = 100; // 1ms
+    if (filesystem::exists("output/spikes/testing_output.txt")) {
+        filesystem::remove("output/spikes/testing_output.txt");
+    }
+
+    for (unsigned long i = 0; i < annotations.size(); ++i) {
+    // for (int i = 0; i < 1; ++i) {
+        GestureAnnotation gesture = annotations[i];
+        size_t count = count_if(events.begin(), events.end(), [&](const DVSEvent& evt) {
+                return evt.timestamp >= gesture.startTime_usec && evt.timestamp <= gesture.endTime_usec;
+            });
+
+        cout << "Gesture " << i + 1 << " (class " << gesture.classLabel << ") has " << count << " events.\n";
+
+        SpikeCubePolarity spikeData = convertToSpikeCubesByPolarity(events, gesture.startTime_usec, gesture.endTime_usec, dt);
+
+        cout << "Processing spike map with " << spikeData.size() << " time steps.\n";
+
+        for (size_t t = 0; t < spikeData.size(); ++t) {
+            auto& mapON = spikeData[t].first;
+            auto& mapOFF = spikeData[t].second;
+
+            if (symTime <= 0) {
+                cout << "Stopping training at time step " << t << " due to symmetric time limit.\n";
+                return;
+            }
+
+            symTime--;
+            
+            for (int y = 0; y < height; ++y) {
+                for (int x = 0; x < width; ++x) {
+                    indexON = ((y * height) + x);
+                    indexOFF = ((height * width) + (y * height) + x);
+
+                    layers[0]->getNeuron(indexON)->setSpike((int)mapON[y][x]);
+                    layers[0]->getNeuron(indexOFF)->setSpike((int)mapOFF[y][x]);
+                    // cout << "Time step " << t << ": Neuron ON " << indexON << " spiked: " << mapON[y][x] 
+                    //      << ", Neuron OFF " << indexOFF << " spiked: " << mapOFF[y][x] << endl;
+                }
+            }
+
+            if (t % 20 == 0) {
+                cout << "Time step " << t << endl;
+                layers[layers.size()-1]->showSpikeHistory();
+            }
+            for (unsigned long index = 1; index < layers.size(); index++) {
+                layers[index]->feedForward("test", gesture.classLabel, t);
+            }
+        }
+    }
 }

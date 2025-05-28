@@ -22,6 +22,9 @@ private:
     int dt;
     string timeUnit;
     string dtUnit;
+    int height;
+    int width;
+    int channels;
     int maxDelay;
     vector<NeuronParameters> neuronParams;
     // vector<Layer> layers;
@@ -38,13 +41,15 @@ public:
     SNN();
     ~SNN();
     
-    int getTime();
-    int getDt();
+    // int getTime();
+    // int getDt();
     
     int initNetwork(char &file);
     void linkLayers();
     void viewTopology();
     void viewInputSpikes();
     void trainNetwork();
+    void saveWeights();
+    int loadWeights(const int numFile);
     void testNetwork();
 };

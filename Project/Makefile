@@ -6,7 +6,7 @@ OPENCV_CFLAGS = $(shell pkg-config --cflags opencv4)
 OPENCV_LIBS = $(shell pkg-config --libs opencv4)
 
 # Definir las banderas de compilación
-CXXFLAGS = -Wall -g -Iinclude -fsanitize=address -std=c++11 $(OPENCV_CFLAGS)
+CXXFLAGS = -Wall -g -Iinclude -fsanitize=address -std=c++17 $(OPENCV_CFLAGS)
 
 # Definir las carpetas
 SRC_DIR = src

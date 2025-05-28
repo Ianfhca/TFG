@@ -8,7 +8,6 @@
 #include <algorithm>
 
 using namespace std;
-// using SpikeCube = vector<vector<vector<uint8_t>>>;
 using SpikePair = pair<vector<vector<uint8_t>>, vector<vector<uint8_t>>>; // ON/OFF
 using SpikeCubePolarity = vector<SpikePair>;
 
