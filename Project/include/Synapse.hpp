@@ -46,10 +46,11 @@ public:
     double getPreSynapticTrace();
     double getNormPreSynapticTrace(double minPreX, double maxPreX);
     double getNormWeight(double minWeight, double maxWeight);
-    void setWeight(double weight_);
     // double getSpike();
     // double getMembranePotential();
     shared_ptr<LIFneuron> getPreNeuron();
+    void setWeight(double weight_);
+    // void initializeWeights(int fanIn);
     void updateWeight(double deltaWeight);
     
     void updateSpikeAtributes();

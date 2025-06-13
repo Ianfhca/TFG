@@ -1,8 +1,7 @@
 -- PARAMETERS --
 
 # Time stages (m, s, ms, us, ns)
-time 1 s
-#time 100 ms
+time 1 s # Delete this value
 #dt 1000 us #Integer value gratter than 0
 dt 10000 us
 #dt 500 us
@@ -14,29 +13,26 @@ dt 10000 us
 v_reset -65.0
 v_rest -65.0
 v -65.0
-#v_th -64.0
-v_th -50.0
+v_th -64.0
 tau_m 20.0
-t_refr 2 #(Iterations)
+t_refr 2 # Iterations
 lambda_x 20.0
 alpha 0.1
 weight 0.5
-learning_rate 0.0001 #learning_rate 0.0001
+learning_rate 0.1 # learning_rate 0.0001
 a 0.0
-convergence_th 0.05 #convergence_th 0.05
+convergence_th 0.05 # convergence_th 0.05
 >
 
 -- TOPOLOGY --
 
 # Layer 0 (Input Layer)
 layer Input
-neurons 128 128 2 #(Height x Width x Channels)
+neurons 128 128 2 # (Height x Width x Channels)
 type 0
 connections none
 multisynapses 1
-stdp 0
-wta 0
-delay 100 100 #(Same unit as dt)
+delay 100 100 # (Same unit as dt)
 >
 
 # Layer 1 (Feature Extraction)
@@ -44,37 +40,20 @@ layer SS-Conv
 neurons 0
 type 0
 connections local
-kernel_size 5 #(window size rxr)
-kernels_amount 1 #(output maps k)
+kernel_size 5 # (window size rxr)
+kernels_amount 2 # (output maps k)
 multisynapses 1
-wta 0
-stdp 0
-delay 5000 15000
->
-
-# Layer 2 (Feature Aggregation)
-layer Merge
-neurons 0
-type 0
-connections local
-kernel_size 1
-kernels_amount 1
-multisynapses 1
-stdp 0
-wta 1
 delay 500 1500
 >
 
 # Layer 5 (Global Motion Perception)
-layer Output
+layer Dense
 neurons 11 1 1
 type 0
 connections dense
 multisynapses 1
-stdp 1
-wta 0
 #delay 1500 1500
-delay 5000 20000
+delay 500 1500
 >
 
 #----------------------------------------------------------------------------------------------------------------

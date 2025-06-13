@@ -12,52 +12,51 @@ using namespace chrono;
 int main(int argc, char *argv[]) { 
 
 	if (argc < 3 || argc > 4) {
-		cerr << "Usage: " << argv[0] << " -train" << " <topology file>" << endl;
-		cerr << "Usage: " << argv[0] << " -test" << " <topology file>" << " <weight file number>" << endl;
+		cerr << "Usage: " << argv[0] << " -train | -test" << " <topology file, no ext>" << endl;
+		// cerr << "Usage: " << argv[0] << " -test" << " <topology file>" << endl;
 		return 1;
 	}
 
 	SNN snn;
 	int numFile = -1;
+	string mode = "train";
 	auto start = high_resolution_clock::now();
 
 	if (string(argv[1]) != "-train" && string(argv[1]) != "-test") {
 		cerr << "Error: Invalid option. Use -train or -test." << endl;
 		return 1;
 	} else if (string(argv[1]) == "-train") {
-		if (!filesystem::exists(argv[2])) {
-			cerr << "Error: Input file does not exist." << endl;
-			return 1;
-		}
-		if (filesystem::is_directory(argv[2])) {
-			cerr << "Error: Input file is a directory, not a file." << endl;
-			return 1;
-		}
-		if (snn.initNetwork(*argv[2]) != 0) { 
+		mode = "train";
+		// if (!filesystem::exists("./topology/" + argv[2] + ".txt")) {
+		// 	cerr << "Error: Input file does not exist." << endl;
+		// 	return 1;
+		// }
+		if (snn.initNetwork(*argv[2], mode) != 0) {
 			cerr << "Error: Unable to initialize network." << endl;
 			return 1;
 		} else {
 			snn.linkLayers();
 			snn.viewTopology();
 			snn.trainNetwork();
-			snn.saveWeights();
+			// snn.saveWeights();
 		}
 	} else if (string(argv[1]) == "-test") {
-		if (!filesystem::exists(argv[2])) {
-			cerr << "Error: Input file does not exist." << endl;
-			return 1;
-		}
-		if (filesystem::is_directory(argv[2])) {
-			cerr << "Error: Input file is a directory, not a file." << endl;
-			return 1;
-		}
-		if (!isdigit(argv[3][0])) {
-			cerr << "Error: Invalid weight file number." << endl;
-			return 1;
-		} else {
-			numFile = stoi(argv[3]);
-		}
-		if (snn.initNetwork(*argv[2]) != 0) { 
+		mode = "test";
+		// if (!filesystem::exists("./topology/" + argv[2] + ".txt")) {
+		// 	cerr << "Error: Input file does not exist." << endl;
+		// 	return 1;
+		// }
+		// if (filesystem::is_directory("./topology/" + argv[2] + ".txt")) {
+		// 	cerr << "Error: Input file is a directory, not a file." << endl;
+		// 	return 1;
+		// }
+		// if (!isdigit(argv[3][0])) {
+		// 	cerr << "Error: Invalid weight file number." << endl;
+		// 	return 1;
+		// } else {
+		// 	numFile = stoi(argv[3]);
+		// }
+		if (snn.initNetwork(*argv[2], mode) != 0) { 
 			cerr << "Error: Unable to initialize network." << endl;
 			return 1;
 		} else {

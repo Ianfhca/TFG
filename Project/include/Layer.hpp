@@ -27,6 +27,8 @@ private:
     int rDim;
     // int kDim;
     int multisynapses;
+    bool wtaRule;
+    bool preWtaRule;
     vector<pair<int, int>> sparseConnections;
 
     // vector<LIFneuron> neurons;
@@ -50,13 +52,15 @@ public:
     string getConnections();
     int getRDim();
     int getMultisynapses();
+    bool getWtaRule();
     shared_ptr<LIFneuron> getNeuron(int i);
     vector<pair<int, int>>& getSparseConnections();
+    void setPreWtaRule(bool preWtaRule);
     // vector<LIFneuron>& getNeurons();
     
 
     void setPresynapticLinks(Layer &preLayer);
-    void feedForward(const string& mode, int classLabel, int t);
+    void feedForward(const string& baseName, int classLabel, int t);
 
     void saveWeights(const string& baseName, const int layerId);
     void loadWeights(const std::string& baseName, const int layerId);

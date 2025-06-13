@@ -26,11 +26,14 @@ private:
     pair<int, int> delayRange; // Range of synaptic delays
     int delayMin; // Minimum delay
     int delayMax; // Maximum delay
+    bool stdpRule; // STDP rule
+    int wtaRule; // Winner-take-all rule
+    string mode; // Mode of operation (train/test)
+
     double v; // Membrane potential
     double vTh; // Threshold potential
     double vRest; // Leak reversal potential
     double vReset; // Reset potential
-    // double lambdaV; // Membrane time constant
     double tauM; // Membrane time constant
     int tRefr; // Refractory period
     double lambdaX; // Trace time constant
@@ -52,7 +55,9 @@ private:
 
     int spike; // Spike value 1 / 0
     bool learning; // Learning state
-    bool WTArule; // Winner-take-all rule
+    int linkAmount; // Number of links from post-synaptic neurons
+    int usageCount; // Count of how many times the synapse has been used
+    bool hasBeenWinner; // Flag to check if the neuron has been a winner
     // vector<Synapse> synapses; // Presynaptic neurons
     vector<shared_ptr<Synapse>> synapses; // Presynaptic neurons
 
@@ -70,11 +75,11 @@ public:
     double getVMax();
     int getSpike();
     void setSpike(int spike_);
-    void setPresynapticLink(shared_ptr<LIFneuron> preNeuron);
+    void setPresynapticLink(shared_ptr<LIFneuron> preNeuron, int numNeurons);
 
     void inhibitNeuron(int time);
     int updateNeuronState(int time);
-    double WTA(int time);
+    long long WTA();
     // int gatherSpike(int time);
     // void STDP(unsigned long index);
     
@@ -82,9 +87,17 @@ public:
     // double MSE();
     double MSE(unsigned long index, double normPreX);
 
-    void saveWeights(const string& fileName);
+    void saveWeights(const string& fileName, int id);
     void loadWeights(const string& fileName);
 
     // int updateMembranePotential(double forcingFunction, int time);
     // void getFirstWeight();
+
+    void addLink();
+    int getLinkAmount();
+    int getUsageCount();
+    void setUsageCount(int usageCount_);
+    int decrementUsageCount();
+    bool getHasBeenWinner();
+    void setHasBeenWinner(bool hasBeenWinner_);
 };

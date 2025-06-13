@@ -18,10 +18,14 @@ using namespace std;
 
 class SNN {
 private:
+    string topologyFile;
+    string baseName;
     int time;
     int dt;
     string timeUnit;
     string dtUnit;
+    string tRefrUnit;
+    string delayUnit;
     int height;
     int width;
     int channels;
@@ -32,11 +36,15 @@ private:
     // unordered_map<string, deque<int>> inputSpikes;
     vector<deque<int>> inputSpikes;
 
+    string mode;
 
     void parseParameters(const string &line);
     void parseHyperparameters(const string &line, NeuronParameters &neuron);
     void parseTopology(const string &line, TopologyParameters &topology);
     void parseInput(const string &line);
+    vector<string> readTrialsList(const string& filename);
+    string generateCSVFilename(const string& aedatFilename);
+    int processGestureData(const SpikeCubePolarity& spikeData, int gestureClass, unsigned long& symTime, unsigned long symCap);
 public:
     SNN();
     ~SNN();
@@ -44,7 +52,7 @@ public:
     // int getTime();
     // int getDt();
     
-    int initNetwork(char &file);
+    int initNetwork(char &filename, string &nMode);
     void linkLayers();
     void viewTopology();
     void viewInputSpikes();

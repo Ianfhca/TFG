@@ -12,6 +12,9 @@ Layer::Layer(const TopologyParameters &topology, const NeuronParameters &neuronP
 
     int neuronIdx = 0;
 
+    //print height, width, channels, numNeurons
+    // cout << "Creating layer " << type << " with " << height << " height, " << width << " width, " << channels << endl;
+
     for (int ch = 0; ch < channels; ch++) {
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
@@ -96,6 +99,10 @@ int Layer::getMultisynapses() {
     return multisynapses;
 };
 
+// bool Layer::getWtaRule() {
+//     return wtaRule;
+// }
+
 shared_ptr<LIFneuron> Layer::getNeuron(int i) {
     return neurons[i];
 };
@@ -103,6 +110,10 @@ shared_ptr<LIFneuron> Layer::getNeuron(int i) {
 vector<pair<int, int>>& Layer::getSparseConnections() {
     return sparseConnections;
 };
+
+// void Layer::setPreWtaRule(bool preWtaRule_) {
+//     preWtaRule = preWtaRule_;
+// }
 
 void Layer::setPresynapticLinks(Layer &preLayer) {
     // if (connections == "local") {
@@ -136,6 +147,7 @@ void Layer::setPresynapticLinks(Layer &preLayer) {
     //         }
     //         // cout << "Neuron " << neuronIdx << " connected to Pre-Neuron " << preNeuronIdx  << " (ch: " << ch << ")" << " (H: " << preY << ", W: " << preX << ", Ch: " << preCh << ")" << endl;
     //     }
+    
     if (connections == "local") {
         int preHeight = preLayer.getHeight();
         int preWidth = preLayer.getWidth();
@@ -148,12 +160,14 @@ void Layer::setPresynapticLinks(Layer &preLayer) {
                     for (int preCh = 0; preCh < preChannels; preCh++) {
                         for (int y = 0; y < rDim; y++) {
                             for (int x = 0; x < rDim; x++) {
-                                int preY = i + y - rDim / 2;
-                                int preX = j + x - rDim / 2;
+                                // int preY = i + y - rDim / 2;
+                                // int preX = j + x - rDim / 2;
+                                int preY = i + y;
+                                int preX = j + x;
                                 if (preY >= 0 && preY < preHeight && preX >= 0 && preX < preWidth) {
                                     int preNeuronIdx = ((preCh * preHeight * preWidth) + (preY * preWidth) + preX);
                                     if (preNeuronIdx < preLayer.getNumNeurons()) {
-                                        neurons[neuronIdx]->setPresynapticLink(preLayer.neurons[preNeuronIdx]);
+                                        neurons[neuronIdx]->setPresynapticLink(preLayer.neurons[preNeuronIdx], preLayer.getNumNeurons());
                                     }
                                 }
                             }
@@ -168,62 +182,59 @@ void Layer::setPresynapticLinks(Layer &preLayer) {
         for (unsigned long i = 0; i < sparseConnections.size(); i++) {
             preNeuronIdx = sparseConnections[i].first;
             neuronIdx = sparseConnections[i].second;
-            neurons[neuronIdx]->setPresynapticLink(preLayer.neurons[preNeuronIdx]);
+            neurons[neuronIdx]->setPresynapticLink(preLayer.neurons[preNeuronIdx], preLayer.getNumNeurons());
             // cout << "Neuron " << neuronIdx << " connected to Pre-Neuron " << preNeuronIdx << endl;
         }
     } else {
         int preNumNeurons = preLayer.getNumNeurons();
+
         for (int i = 0; i < numNeurons; i++) {
             for (int j = 0; j < preNumNeurons; j++) {
-                neurons[i]->setPresynapticLink(preLayer.neurons[j]); // Check this getNeurons
+                neurons[i]->setPresynapticLink(preLayer.neurons[j], preLayer.getNumNeurons()); // Check this getNeurons
             }
         }
     }
 }
 
-void Layer::feedForward(const string& mode, int classLabel, int t) {
+void Layer::feedForward(const string& baseName, int classLabel, int t) {
     int spike = 0;
+    
+    // bool wta = (connections == "local" || connections == "sparse") ? true : false;
     // cout << "Layer " << layerId << " number of neurons: " << numNeurons << endl;
     if (type == "Output") {
-        string fileName;
-        if (mode == "train") fileName = "output/spikes/training_output.txt";
-        else if (mode == "test") fileName = "output/spikes/testing_output.txt";
-        else fileName = "output/spikes/training_output.txt";
-        ofstream file(fileName, ios::app);
+        string filename = baseName + ".txt";
+        ofstream file(filename, ios::app);
 
         for (int i = 0; i < numNeurons; i++) {
             spike = neurons[i]->updateNeuronState(t);
             spikeHistory[i] += spike;
-            if (spike == 1) file << "N" << i << " = " << t << " (" << classLabel << ")" << endl;
+            if (spike == 1) file << t << ", " << i << ", " << classLabel << endl;
         }
         file.close();
     } else {
         for (int i = 0; i < numNeurons; i++) spike = neurons[i]->updateNeuronState(t);
+        // if (spike == 1) cout << "Layer " << type << " Neuron " << neurons[0]->getNeuronId() << " spiked at time " << t << endl;
     }
 }
 
 void Layer::saveWeights(const string& baseName, const int layerId) {
-    int i = 0;
-    string fileName = baseName + "0" + to_string(i) + "_" + to_string(layerId) + "_" + type + ".txt";
-
-    while (filesystem::exists(fileName) && i < 10) {
-        i += 1;
-        if (i < 10) {
-            fileName = baseName + "0" + to_string(i) + "_" + to_string(layerId) + "_" + type + ".txt";
-        } else {
-            fileName = baseName + to_string(i) + "_" + to_string(layerId) + "_" + type + ".txt";
-        }
-    }
+    string fileName = baseName + to_string(layerId) + "_" + type + ".txt";
 
     cout << "Saving weights to " << fileName << endl;
 
     for (int i = 0; i < numNeurons; i++) {
-        neurons[i]->saveWeights(fileName);
+        neurons[i]->saveWeights(fileName, i);
     }
 }
 
 void Layer::loadWeights(const std::string& baseName, const int layerId) {
     string fileName = baseName + to_string(layerId) + "_" + type + ".txt";
+
+    if (!filesystem::exists(fileName)) {
+        cerr << "Error: Weights file " << fileName << " does not exist." << endl;
+        return;
+    }
+
     for (int i = 0; i < numNeurons; i++) {
         neurons[i]->loadWeights(fileName);
         // std::cout << "Loaded weights for neuron " << i << " from " << fileName << std::endl;
@@ -236,72 +247,3 @@ void Layer::showSpikeHistory() {
         cout << "Neuron " << i << " Spike History: " << spikeHistory[i] << endl;
     }
 }
-
-// void Layer::visualizeSpikes(int t) {
-//     int maxDisplay = std::min(numNeurons, 1024);
-
-//     // Guarda la fila de spikes actual
-//     std::vector<uchar> spikesRow(maxDisplay, 0);
-//     for (int i = 0; i < maxDisplay; i++) {
-//         spikesRow[i] = neurons[i]->getSpike() ? 255 : 0;
-//     }
-//     spikeHistory.push_back(spikesRow);
-
-//     // Limita el historial a las últimas 200 filas (por ejemplo)
-//     int maxRows = 200;
-//     if (spikeHistory.size() > maxRows)
-//         spikeHistory.erase(spikeHistory.begin());
-
-//     // Crea la imagen del raster plot
-//     cv::Mat spikeImg(spikeHistory.size(), maxDisplay, CV_8UC1);
-//     for (size_t r = 0; r < spikeHistory.size(); ++r)
-//         for (int c = 0; c < maxDisplay; ++c) 
-//             spikeImg.at<uchar>(r, c) = spikeHistory[r][c];
-
-//     // Escala para que sea visible
-//     cv::resize(spikeImg, spikeImg, cv::Size(maxDisplay, 400), 0, 0, cv::INTER_NEAREST);
-//     cv::imshow("Spikes Layer", spikeImg);
-//     cv::waitKey(1);
-// }
-
-// void Layer::visualizeSpikes(int t) {
-//     int displayWidth = 1024;
-//     cv::Mat spikeImg = cv::Mat::zeros(1, numNeurons, CV_8UC1);
-
-//     for (int i = 0; i < numNeurons; i++) {
-//         int spike = neurons[i]->getSpike();
-//         spikeImg.at<uchar>(0, i) = spike ? 255 : 0;
-//     }
-
-//     cv::resize(spikeImg, spikeImg, cv::Size(displayWidth, 20), 0, 0, cv::INTER_NEAREST);
-//     cv::imshow("Spikes Layer", spikeImg);
-//     cv::waitKey(1);
-// }
-
-// void Layer::visualizeSpikes(int t) {
-//     int displayWidth = 1024;
-//     int maxDisplay = std::min(numNeurons, displayWidth);
-//     int maxRows = 200; // Número de pasos temporales a mostrar
-
-//     // Guarda la fila de spikes actual
-//     std::vector<uchar> spikesRow(maxDisplay, 0);
-//     for (int i = 0; i < maxDisplay; i++) {
-//         spikesRow[i] = neurons[i]->getSpike() ? 255 : 0;
-//     }
-//     spikeHistory.push_back(spikesRow);
-
-//     // Limita el historial a las últimas maxRows filas
-//     if (spikeHistory.size() > maxRows)
-//         spikeHistory.erase(spikeHistory.begin());
-
-//     // Crea la imagen del raster plot
-//     cv::Mat spikeImg(spikeHistory.size(), maxDisplay, CV_8UC1);
-//     for (size_t r = 0; r < spikeHistory.size(); ++r)
-//         for (int c = 0; c < maxDisplay; ++c)
-//             spikeImg.at<uchar>(r, c) = spikeHistory[r][c];
-
-//     // Escala para que sea visible
-//     cv::resize(spikeImg, spikeImg, cv::Size(displayWidth, 400), 0, 0, cv::INTER_NEAREST);
-//     cv::imshow("Spikes Layer", spikeImg);
-//     cv::waitKey(1);
-// }

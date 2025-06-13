@@ -22,9 +22,9 @@ struct DVSEvent {
     uint32_t data;
     uint32_t timestamp;
 
-    uint16_t x() const { return (data >> 17) & 0x1FFF; }
-    uint16_t y() const { return (data >> 2) & 0x1FFF; }
-    bool polarity() const { return (data >> 1) & 0x1; }
+    uint16_t x() const { return (data >> 17) & 0x00001FFF; }
+    uint16_t y() const { return (data >> 2) & 0x00001FFF; }
+    bool polarity() const { return (data >> 1) & 0x00000001; }
 };
 
 struct AedatBlockHeader {
@@ -53,6 +53,6 @@ SpikeCubePolarity convertToSpikeCubePolarity(
     uint32_t startTime,
     uint32_t endTime,
     uint32_t dt, // timestep duration in µs
-    int width = 128,
-    int height = 128
+    int width,
+    int height
 );

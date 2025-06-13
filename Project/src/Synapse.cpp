@@ -65,15 +65,6 @@ double Synapse::getNormWeight(double minWeight, double maxWeight) {
     return max(0.0, min(1.0, norm)); // Check this clipping [0, 1]
 }
 
-void Synapse::setWeight(double weight_) {
-    // if (weight_ < 0 || weight_ > 1) {
-    //     cerr << "Error: Weight must be in the range [0, 1]. Setting to 0.5." << endl;
-    //     weight = 0.5; // Default value if out of range
-    // } else {
-        weight = weight_;
-    // }
-}
-
 shared_ptr<LIFneuron> Synapse::getPreNeuron() {
     auto preNeuronShared = preNeuron.lock();
     if (preNeuronShared) {
@@ -83,6 +74,19 @@ shared_ptr<LIFneuron> Synapse::getPreNeuron() {
         return nullptr; // Return a null pointer
     }
 }
+
+void Synapse::setWeight(double weight_) {
+    weight = weight_;
+}
+
+// void initializeWeights(vector<float>& weights, int fanIn) {
+//     std::default_random_engine generator;
+//     std::normal_distribution<float> distribution(0.0, std::sqrt(2.0f / fanIn));
+    
+//     for (auto& w : weights) {
+//         w = distribution(generator);
+//     }
+// }
 
 void Synapse::updateWeight(double deltaWeight) {
     // cout << "Weight before: " << weight << "Weight after: " << weight+deltaWeight << endl;
@@ -124,7 +128,19 @@ int Synapse::obtainSpike() {
 void Synapse::updatePresinapticTrace(int spike) {
     // preSynapticTrace[i][j][d] = (-preSynapticTrace[i][j][d] + (alpha * neurons[j].obtainSpike(d))) * (dt / lambdaX);
     // int spike = obtainSpike();
-    preSynapticTrace = (-preSynapticTrace * (1/lambdaX)) + (alpha * spike);
+    // double decay = exp(-static_cast<double>(dt) / (lambdaX * 1000.0)); // Convertir dt de µs a ms
+    // preSynapticTrace = preSynapticTrace * decay + alpha * spike;
+
+
+    // preSynapticTrace = -preSynapticTrace + spike * exp(-dt / lambdaX); // JOSE
+
+
+
+    // preSynapticTrace = (-preSynapticTrace * (1/lambdaX)) + (alpha * spike);
+
+
+    // preSynapticTrace = (-preSynapticTrace + alpha * spike) * (-dt / lambdaX);
+    preSynapticTrace = (-preSynapticTrace + alpha * spike) * exp(-dt / lambdaX);
     if (preSynapticTrace < 0) preSynapticTrace = 0;
     // preSynapticTrace += (alpha * spike - preSynapticTrace) * (dt / lambdaX);
     // cout << "Spike: " << spike << " PreSynapticTrace: " << preSynapticTrace << endl;
