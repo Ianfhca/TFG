@@ -38,7 +38,7 @@ int main(int argc, char *argv[]) {
 			snn.linkLayers();
 			snn.viewTopology();
 			snn.trainNetwork();
-			// snn.saveWeights();
+			snn.saveWeights();
 		}
 	} else if (string(argv[1]) == "-test") {
 		mode = "test";

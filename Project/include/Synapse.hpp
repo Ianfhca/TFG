@@ -14,7 +14,8 @@ class LIFneuron;
 
 class Synapse {
 private:
-    weak_ptr<LIFneuron> preNeuron;
+    // weak_ptr<LIFneuron> preNeuron;
+    shared_ptr<LIFneuron> preNeuron;
     double lambdaX; // Trace time constant
     double alpha; // Scaling factor for traces
     double weight; // Weight of the synapse

@@ -9,8 +9,8 @@ Synapse::Synapse(shared_ptr<LIFneuron> preNeuron_, double lambdaX_, double alpha
 : preNeuron(preNeuron_), lambdaX(lambdaX_), alpha(alpha_), weight(weight_), delay(delay_), dt(dt_) {
     if (delay_ < 0) throw invalid_argument("delay must be non-negative");
     if (dt_ <= 0) throw invalid_argument("dt must be greater than 0");
-    cycles = floor(delay / dt) + 1;
-    spikesQ.resize(cycles);
+    cycles = floor(delay / dt);
+    // spikesQ.resize(cycles);
     preSynapticTrace = 0.0;
     // sumCycles = 0;
     // numSpikes = 0;
@@ -62,17 +62,19 @@ double Synapse::getNormWeight(double minWeight, double maxWeight) {
     if (maxWeight == minWeight) return 0.0;
     // return (weight - minWeight) / (maxWeight - minWeight);
     double norm = (weight - minWeight) / (maxWeight - minWeight);
-    return max(0.0, min(1.0, norm)); // Check this clipping [0, 1]
+    return max(-1.0, min(1.0, norm)); // Check this clipping [-1, 1]
+    // return max(0.0, min(1.0, norm)); // Check this clipping [0, 1]
 }
 
 shared_ptr<LIFneuron> Synapse::getPreNeuron() {
-    auto preNeuronShared = preNeuron.lock();
-    if (preNeuronShared) {
-        return preNeuronShared;
-    } else {
-        cerr << "Error: preNeuron is null or destroyed" << endl;
-        return nullptr; // Return a null pointer
-    }
+    // auto preNeuronShared = preNeuron.lock();
+    // if (preNeuronShared) {
+    //     return preNeuronShared;
+    // } else {
+    //     cerr << "Error: preNeuron is null or destroyed" << endl;
+    //     return nullptr; // Return a null pointer
+    // }
+    return preNeuron;
 }
 
 void Synapse::setWeight(double weight_) {
@@ -97,29 +99,37 @@ void Synapse::updateWeight(double deltaWeight) {
 }
 
 void Synapse::updateSpikeAtributes() {
-    auto preNeuronShared = preNeuron.lock();
+    // auto preNeuronShared = preNeuron.lock();
 
-    if (preNeuronShared) {
-        if (preNeuronShared->getSpike() == 1) {
-            spikesQ.push_back(cycles);
-            // preNeuronShared->setSpike(0); // Check this
-        }
-    } else {
-        cerr << "Error: preNeuron is null or destroyed" << endl;
-    }
+    // if (preNeuronShared) {
+    //     if (preNeuronShared->getSpike() == 1) {
+    //         cout << "SI" << endl;
+    //         spikesQ.push_back(cycles);
+    //         // preNeuronShared->setSpike(0); // Check this
+    //     }
+    // } else {
+    //     cerr << "Error: preNeuron is null or destroyed" << endl;
+    // }
+
+    if (preNeuron->getSpike() == 1) spikesQ.push_back(cycles);
 }
 
 int Synapse::obtainSpike() {
     int spike = 0;
 
-    for (auto& value : spikesQ) {
-        value -= 1;
-    }
+    // for (auto& value : spikesQ) {
+    //     value -= 1;
+    // }
+    
 
     if (!spikesQ.empty() && spikesQ.front() <= 0) {
         spikesQ.erase(spikesQ.begin());
         spike = 1;
         // cout << "Ha habido spike" << endl;
+    }
+
+    for (int i = 0; i < spikesQ.size(); i++) {
+        spikesQ[i] -= 1;
     }
 
     return spike;
@@ -132,15 +142,13 @@ void Synapse::updatePresinapticTrace(int spike) {
     // preSynapticTrace = preSynapticTrace * decay + alpha * spike;
 
 
-    // preSynapticTrace = -preSynapticTrace + spike * exp(-dt / lambdaX); // JOSE
-
-
-
+    // preSynapticTrace = -preSynapticTrace + spike * exp(-dt / lambdaX); // JOSE OLD
     // preSynapticTrace = (-preSynapticTrace * (1/lambdaX)) + (alpha * spike);
-
-
     // preSynapticTrace = (-preSynapticTrace + alpha * spike) * (-dt / lambdaX);
-    preSynapticTrace = (-preSynapticTrace + alpha * spike) * exp(-dt / lambdaX);
+
+    preSynapticTrace = (-preSynapticTrace + alpha * spike) * (1/lambdaX);
+    // preSynapticTrace = (-preSynapticTrace + alpha * spike) * exp(-1 / lambdaX);
+    // preSynapticTrace = (-preSynapticTrace + alpha * spike) * exp(-1 / lambdaX); // JOSE BUENA
     if (preSynapticTrace < 0) preSynapticTrace = 0;
     // preSynapticTrace += (alpha * spike - preSynapticTrace) * (dt / lambdaX);
     // cout << "Spike: " << spike << " PreSynapticTrace: " << preSynapticTrace << endl;

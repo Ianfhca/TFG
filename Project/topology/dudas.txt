@@ -72,3 +72,5 @@
   #                  forcingFunction += synapses[i]->updateForcingFunction(0);
 
 # prints para ver el dataset, el maxpre y minpre y la forcing function y la membrana
+
+# -0.951229 * 61.8299

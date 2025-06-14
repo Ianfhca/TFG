@@ -220,6 +220,10 @@ void Layer::feedForward(const string& baseName, int classLabel, int t) {
 void Layer::saveWeights(const string& baseName, const int layerId) {
     string fileName = baseName + to_string(layerId) + "_" + type + ".txt";
 
+    if (filesystem::exists(fileName)) {
+        filesystem::remove(fileName);
+    }
+
     cout << "Saving weights to " << fileName << endl;
 
     for (int i = 0; i < numNeurons; i++) {

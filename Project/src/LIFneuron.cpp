@@ -2,9 +2,11 @@
 
 LIFneuron::LIFneuron(vector<int> neuronId_, const TopologyParameters &topology, const NeuronParameters &neuronParams, int dt) 
     : neuronId(neuronId_), layer(topology.type), type(topology.neuronType), multisynapses(topology.multisynapses), delayMin(topology.delayMin), 
-    delayMax(topology.delayMax), stdpRule(topology.stdpRule), wtaRule(topology.wtaRule), mode(topology.mode), v(neuronParams.vRest), vTh(neuronParams.vTh), vRest(neuronParams.vRest), vReset(neuronParams.vReset), 
-    tauM(neuronParams.tauM), tRefr(neuronParams.tRefr), lambdaX(neuronParams.lambdaX), alpha(neuronParams.alpha), winit(neuronParams.weight), 
+    delayMax(topology.delayMax), stdpRule(topology.stdpRule), wtaRule(topology.wtaRule), mode(topology.mode), v(neuronParams.vRest), vTh(neuronParams.vTh), 
+    vRest(neuronParams.vRest), vReset(neuronParams.vReset), tauM(neuronParams.tauM), tRefr(neuronParams.tRefr), lambdaX(neuronParams.lambdaX), alpha(neuronParams.alpha), 
     learningRate(neuronParams.learningRate), aValue(neuronParams.aValue), convergenceTh(neuronParams.convergenceTh), dt(dt) {
+
+    winit = 0;
 
     maxPreX = -DBL_MAX;
     minPreX = DBL_MAX;
@@ -23,42 +25,12 @@ LIFneuron::LIFneuron(vector<int> neuronId_, const TopologyParameters &topology, 
     hasBeenWinner = false;
 }
 
-// LIFneuron::LIFneuron(int neuronId_, int type_, int multisynapses_, int delayMin_, int delayMax_, double vTh_, double vRest_, double vReset_, double lambdaV_, int tRefr_, double lambdaX_, double alpha_, int dt_) {
-//     neuronId = neuronId_;
-//     type = type_;
-//     multisynapses = multisynapses_;
-//     delayMin = delayMin_;
-//     delayMax = delayMax_;
-//     v = vRest_;
-//     vTh = vTh_;
-//     vRest = vRest_;
-//     vReset = vReset_;
-//     lambdaV = lambdaV_;
-//     // tRefr = tRefr_;
-//     tRefr = tRefr_ / dt_;
-//     lambdaX = lambdaX_;
-//     alpha = alpha_;
-//     dt = dt_;
-
-//     maxPreX = -DBL_MAX;
-//     minPreX = DBL_MAX;
-//     maxWeight = -DBL_MAX; 
-//     minWeight = DBL_MAX;
-
-//     inRefraction = false;
-//     timeLastSpike = 0;
-//     vMax = 0;
-
-//     spike = 0;
-//     learning = true;
-// }
-
 LIFneuron::~LIFneuron() {
     synapses.clear();
 }
 
 int LIFneuron::getNeuronId() {
-    cout << neuronId[0] << " x " <<neuronId[1] << " x " << neuronId[2] << " / ";
+    cout << neuronId[0] << " x " <<neuronId[1] << " x " << neuronId[2] << ": ";
     return neuronId[3];
 }
 
@@ -129,6 +101,7 @@ void LIFneuron::inhibitNeuron(int t) {
 int LIFneuron::updateNeuronState(int t) {
     // double forcingFunction = WTA(t);
     // if (layer == "Merge") cout << wtaRule << endl;
+    spike = 0;
     int s = 0;
     double forcingFunction = 0.0;
     double aux;
@@ -141,80 +114,109 @@ int LIFneuron::updateNeuronState(int t) {
     // long long winner = (learning && wtaRule == 1) ? WTA(t) : -1;
     unsigned long winner = (wtaRule == 1) ? WTA() : -1;
 
-    if (winner == -1) {
-        // cout << "[WTA] No winner at t = " << t << " in neuron " << neuronId[0] << "," << neuronId[1] << "," << neuronId[2] << endl;
-    } else {
-        // cout << layer << " [WTA] Winner synapse at t = " << t << " in neuron " << neuronId[0] << "," << neuronId[1] << "," << neuronId[2] << " with index: " << winner << endl;
-    }
+    // if (winner == -1) {
+    //     // cout << "[WTA] No winner at t = " << t << " in neuron " << neuronId[0] << "," << neuronId[1] << "," << neuronId[2] << endl;
+    // } else {
+    //     // cout << layer << " [WTA] Winner synapse at t = " << t << " in neuron " << neuronId[0] << "," << neuronId[1] << "," << neuronId[2] << " with index: " << winner << endl;
+    // }
+    
+    for (unsigned long i = 0; i < synapses.size(); i++) {
+        if (synapses[i]) {
+            // if (winner >= 0) {
+            //     preNeuron = synapses[i]->getPreNeuron();
+            //     preNeuron->setHasBeenWinner(true);
+            //     if (winner == i && preNeuron->learning && layer != "Input") preNeuron->STDP();
+            //     if (preNeuron->decrementUsageCount() == 0 && preNeuron->getHasBeenWinner() == true) {
+            //         if (layer == "Input") preNeuron->spike = 0;
+            //         else if (preNeuron->inRefraction == false) preNeuron->inhibitNeuron(t);
+            //         preNeuron->setHasBeenWinner(false);
+            //         preNeuron->setUsageCount(preNeuron->getLinkAmount());
+            //     }
+            // }
 
-    if (winner >= 0) { // There is a winner synapse
-        for (unsigned long i = 0; i < synapses.size(); i++) {
-            if (synapses[i]) {
-                preNeuron = synapses[i]->getPreNeuron();
-                preNeuron->setHasBeenWinner(true);
-                if (i == winner) {
-                    synapses[winner]->updateSpikeAtributes();
-                    s = synapses[winner]->obtainSpike();
-                    synapses[winner]->updatePresinapticTrace(s);
-                    forcingFunction += synapses[winner]->updateForcingFunction(s);
-                    if (preNeuron->learning && layer != "Input") preNeuron->STDP();
-                } else {
-                    // synapses[i]->updateSpikeAtributes();
-                    s = synapses[i]->obtainSpike();
-                    synapses[i]->updatePresinapticTrace(0);
-                    forcingFunction += synapses[i]->updateForcingFunction(0);
-                }
+            synapses[i]->updateSpikeAtributes();
+            s = synapses[i]->obtainSpike();
+            synapses[i]->updatePresinapticTrace(s);
+            forcingFunction += synapses[i]->updateForcingFunction(s);
 
-                aux = synapses[i]->getPreSynapticTrace();
-                if (aux > maxPreX) maxPreX = aux;
-                if (aux < minPreX) minPreX = aux;
-                aux = synapses[i]->getWeight();
-                if (aux > maxWeight) maxWeight = aux;
-                if (aux < minWeight) minWeight = aux;
-
-                if (preNeuron->decrementUsageCount() == 0 && preNeuron->getHasBeenWinner() == true) {
-                    if (preNeuron->inRefraction == false) preNeuron->inhibitNeuron(t);
-                    preNeuron->setHasBeenWinner(false);
-                    preNeuron->setUsageCount(preNeuron->getLinkAmount());
-                }
-
-            } else {
-                cerr << "Error: synapse is null" << endl;
-            }
-        }
-    } else {
-        for (unsigned long i = 0; i < synapses.size(); i++) {
-            if (synapses[i]) {
-                synapses[i]->updateSpikeAtributes();
-                s = synapses[i]->obtainSpike();
-                synapses[i]->updatePresinapticTrace(s);
-                forcingFunction += synapses[i]->updateForcingFunction(s);
-
-                aux = synapses[i]->getPreSynapticTrace();
-                if (aux > maxPreX) maxPreX = aux;
-                if (aux < minPreX) minPreX = aux;
-                aux = synapses[i]->getWeight();
-                if (aux > maxWeight) maxWeight = aux;
-                if (aux < minWeight) minWeight = aux;
-
-                if (wtaRule == 1) {
-                    preNeuron = synapses[i]->getPreNeuron();
-                    if (preNeuron->decrementUsageCount() == 0 && preNeuron->getHasBeenWinner() == true) {
-                        if (preNeuron->inRefraction == false) preNeuron->inhibitNeuron(t);
-                        preNeuron->setHasBeenWinner(false);
-                        preNeuron->setUsageCount(preNeuron->getLinkAmount());
-                    }
-                }
-            } else {
-                cerr << "Error: synapse is null" << endl;
-            }
+            aux = synapses[i]->getPreSynapticTrace();
+            if (aux > maxPreX) maxPreX = aux;
+            if (aux < minPreX) minPreX = aux;
+            aux = synapses[i]->getWeight();
+            if (aux > maxWeight) maxWeight = aux;
+            if (aux < minWeight) minWeight = aux;
         }
     }
 
-    // cout << maxPreX << " " << minPreX << " " << maxWeight << " " << minWeight << endl;
+    // if (winner >= 0) { // There is a winner synapse
+    //     for (unsigned long i = 0; i < synapses.size(); i++) {
+    //         if (synapses[i]) {
+    //             preNeuron = synapses[i]->getPreNeuron();
+    //             preNeuron->setHasBeenWinner(true);
+    //             if (i == winner) {
+    //                 synapses[winner]->updateSpikeAtributes();
+    //                 s = synapses[winner]->obtainSpike();
+    //                 synapses[winner]->updatePresinapticTrace(s);
+    //                 forcingFunction += synapses[winner]->updateForcingFunction(s);
+    //                 if (preNeuron->learning && layer != "Input") preNeuron->STDP();
+    //             } else {
+    //                 synapses[i]->updateSpikeAtributes();
+    //                 s = synapses[i]->obtainSpike();
+    //                 synapses[i]->updatePresinapticTrace(s);
+    //                 forcingFunction += synapses[i]->updateForcingFunction(s);
+    //             }
+
+    //             aux = synapses[i]->getPreSynapticTrace();
+    //             if (aux > maxPreX) maxPreX = aux;
+    //             if (aux < minPreX) minPreX = aux;
+    //             aux = synapses[i]->getWeight();
+    //             if (aux > maxWeight) maxWeight = aux;
+    //             if (aux < minWeight) minWeight = aux;
+
+    //             if (preNeuron->decrementUsageCount() == 0 && preNeuron->getHasBeenWinner() == true) {
+    //                 if (preNeuron->inRefraction == false) preNeuron->inhibitNeuron(t);
+    //                 preNeuron->setHasBeenWinner(false);
+    //                 preNeuron->setUsageCount(preNeuron->getLinkAmount());
+    //             }
+
+    //         } else {
+    //             cerr << "Error: synapse is null" << endl;
+    //         }
+    //     }
+    // } else {
+    //     for (unsigned long i = 0; i < synapses.size(); i++) {
+    //         if (synapses[i]) {
+    //             synapses[i]->updateSpikeAtributes();
+    //             s = synapses[i]->obtainSpike();
+    //             synapses[i]->updatePresinapticTrace(s);
+    //             forcingFunction += synapses[i]->updateForcingFunction(s);
+
+    //             aux = synapses[i]->getPreSynapticTrace();
+    //             if (aux > maxPreX) maxPreX = aux;
+    //             if (aux < minPreX) minPreX = aux;
+    //             aux = synapses[i]->getWeight();
+    //             if (aux > maxWeight) maxWeight = aux;
+    //             if (aux < minWeight) minWeight = aux;
+
+    //             if (wtaRule == 1) {
+    //                 preNeuron = synapses[i]->getPreNeuron();
+    //                 if (preNeuron->decrementUsageCount() == 0 && preNeuron->getHasBeenWinner() == true) {
+    //                     if (preNeuron->inRefraction == false) preNeuron->inhibitNeuron(t);
+    //                     preNeuron->setHasBeenWinner(false);
+    //                     preNeuron->setUsageCount(preNeuron->getLinkAmount());
+    //                 }
+    //             }
+    //         } else {
+    //             cerr << "Error: synapse is null" << endl;
+    //         }
+    //     }
+    // }
+
+    // if (maxPreX > 0 || minPreX > 0) cout << " " << maxPreX << " " << minPreX << " " << maxWeight << " " << minWeight << endl;
+
     // if (layer == "SS-Conv") cout << maxPreX << " " << minPreX << " " << maxWeight << " " << minWeight << " " << forcingFunction << endl;
     // cout << forcingFunction << " " << v << " " << vMax << endl;
-    updateMembranePotential(forcingFunction, t);
+    spike = updateMembranePotential(forcingFunction, t);
     // if (spike == 1) cout << "llega aqui" << endl;
 
     if (learning && stdpRule == 1 && spike == 1) {
@@ -262,39 +264,50 @@ long long LIFneuron::WTA() {
 }
 
 int LIFneuron::updateMembranePotential(double forcingFunction, int t) { // Check this make private
-    // int s = 0; // s(t) = 0
-    spike = 0; // s(t) = 0
+    int s = 0; // s(t) = 0
+    // spike = 0; // s(t) = 0
     if (inRefraction == true) {
         // if (t - timeLastSpike >= tRefr) inRefraction = false;
         // cout << layer << " Neuron " << getNeuronId() << " in refraction at t = " << t << timeLastSpike << tRefr << endl;
         if ((t - timeLastSpike) > tRefr) inRefraction = false; // Check this t-timeLastSpike >= tRefr
-        else return spike; // s(t) = 0
+        else return s; // s(t) = 0
     }
 
     // v += (((-v) + vRest) + forcingFunction) * (dt / lambdaV);
 
+    // if (v > -65) cout << layer << " Neuron " << getNeuronId() << " (v: " << v << " ff: " << forcingFunction << ")" << endl;
     // v += exp(-dt/lambdaV) * v + forcingFunction; // lambdaV = exp(-dt/tauM) && tauM = lambdaV.value(input parameter)
-    // v += (-1/tauM) * v + forcingFunction; // JOSE
-    v += exp(-dt/tauM) * v + forcingFunction; // JOSE
+    // v += exp(-1/tauM) * v + forcingFunction; // JOSE OLD
+    // v -= exp(-1/tauM) * v + forcingFunction; // JOSE BUENA
+
+    // v = v + forcingFunction * (-exp(-1/tauM));
+    // double decay = (1-exp(-1/tauM));
+    double decay = (1/tauM);
+    // v -= ((-v + vRest)) * decay + decay * forcingFunction;
+    // v -= decay * (v + forcingFunction);
+    // v = (exp(-1/tauM) * v) + forcingFunction;
+
+    
+     v -= (-(v-vReset) + forcingFunction) * decay;
 
     // double decay = exp(-dt / tauM);
     // v = decay * (v - vRest) + vRest + forcingFunction;
+    // v -= (-(v - vRest) + forcingFunction) * exp(-1 / tauM);
 
-    // v += (-(v - vRest) + forcingFunction) * exp(-dt / tauM);
-
-    // cout << " Neuron " << getNeuronId() << " (v: " << v << " ff: " << forcingFunction << ")" << endl;
+    // if (v != vReset && layer != "Output") cout << layer << " Neuron " << getNeuronId() << " (v: " << v << " ff: " << forcingFunction << " decay: " << (-(v-vReset) + forcingFunction) * decay << ") " << endl;
     v = (v < vRest) ? vRest : v;
 
     if (v >= vTh) {
-        // cout << layer << " Neuron " << getNeuronId() << " fired at iteration " << t << " | V = " << v << " f: " << forcingFunction << endl;
-        spike = 1; // s(t) = 1
+        // if (layer != "Output") cout << layer << " Neuron " << getNeuronId() << " fired at iteration " << t << " | V = " << v << " f: " << forcingFunction << endl;
+        // cout << layer << " Neuron " << getNeuronId() << " fired at iteration " << t << " (v: " << v << " ff: " <<  forcingFunction << " decay: " << decay <<") " << endl;
+        s = 1; // s(t) = 1
         vMax = v;
         v = vReset;
         inRefraction = true;
         timeLastSpike = t;
     }
 
-     return spike;
+     return s;
 }
 
 void LIFneuron::STDP() {
@@ -374,66 +387,6 @@ void LIFneuron::loadWeights(const string& fileName) {
     file.close();
 }
 
-// void LIFneuron::STDP(unsigned long index) {
-//     double LTP, LTD = 0.0;
-//     double winit, weight, normPreX = 0.0;
-//     double a = 0.0; // Check this use as parameter
-//     double learningRate = 0.1; // Check this use as parameter
-
-//     winit = synapses[index]->getWinit();
-//     weight = synapses[index]->getWeight();
-//     normPreX = synapses[index]->getNormPreSynapticTrace(minPreX, maxPreX);
-//     LTP = exp(-weight + winit) * exp(normPreX) - a; // LTPw *LTPx
-//     LTD = -exp(weight - winit) * exp(1 - normPreX) - a; // LTDw *LTDx
-//     synapses[index]->setWeight(learningRate * (LTP + LTD));
-// }
-
-// double LIFneuron::MSE() { 
-//     double mse = 0.0;
-//     double normWeight = 0.0;
-//     double normPreX = 0.0;
-
-//     for (int i = 0; i < synapses.size(); i++) {
-//         normWeight = synapses[i]->getNormWeight(minWeight, maxWeight);
-//         normPreX = synapses[i]->getNormPreSynapticTrace(minPreX, maxPreX);
-
-//         mse += pow(normPreX - normWeight, 2);
-//     }
-
-//     mse /= synapses.size();
-
-//     return mse;
-// }
-
-// void LIFneuron::getFirstWeight() {
-//     if (!synapses.empty()) {
-//         for (unsigned long i = 0; i < synapses.size() / 2; i++) {
-//             if (synapses[i]) {
-//                 cout << "Neuron " << neuronId[0] << " x " <<neuronId[1] << " x " << neuronId[2] << " synapse " << i << " weight: " << synapses[i]->getWeight() << endl;
-//             }
-//         }
-//         // return synapses[0]->getWeight();
-//     }
-//     // return 0.0; 
-// }
-
-// int LIFneuron::gatherSpike(int t) {
-//     int s = 0;
-//     shared_ptr<LIFneuron> preNeuron = nullptr;
-
-//     for (unsigned long i = 0; i < synapses.size(); i++) {
-//         synapses[i]->updateSpikeAtributes();
-//         s = synapses[i]->obtainSpike();
-        
-//         if (s == 1) {
-//             preNeuron = synapses[i]->getPreNeuron();
-//             preNeuron->STDP();
-//         }
-//     }
-
-//     return s;
-// }
-
 void LIFneuron::addLink() {
     linkAmount++;
     usageCount++;
@@ -463,108 +416,3 @@ bool LIFneuron::getHasBeenWinner() {
 void LIFneuron::setHasBeenWinner(bool hasBeenWinner_) {
     hasBeenWinner = hasBeenWinner_;
 }
-
-
-
-
-// int LIFneuron::updateNeuronState(bool doWta, int t) {
-//     double forcingFunction = WTA(t);
-
-//     updateMembranePotential(forcingFunction, t);
-
-//     if (wtaRule == false && spike == 1) STDP();
-
-//     return spike;
-// }
-
-// double LIFneuron::WTA(int t) {
-//     int s = 0;
-//     double forcingFunction = 0.0;
-//     double aux;
-//     shared_ptr<LIFneuron> preNeuron = nullptr;
-
-//     maxPreX = -DBL_MAX;
-//     minPreX = DBL_MAX;
-//     maxWeight = -DBL_MAX; 
-//     minWeight = DBL_MAX;
-
-//     unsigned long winner = 0;
-//     bool winnerFound = false;
-//     double vMaxAux = -DBL_MAX;
-    
-//     if (!synapses.empty()) {
-//         if (learning) {
-//             for (unsigned long i = 0; i < synapses.size(); i++) {
-//                 if (synapses[i]) { // Delete this
-//                     preNeuron = synapses[i]->getPreNeuron();
-//                     if (preNeuron->getLinkAmount() == preNeuron->getUsageCount()) preNeuron->setHasBeenWinner(false);
-//                     if (preNeuron->getSpike() == 1 && preNeuron->getVMax() > vMaxAux) {
-//                         winnerFound = true;
-//                         winner = i;
-//                         vMaxAux = preNeuron->getVMax();
-//                     }
-//                 } else {
-//                     cerr << "Error: synapse is null" << endl;
-//                 }
-//             }
-//         }
-
-//         if (winnerFound) { // There is a winner synapse
-//             for (unsigned long i = 0; i < synapses.size(); i++) {
-//                 if (synapses[i]) {
-//                     preNeuron = synapses[i]->getPreNeuron();
-//                     preNeuron->setHasBeenWinner(true);
-//                     if (i == winner) {
-//                         synapses[winner]->updateSpikeAtributes();
-//                         s = synapses[winner]->obtainSpike();
-//                         synapses[winner]->updatePresinapticTrace(s);
-//                         forcingFunction += synapses[winner]->updateForcingFunction(s);
-//                         preNeuron->STDP();
-//                         // if (layer == "SS-Conv") cout << synapses[winner]->getPreNeuron()->getLinkAmount() << endl;
-//                         // if (layer == "Output") cout << layer << " " << preNeuron->getNeuronId() << " winner synapse: " << neuronId[0] << " x " <<neuronId[1] << " x " << neuronId[2] << endl;
-//                     } else {
-//                         // synapses[winner]->updateSpikeAtributes();
-//                         s = synapses[i]->obtainSpike();
-//                         synapses[i]->updatePresinapticTrace(s);
-//                         forcingFunction += synapses[i]->updateForcingFunction(s);
-//                     }
-
-//                     aux = synapses[i]->getPreSynapticTrace();
-//                     if (aux > maxPreX) maxPreX = aux;
-//                     if (aux < minPreX) minPreX = aux;
-//                     aux = synapses[i]->getWeight();
-//                     if (aux > maxWeight) maxWeight = aux;
-//                     if (aux < minWeight) minWeight = aux;
-
-//                     if (preNeuron->decrementUsageCount() <= 0 && preNeuron->getHasBeenWinner() == true) {
-//                         preNeuron->inhibitNeuron(t);
-//                         // preNeuron->setHasBeenWinner(false);
-//                         preNeuron->setUsageCount(preNeuron->getLinkAmount());
-//                     }
-
-//                 } else {
-//                     cerr << "Error: synapse is null" << endl;
-//                 }
-//             }
-//         } else {
-//             for (unsigned long i = 0; i < synapses.size(); i++) {
-//                 if (synapses[i]) {
-//                     synapses[i]->updateSpikeAtributes();
-//                     s = synapses[i]->obtainSpike();
-//                     synapses[i]->updatePresinapticTrace(s);
-//                     forcingFunction += synapses[i]->updateForcingFunction(s);
-
-//                     aux = synapses[i]->getPreSynapticTrace();
-//                     if (aux > maxPreX) maxPreX = aux;
-//                     if (aux < minPreX) minPreX = aux;
-//                     aux = synapses[i]->getWeight();
-//                     if (aux > maxWeight) maxWeight = aux;
-//                     if (aux < minWeight) minWeight = aux;
-//                 } else {
-//                     cerr << "Error: synapse is null" << endl;
-//                 }
-//             }
-//         }
-//     }
-//     return forcingFunction;
-// }
