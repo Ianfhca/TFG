@@ -478,8 +478,11 @@ int SNN::processGestureData(const SpikeCubePolarity& spikeData, int gestureClass
                 // Usar datos reales en lugar de valores fijos
                 layers[0]->getNeuron(indexON)->setSpike((int)mapON[y][x]);
                 layers[0]->getNeuron(indexOFF)->setSpike((int)mapOFF[y][x]);
-                // layers[0]->getNeuron(indexON)->setSpike(1);
-                // layers[0]->getNeuron(indexOFF)->setSpike(0);
+                // if (x == 1 && y == 2) {
+                //     layers[0]->getNeuron(indexON)->setSpike(1);
+                //     layers[0]->getNeuron(indexOFF)->setSpike(0);
+                // }
+                
 
                 // cout << "Time step " << t << ": Neuron ON " << indexON << " spiked: " << (int)mapON[y][x] << ", Neuron OFF " << indexOFF << " spiked: " << (int)mapOFF[y][x] << endl;
             }
@@ -491,7 +494,6 @@ int SNN::processGestureData(const SpikeCubePolarity& spikeData, int gestureClass
         }
         
         for (unsigned long index = 1; index < layers.size(); index++) {
-            // layers[index]->feedForward(mode, gestureClass, t);
             layers[index]->feedForward(baseName + mode, gestureClass, (int)symTime);
         }
         symTime++;

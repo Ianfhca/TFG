@@ -177,7 +177,8 @@ void Layer::setPresynapticLinks(Layer &preLayer) {
             }
         }
     } else if (connections == "sparse") {
-        int preNeuronIdx, neuronIdx = 0;
+        int preNeuronIdx = 0; 
+        int neuronIdx = 0;
 
         for (unsigned long i = 0; i < sparseConnections.size(); i++) {
             preNeuronIdx = sparseConnections[i].first;
@@ -210,10 +211,10 @@ void Layer::feedForward(const string& baseName, int classLabel, int t) {
             spikeHistory[i] += spike;
             if (spike == 1) file << t << ", " << i << ", " << classLabel << endl;
         }
+
         file.close();
     } else {
-        for (int i = 0; i < numNeurons; i++) spike = neurons[i]->updateNeuronState(t);
-        // if (spike == 1) cout << "Layer " << type << " Neuron " << neurons[0]->getNeuronId() << " spiked at time " << t << endl;
+        for (int i = 0; i < numNeurons; i++) neurons[i]->updateNeuronState(t);
     }
 }
 

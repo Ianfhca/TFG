@@ -55,11 +55,11 @@ private:
 
     int spike; // Spike value 1 / 0
     bool learning; // Learning state
-    int linkAmount; // Number of links from post-synaptic neurons
-    int usageCount; // Count of how many times the synapse has been used
-    bool hasBeenWinner; // Flag to check if the neuron has been a winner
-    // vector<Synapse> synapses; // Presynaptic neurons
+    int postNeuronAmount; // Number of links from post-synaptic neurons
+    int remainingLinks; // Remaining links to be used
+    bool wtaInhibition; // Flag to check if the neuron has been a winner
     vector<shared_ptr<Synapse>> synapses; // Presynaptic neurons
+    // vector<Synapse> synapses; // Presynaptic neurons
 
     int updateMembranePotential(double forcingFunction, int time);
 
@@ -76,6 +76,13 @@ public:
     int getSpike();
     void setSpike(int spike_);
     void setPresynapticLink(shared_ptr<LIFneuron> preNeuron, int numNeurons);
+    void addLink();
+    int getPostNeuronAmount();
+    int getRemainingLinks();
+    void setRemainingLinks(int remainingLinks_);
+    int decrementRemainingLinks();
+    bool getWtaInhibition();
+    void setWtaInhibition(bool wtaInhibition_);
 
     void inhibitNeuron(int time);
     int updateNeuronState(int time);
@@ -85,7 +92,8 @@ public:
     
     void STDP();
     // double MSE();
-    double MSE(unsigned long index, double normPreX);
+    void MSE(double mse);
+    // double MSE(unsigned long index, double normPreX);
 
     void saveWeights(const string& fileName, int id);
     void loadWeights(const string& fileName);
@@ -93,11 +101,5 @@ public:
     // int updateMembranePotential(double forcingFunction, int time);
     // void getFirstWeight();
 
-    void addLink();
-    int getLinkAmount();
-    int getUsageCount();
-    void setUsageCount(int usageCount_);
-    int decrementUsageCount();
-    bool getHasBeenWinner();
-    void setHasBeenWinner(bool hasBeenWinner_);
+
 };

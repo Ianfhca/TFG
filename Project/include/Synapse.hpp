@@ -56,6 +56,7 @@ public:
     
     void updateSpikeAtributes();
     int obtainSpike();
+    int obtainPreviousSpike();
     // double update();
     // bool updateSpikeAtributes();
     void updatePresinapticTrace(int spike);

@@ -53,17 +53,18 @@ double Synapse::getPreSynapticTrace() {
 
 double Synapse::getNormPreSynapticTrace(double minPreX, double maxPreX) {
     if (maxPreX == minPreX) return 0.0;
-    return (preSynapticTrace - minPreX) / (maxPreX - minPreX);
+    double norm = (preSynapticTrace - minPreX) / (maxPreX - minPreX);
     // double norm = (preSynapticTrace - minPreX) / (maxPreX - minPreX);
-    // return max(0.0, min(1.0, norm)); 
+    return max(0.0, min(1.0, norm)); 
 }
 
 double Synapse::getNormWeight(double minWeight, double maxWeight) {
     if (maxWeight == minWeight) return 0.0;
     // return (weight - minWeight) / (maxWeight - minWeight);
     double norm = (weight - minWeight) / (maxWeight - minWeight);
-    return max(-1.0, min(1.0, norm)); // Check this clipping [-1, 1]
-    // return max(0.0, min(1.0, norm)); // Check this clipping [0, 1]
+    // return norm;
+    // return max(-1.0, min(1.0, norm)); // Check this clipping [-1, 1]
+    return max(0.0, min(1.0, norm)); // Check this clipping [0, 1]
 }
 
 shared_ptr<LIFneuron> Synapse::getPreNeuron() {
@@ -128,7 +129,24 @@ int Synapse::obtainSpike() {
         // cout << "Ha habido spike" << endl;
     }
 
-    for (int i = 0; i < spikesQ.size(); i++) {
+    for (unsigned long i = 0; i < spikesQ.size(); i++) {
+        spikesQ[i] -= 1;
+    }
+
+    return spike;
+}
+
+int Synapse::obtainPreviousSpike() {
+    int spike = 0;
+
+    if (preNeuron->getSpike() == 1) spikesQ.push_back(cycles);
+
+    if (!spikesQ.empty() && spikesQ.front() <= 0) {
+        spikesQ.erase(spikesQ.begin());
+        spike = 1;
+    }
+
+    for (unsigned long i = 0; i < spikesQ.size(); i++) {
         spikesQ[i] -= 1;
     }
 
@@ -145,8 +163,11 @@ void Synapse::updatePresinapticTrace(int spike) {
     // preSynapticTrace = -preSynapticTrace + spike * exp(-dt / lambdaX); // JOSE OLD
     // preSynapticTrace = (-preSynapticTrace * (1/lambdaX)) + (alpha * spike);
     // preSynapticTrace = (-preSynapticTrace + alpha * spike) * (-dt / lambdaX);
+    double decay  = (1/lambdaX);
 
-    preSynapticTrace = (-preSynapticTrace + alpha * spike) * (1/lambdaX);
+    preSynapticTrace = decay * (-preSynapticTrace) + (alpha * spike);
+
+    // preSynapticTrace = (-preSynapticTrace + alpha * spike) * (1/lambdaX);
     // preSynapticTrace = (-preSynapticTrace + alpha * spike) * exp(-1 / lambdaX);
     // preSynapticTrace = (-preSynapticTrace + alpha * spike) * exp(-1 / lambdaX); // JOSE BUENA
     if (preSynapticTrace < 0) preSynapticTrace = 0;
