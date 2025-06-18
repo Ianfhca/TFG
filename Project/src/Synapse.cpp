@@ -83,8 +83,8 @@ void Synapse::setWeight(double weight_) {
 }
 
 // void initializeWeights(vector<float>& weights, int fanIn) {
-//     std::default_random_engine generator;
-//     std::normal_distribution<float> distribution(0.0, std::sqrt(2.0f / fanIn));
+//     default_random_engine generator;
+//     normal_distribution<float> distribution(0.0, sqrt(2.0f / fanIn));
     
 //     for (auto& w : weights) {
 //         w = distribution(generator);

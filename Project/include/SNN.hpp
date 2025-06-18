@@ -20,8 +20,8 @@ class SNN {
 private:
     string topologyFile;
     string baseName;
-    int time;
-    int dt;
+    unsigned long time;
+    unsigned long dt;
     string timeUnit;
     string dtUnit;
     string tRefrUnit;

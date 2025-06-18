@@ -1,0 +1,994 @@
+Time step 2300
+Neuron 0 Spike History: 0
+Neuron 1 Spike History: 0
+Neuron 2 Spike History: 0
+Neuron 3 Spike History: 0
+Neuron 4 Spike History: 0
+Neuron 5 Spike History: 0
+Neuron 6 Spike History: 0
+Neuron 7 Spike History: 0
+Neuron 8 Spike History: 0
+Neuron 9 Spike History: 0
+Neuron 10 Spike History: 0
+SS-Conv Neuron 58 x 42 x 0: 7408 fired at iteration 7351 (v: -49.9546 ff: 0.207563 decay: 0.01) 
+SS-Conv Neuron 52 x 37 x 0: 6641 fired at iteration 7353 (v: -49.5234 ff: 0.870772 decay: 0.01) 
+SS-Conv Neuron 57 x 41 x 0: 7280 fired at iteration 7362 (v: -49.9712 ff: 0.671375 decay: 0.01) 
+SS-Conv Neuron 55 x 40 x 0: 7025 fired at iteration 7369 (v: -49.9485 ff: 0.624406 decay: 0.01) 
+SS-Conv Neuron 49 x 35 x 0: 6258 fired at iteration 7375 (v: -49.9007 ff: 0.553604 decay: 0.01) 
+SS-Conv Neuron 53 x 38 x 0: 6769 fired at iteration 7377 (v: -49.8092 ff: 0.448839 decay: 0.01) 
+SS-Conv Neuron 52 x 39 x 0: 6643 fired at iteration 7381 (v: -49.3336 ff: 0.879405 decay: 0.01) 
+SS-Conv Neuron 54 x 38 x 0: 6896 fired at iteration 7385 (v: -49.8765 ff: 0.349284 decay: 0.01) 
+SS-Conv Neuron 52 x 38 x 0: 6642 fired at iteration 7393 (v: -49.9261 ff: 0.307037 decay: 0.01) 
+SS-Conv Neuron 51 x 36 x 0: 6513 fired at iteration 7394 (v: -49.7576 ff: 0.525748 decay: 0.01) 
+SS-Conv Neuron 51 x 37 x 0: 6514 fired at iteration 7400 (v: -49.9733 ff: 0.284963 decay: 0.01) 
+SS-Conv Neuron 48 x 34 x 0: 6130 fired at iteration 7406 (v: -49.7082 ff: 0.597336 decay: 0.01) 
+SS-Conv Neuron 49 x 29 x 0: 6252 fired at iteration 7412 (v: -49.7561 ff: 0.788213 decay: 0.01) 
+SS-Conv Neuron 50 x 28 x 0: 6378 fired at iteration 7435 (v: -49.9274 ff: 0.535725 decay: 0.01) 
+Time step 2400
+Neuron 0 Spike History: 0
+Neuron 1 Spike History: 0
+Neuron 2 Spike History: 0
+Neuron 3 Spike History: 0
+Neuron 4 Spike History: 0
+Neuron 5 Spike History: 0
+Neuron 6 Spike History: 0
+Neuron 7 Spike History: 0
+Neuron 8 Spike History: 0
+Neuron 9 Spike History: 0
+Neuron 10 Spike History: 0
+SS-Conv Neuron 48 x 28 x 0: 6124 fired at iteration 7535 (v: -49.8926 ff: 0.720901 decay: 0.01) 
+SS-Conv Neuron 49 x 26 x 0: 6249 fired at iteration 7543 (v: -49.8885 ff: 0.595095 decay: 0.01) 
+Time step 2500
+Neuron 0 Spike History: 0
+Neuron 1 Spike History: 0
+Neuron 2 Spike History: 0
+Neuron 3 Spike History: 0
+Neuron 4 Spike History: 0
+Neuron 5 Spike History: 0
+Neuron 6 Spike History: 0
+Neuron 7 Spike History: 0
+Neuron 8 Spike History: 0
+Neuron 9 Spike History: 0
+Neuron 10 Spike History: 0
+SS-Conv Neuron 48 x 29 x 0: 6125 fired at iteration 7547 (v: -49.9483 ff: 0.548288 decay: 0.01) 
+SS-Conv Neuron 49 x 27 x 0: 6250 fired at iteration 7548 (v: -49.8591 ff: 0.510942 decay: 0.01) 
+SS-Conv Neuron 49 x 29 x 0: 6252 fired at iteration 7553 (v: -49.8339 ff: 0.940342 decay: 0.01) 
+SS-Conv Neuron 48 x 34 x 0: 6130 fired at iteration 7555 (v: -49.8372 ff: 1.22896 decay: 0.01) 
+SS-Conv Neuron 50 x 28 x 0: 6378 fired at iteration 7568 (v: -49.8569 ff: 0.391772 decay: 0.01) 
+SS-Conv Neuron 51 x 34 x 0: 6511 fired at iteration 7580 (v: -49.7184 ff: 0.991786 decay: 0.01) 
+SS-Conv Neuron 49 x 36 x 0: 6259 fired at iteration 7589 (v: -49.9483 ff: 0.333104 decay: 0.01) 
+SS-Conv Neuron 49 x 32 x 0: 6255 fired at iteration 7596 (v: -49.5237 ff: 0.664162 decay: 0.01) 
+SS-Conv Neuron 49 x 37 x 0: 6260 fired at iteration 7598 (v: -49.6914 ff: 0.462321 decay: 0.01) 
+SS-Conv Neuron 49 x 35 x 0: 6258 fired at iteration 7599 (v: -49.9114 ff: 0.713463 decay: 0.01) 
+SS-Conv Neuron 52 x 39 x 0: 6643 fired at iteration 7606 (v: -49.9935 ff: 0.389277 decay: 0.01) 
+SS-Conv Neuron 50 x 32 x 0: 6382 fired at iteration 7607 (v: -49.5769 ff: 0.877252 decay: 0.01) 
+SS-Conv Neuron 50 x 37 x 0: 6387 fired at iteration 7609 (v: -49.8049 ff: 0.369638 decay: 0.01) 
+SS-Conv Neuron 48 x 36 x 0: 6132 fired at iteration 7610 (v: -49.9371 ff: 0.385361 decay: 0.01) 
+SS-Conv Neuron 47 x 40 x 0: 6009 fired at iteration 7618 (v: -49.7207 ff: 0.610174 decay: 0.01) 
+SS-Conv Neuron 48 x 37 x 0: 6133 fired at iteration 7621 (v: -49.8615 ff: 0.368833 decay: 0.01) 
+SS-Conv Neuron 50 x 36 x 0: 6386 fired at iteration 7622 (v: -49.7939 ff: 0.447407 decay: 0.01) 
+SS-Conv Neuron 51 x 35 x 0: 6512 fired at iteration 7625 (v: -49.7283 ff: 0.43102 decay: 0.01) 
+SS-Conv Neuron 52 x 40 x 0: 6644 fired at iteration 7628 (v: -49.9072 ff: 0.36905 decay: 0.01) 
+SS-Conv Neuron 52 x 37 x 0: 6641 fired at iteration 7631 (v: -49.7548 ff: 1.02074 decay: 0.01) 
+SS-Conv Neuron 51 x 36 x 0: 6513 fired at iteration 7632 (v: -49.9804 ff: 0.871764 decay: 0.01) 
+SS-Conv Neuron 51 x 40 x 0: 6517 fired at iteration 7632 (v: -49.9912 ff: 0.657836 decay: 0.01) 
+SS-Conv Neuron 54 x 41 x 0: 6899 fired at iteration 7632 (v: -49.4859 ff: 0.863225 decay: 0.01) 
+SS-Conv Neuron 49 x 39 x 0: 6262 fired at iteration 7636 (v: -49.8683 ff: 0.39501 decay: 0.01) 
+SS-Conv Neuron 52 x 36 x 0: 6640 fired at iteration 7639 (v: -49.7114 ff: 0.618635 decay: 0.01) 
+SS-Conv Neuron 55 x 43 x 0: 7028 fired at iteration 7641 (v: -49.9851 ff: 0.390004 decay: 0.01) 
+SS-Conv Neuron 51 x 37 x 0: 6514 fired at iteration 7642 (v: -49.8302 ff: 0.439723 decay: 0.01) 
+SS-Conv Neuron 53 x 42 x 0: 6773 fired at iteration 7642 (v: -49.7673 ff: 1.16682 decay: 0.01) 
+SS-Conv Neuron 54 x 43 x 0: 6901 fired at iteration 7644 (v: -49.7957 ff: 0.399182 decay: 0.01) 
+Time step 2600
+Neuron 0 Spike History: 0
+Neuron 1 Spike History: 0
+Neuron 2 Spike History: 0
+Neuron 3 Spike History: 0
+Neuron 4 Spike History: 0
+Neuron 5 Spike History: 0
+Neuron 6 Spike History: 0
+Neuron 7 Spike History: 0
+Neuron 8 Spike History: 0
+Neuron 9 Spike History: 0
+Neuron 10 Spike History: 0
+SS-Conv Neuron 51 x 41 x 0: 6518 fired at iteration 7645 (v: -49.9356 ff: 0.272721 decay: 0.01) 
+SS-Conv Neuron 52 x 39 x 0: 6643 fired at iteration 7660 (v: -49.7771 ff: 0.649764 decay: 0.01) 
+SS-Conv Neuron 52 x 38 x 0: 6642 fired at iteration 7671 (v: -49.8404 ff: 0.692697 decay: 0.01) 
+SS-Conv Neuron 52 x 45 x 0: 6649 fired at iteration 7726 (v: -49.9872 ff: 0.332734 decay: 0.01) 
+SS-Conv Neuron 52 x 44 x 0: 6648 fired at iteration 7727 (v: -49.8327 ff: 0.376053 decay: 0.01) 
+Time step 2700
+Neuron 0 Spike History: 0
+Neuron 1 Spike History: 0
+Neuron 2 Spike History: 0
+Neuron 3 Spike History: 0
+Neuron 4 Spike History: 0
+Neuron 5 Spike History: 0
+Neuron 6 Spike History: 0
+Neuron 7 Spike History: 0
+Neuron 8 Spike History: 0
+Neuron 9 Spike History: 0
+Neuron 10 Spike History: 0
+SS-Conv Neuron 50 x 43 x 0: 6393 fired at iteration 7745 (v: -49.8624 ff: 0.745703 decay: 0.01) 
+SS-Conv Neuron 55 x 43 x 0: 7028 fired at iteration 7746 (v: -49.9941 ff: 0.366658 decay: 0.01) 
+SS-Conv Neuron 53 x 44 x 0: 6775 fired at iteration 7747 (v: -49.9721 ff: 1.07171 decay: 0.01) 
+SS-Conv Neuron 53 x 45 x 0: 6776 fired at iteration 7747 (v: -49.2452 ff: 1.21519 decay: 0.01) 
+SS-Conv Neuron 54 x 41 x 0: 6899 fired at iteration 7748 (v: -49.9725 ff: 0.328448 decay: 0.01) 
+SS-Conv Neuron 52 x 40 x 0: 6644 fired at iteration 7758 (v: -49.9352 ff: 0.367872 decay: 0.01) 
+SS-Conv Neuron 52 x 39 x 0: 6643 fired at iteration 7759 (v: -49.5138 ff: 0.757589 decay: 0.01) 
+SS-Conv Neuron 51 x 43 x 0: 6520 fired at iteration 7760 (v: -49.9384 ff: 0.359029 decay: 0.01) 
+SS-Conv Neuron 56 x 42 x 0: 7154 fired at iteration 7760 (v: -49.8823 ff: 0.328169 decay: 0.01) 
+SS-Conv Neuron 51 x 44 x 0: 6521 fired at iteration 7761 (v: -49.7518 ff: 0.600684 decay: 0.01) 
+SS-Conv Neuron 55 x 42 x 0: 7027 fired at iteration 7773 (v: -49.7119 ff: 0.784164 decay: 0.01) 
+SS-Conv Neuron 51 x 42 x 0: 6519 fired at iteration 7774 (v: -49.3162 ff: 0.938887 decay: 0.01) 
+SS-Conv Neuron 48 x 34 x 0: 6130 fired at iteration 7803 (v: -49.8429 ff: 0.410692 decay: 0.01) 
+Time step 2800
+Neuron 0 Spike History: 0
+Neuron 1 Spike History: 0
+Neuron 2 Spike History: 0
+Neuron 3 Spike History: 0
+Neuron 4 Spike History: 0
+Neuron 5 Spike History: 0
+Neuron 6 Spike History: 0
+Neuron 7 Spike History: 0
+Neuron 8 Spike History: 0
+Neuron 9 Spike History: 0
+Neuron 10 Spike History: 0
+SS-Conv Neuron 45 x 34 x 0: 5749 fired at iteration 7922 (v: -49.6925 ff: 1.13162 decay: 0.01) 
+SS-Conv Neuron 46 x 29 x 0: 5871 fired at iteration 7922 (v: -49.7398 ff: 0.590318 decay: 0.01) 
+SS-Conv Neuron 45 x 33 x 0: 5748 fired at iteration 7923 (v: -49.6437 ff: 0.627248 decay: 0.01) 
+SS-Conv Neuron 49 x 29 x 0: 6252 fired at iteration 7923 (v: -49.7347 ff: 0.622556 decay: 0.01) 
+SS-Conv Neuron 48 x 29 x 0: 6125 fired at iteration 7928 (v: -49.6036 ff: 0.548288 decay: 0.01) 
+SS-Conv Neuron 47 x 32 x 0: 6001 fired at iteration 7930 (v: -49.6165 ff: 0.550164 decay: 0.01) 
+SS-Conv Neuron 46 x 32 x 0: 5874 fired at iteration 7936 (v: -49.8192 ff: 0.400308 decay: 0.01) 
+SS-Conv Neuron 47 x 36 x 0: 6005 fired at iteration 7941 (v: -49.5298 ff: 0.810081 decay: 0.01) 
+SS-Conv Neuron 52 x 39 x 0: 6643 fired at iteration 7941 (v: -49.666 ff: 0.649764 decay: 0.01) 
+Time step 2900
+Neuron 0 Spike History: 0
+Neuron 1 Spike History: 0
+Neuron 2 Spike History: 0
+Neuron 3 Spike History: 0
+Neuron 4 Spike History: 0
+Neuron 5 Spike History: 0
+Neuron 6 Spike History: 0
+Neuron 7 Spike History: 0
+Neuron 8 Spike History: 0
+Neuron 9 Spike History: 0
+Neuron 10 Spike History: 0
+SS-Conv Neuron 49 x 36 x 0: 6259 fired at iteration 7947 (v: -49.6068 ff: 0.635947 decay: 0.01) 
+SS-Conv Neuron 46 x 33 x 0: 5875 fired at iteration 7948 (v: -49.9005 ff: 0.358418 decay: 0.01) 
+SS-Conv Neuron 48 x 31 x 0: 6127 fired at iteration 7948 (v: -49.9467 ff: 0.367032 decay: 0.01) 
+SS-Conv Neuron 48 x 36 x 0: 6132 fired at iteration 7948 (v: -49.7753 ff: 0.457203 decay: 0.01) 
+SS-Conv Neuron 48 x 38 x 0: 6134 fired at iteration 7948 (v: -49.8556 ff: 0.924315 decay: 0.01) 
+SS-Conv Neuron 48 x 37 x 0: 6133 fired at iteration 7949 (v: -49.9916 ff: 0.524474 decay: 0.01) 
+SS-Conv Neuron 49 x 35 x 0: 6258 fired at iteration 7949 (v: -49.5902 ff: 0.855877 decay: 0.01) 
+SS-Conv Neuron 48 x 33 x 0: 6129 fired at iteration 7954 (v: -49.8222 ff: 0.683973 decay: 0.01) 
+SS-Conv Neuron 45 x 38 x 0: 5753 fired at iteration 7957 (v: -49.7426 ff: 0.424157 decay: 0.01) 
+SS-Conv Neuron 48 x 34 x 0: 6130 fired at iteration 7957 (v: -49.2038 ff: 1.03183 decay: 0.01) 
+SS-Conv Neuron 49 x 37 x 0: 6260 fired at iteration 7957 (v: -49.8959 ff: 0.375837 decay: 0.01) 
+SS-Conv Neuron 49 x 32 x 0: 6255 fired at iteration 7958 (v: -49.2947 ff: 1.00002 decay: 0.01) 
+SS-Conv Neuron 49 x 38 x 0: 6261 fired at iteration 7959 (v: -49.9411 ff: 0.718638 decay: 0.01) 
+SS-Conv Neuron 47 x 40 x 0: 6009 fired at iteration 7965 (v: -49.5799 ff: 0.740504 decay: 0.01) 
+SS-Conv Neuron 48 x 40 x 0: 6136 fired at iteration 7967 (v: -49.9363 ff: 0.338841 decay: 0.01) 
+SS-Conv Neuron 49 x 39 x 0: 6262 fired at iteration 7967 (v: -49.9649 ff: 0.52566 decay: 0.01) 
+SS-Conv Neuron 46 x 37 x 0: 5879 fired at iteration 7968 (v: -49.9187 ff: 0.334475 decay: 0.01) 
+SS-Conv Neuron 50 x 37 x 0: 6387 fired at iteration 7970 (v: -49.6253 ff: 0.574207 decay: 0.01) 
+SS-Conv Neuron 49 x 33 x 0: 6256 fired at iteration 7972 (v: -49.9262 ff: 0.36358 decay: 0.01) 
+SS-Conv Neuron 48 x 39 x 0: 6135 fired at iteration 7975 (v: -49.9596 ff: 0.311835 decay: 0.01) 
+SS-Conv Neuron 52 x 40 x 0: 6644 fired at iteration 7976 (v: -49.9291 ff: 0.753554 decay: 0.01) 
+SS-Conv Neuron 48 x 41 x 0: 6137 fired at iteration 7979 (v: -49.755 ff: 0.460251 decay: 0.01) 
+SS-Conv Neuron 49 x 41 x 0: 6264 fired at iteration 7979 (v: -49.6864 ff: 0.565565 decay: 0.01) 
+SS-Conv Neuron 49 x 42 x 0: 6265 fired at iteration 7979 (v: -49.6709 ff: 0.694042 decay: 0.01) 
+SS-Conv Neuron 50 x 38 x 0: 6388 fired at iteration 7979 (v: -49.8507 ff: 0.487258 decay: 0.01) 
+SS-Conv Neuron 46 x 38 x 0: 5880 fired at iteration 7981 (v: -49.5615 ff: 0.752748 decay: 0.01) 
+SS-Conv Neuron 51 x 40 x 0: 6517 fired at iteration 7983 (v: -49.8936 ff: 0.603357 decay: 0.01) 
+SS-Conv Neuron 51 x 41 x 0: 6518 fired at iteration 7985 (v: -49.7386 ff: 0.621563 decay: 0.01) 
+SS-Conv Neuron 50 x 36 x 0: 6386 fired at iteration 7986 (v: -49.8362 ff: 0.611835 decay: 0.01) 
+SS-Conv Neuron 50 x 43 x 0: 6393 fired at iteration 7987 (v: -49.625 ff: 0.745703 decay: 0.01) 
+SS-Conv Neuron 48 x 42 x 0: 6138 fired at iteration 7990 (v: -49.7392 ff: 0.814949 decay: 0.01) 
+SS-Conv Neuron 52 x 39 x 0: 6643 fired at iteration 7990 (v: -49.6003 ff: 0.875778 decay: 0.01) 
+SS-Conv Neuron 50 x 40 x 0: 6390 fired at iteration 7991 (v: -49.6039 ff: 0.701739 decay: 0.01) 
+SS-Conv Neuron 53 x 42 x 0: 6773 fired at iteration 7991 (v: -49.4379 ff: 1.03878 decay: 0.01) 
+SS-Conv Neuron 51 x 37 x 0: 6514 fired at iteration 7992 (v: -49.8677 ff: 0.288001 decay: 0.01) 
+SS-Conv Neuron 50 x 39 x 0: 6389 fired at iteration 7996 (v: -49.6596 ff: 0.892886 decay: 0.01) 
+SS-Conv Neuron 54 x 43 x 0: 6901 fired at iteration 7996 (v: -49.9907 ff: 0.212036 decay: 0.01) 
+SS-Conv Neuron 54 x 41 x 0: 6899 fired at iteration 8003 (v: -49.8706 ff: 0.678691 decay: 0.01) 
+SS-Conv Neuron 55 x 43 x 0: 7028 fired at iteration 8003 (v: -49.5456 ff: 0.649737 decay: 0.01) 
+SS-Conv Neuron 49 x 44 x 0: 6267 fired at iteration 8005 (v: -49.7318 ff: 0.525957 decay: 0.01) 
+SS-Conv Neuron 51 x 46 x 0: 6523 fired at iteration 8006 (v: -49.6981 ff: 0.713444 decay: 0.01) 
+SS-Conv Neuron 50 x 42 x 0: 6392 fired at iteration 8011 (v: -49.9577 ff: 0.30234 decay: 0.01) 
+SS-Conv Neuron 52 x 42 x 0: 6646 fired at iteration 8011 (v: -49.6236 ff: 0.651551 decay: 0.01) 
+SS-Conv Neuron 52 x 45 x 0: 6649 fired at iteration 8011 (v: -49.908 ff: 0.360952 decay: 0.01) 
+SS-Conv Neuron 53 x 44 x 0: 6775 fired at iteration 8014 (v: -49.6858 ff: 0.650947 decay: 0.01) 
+SS-Conv Neuron 54 x 46 x 0: 6904 fired at iteration 8015 (v: -49.8913 ff: 0.953046 decay: 0.01) 
+SS-Conv Neuron 53 x 45 x 0: 6776 fired at iteration 8016 (v: -49.6924 ff: 0.525221 decay: 0.01) 
+SS-Conv Neuron 52 x 46 x 0: 6650 fired at iteration 8020 (v: -49.8949 ff: 0.311137 decay: 0.01) 
+SS-Conv Neuron 51 x 42 x 0: 6519 fired at iteration 8021 (v: -49.9534 ff: 0.650155 decay: 0.01) 
+SS-Conv Neuron 52 x 44 x 0: 6648 fired at iteration 8023 (v: -49.9826 ff: 0.408064 decay: 0.01) 
+Time step 3000
+Neuron 0 Spike History: 0
+Neuron 1 Spike History: 0
+Neuron 2 Spike History: 0
+Neuron 3 Spike History: 0
+Neuron 4 Spike History: 0
+Neuron 5 Spike History: 0
+Neuron 6 Spike History: 0
+Neuron 7 Spike History: 0
+Neuron 8 Spike History: 0
+Neuron 9 Spike History: 0
+Neuron 10 Spike History: 0
+SS-Conv Neuron 54 x 45 x 0: 6903 fired at iteration 8061 (v: -49.59 ff: 0.648832 decay: 0.01) 
+SS-Conv Neuron 53 x 49 x 0: 6780 fired at iteration 8063 (v: -49.7554 ff: 0.621746 decay: 0.01) 
+SS-Conv Neuron 52 x 49 x 0: 6653 fired at iteration 8064 (v: -49.9699 ff: 0.356469 decay: 0.01) 
+SS-Conv Neuron 55 x 48 x 0: 7033 fired at iteration 8071 (v: -49.2278 ff: 1.31824 decay: 0.01) 
+SS-Conv Neuron 52 x 48 x 0: 6652 fired at iteration 8072 (v: -49.9064 ff: 0.695897 decay: 0.01) 
+SS-Conv Neuron 51 x 43 x 0: 6520 fired at iteration 8077 (v: -49.9624 ff: 0.550433 decay: 0.01) 
+SS-Conv Neuron 54 x 47 x 0: 6905 fired at iteration 8077 (v: -49.8518 ff: 0.541604 decay: 0.01) 
+SS-Conv Neuron 50 x 47 x 0: 6397 fired at iteration 8078 (v: -49.8006 ff: 0.974242 decay: 0.01) 
+SS-Conv Neuron 52 x 40 x 0: 6644 fired at iteration 8078 (v: -49.5802 ff: 0.779446 decay: 0.01) 
+SS-Conv Neuron 53 x 48 x 0: 6779 fired at iteration 8079 (v: -49.8643 ff: 0.613015 decay: 0.01) 
+SS-Conv Neuron 55 x 46 x 0: 7031 fired at iteration 8079 (v: -49.4936 ff: 0.990688 decay: 0.01) 
+SS-Conv Neuron 52 x 39 x 0: 6643 fired at iteration 8083 (v: -49.7696 ff: 1.41767 decay: 0.01) 
+SS-Conv Neuron 50 x 43 x 0: 6393 fired at iteration 8084 (v: -49.789 ff: 0.396418 decay: 0.01) 
+SS-Conv Neuron 51 x 46 x 0: 6523 fired at iteration 8088 (v: -49.9466 ff: 0.394399 decay: 0.01) 
+SS-Conv Neuron 55 x 43 x 0: 7028 fired at iteration 8088 (v: -49.8002 ff: 0.366658 decay: 0.01) 
+SS-Conv Neuron 51 x 44 x 0: 6521 fired at iteration 8089 (v: -49.6398 ff: 0.700857 decay: 0.01) 
+SS-Conv Neuron 49 x 45 x 0: 6268 fired at iteration 8090 (v: -49.907 ff: 0.581694 decay: 0.01) 
+SS-Conv Neuron 51 x 41 x 0: 6518 fired at iteration 8092 (v: -49.4804 ff: 0.701534 decay: 0.01) 
+SS-Conv Neuron 49 x 43 x 0: 6266 fired at iteration 8095 (v: -49.4071 ff: 0.755213 decay: 0.01) 
+SS-Conv Neuron 55 x 42 x 0: 7027 fired at iteration 8098 (v: -49.5823 ff: 0.631664 decay: 0.01) 
+SS-Conv Neuron 55 x 44 x 0: 7029 fired at iteration 8100 (v: -49.7355 ff: 0.482009 decay: 0.01) 
+SS-Conv Neuron 54 x 43 x 0: 6901 fired at iteration 8106 (v: -49.8238 ff: 0.767186 decay: 0.01) 
+SS-Conv Neuron 53 x 42 x 0: 6773 fired at iteration 8109 (v: -49.9385 ff: 0.242824 decay: 0.01) 
+SS-Conv Neuron 54 x 41 x 0: 6899 fired at iteration 8110 (v: -49.6322 ff: 0.538807 decay: 0.01) 
+SS-Conv Neuron 54 x 42 x 0: 6900 fired at iteration 8111 (v: -49.5641 ff: 0.64812 decay: 0.01) 
+SS-Conv Neuron 56 x 42 x 0: 7154 fired at iteration 8114 (v: -49.8007 ff: 0.558284 decay: 0.01) 
+SS-Conv Neuron 53 x 43 x 0: 6774 fired at iteration 8115 (v: -49.8329 ff: 0.348882 decay: 0.01) 
+SS-Conv Neuron 46 x 42 x 0: 5884 fired at iteration 8119 (v: -49.9899 ff: 0.207134 decay: 0.01) 
+SS-Conv Neuron 47 x 40 x 0: 6009 fired at iteration 8123 (v: -49.9154 ff: 0.74602 decay: 0.01) 
+SS-Conv Neuron 48 x 40 x 0: 6136 fired at iteration 8129 (v: -49.7356 ff: 0.704687 decay: 0.01) 
+SS-Conv Neuron 51 x 40 x 0: 6517 fired at iteration 8129 (v: -49.9207 ff: 0.391303 decay: 0.01) 
+SS-Conv Neuron 45 x 39 x 0: 5754 fired at iteration 8134 (v: -49.9068 ff: 0.387768 decay: 0.01) 
+SS-Conv Neuron 47 x 36 x 0: 6005 fired at iteration 8134 (v: -49.9114 ff: 0.518202 decay: 0.01) 
+SS-Conv Neuron 48 x 34 x 0: 6130 fired at iteration 8140 (v: -49.8595 ff: 0.620709 decay: 0.01) 
+SS-Conv Neuron 49 x 39 x 0: 6262 fired at iteration 8144 (v: -49.9722 ff: 0.349622 decay: 0.01) 
+Time step 3100
+Neuron 0 Spike History: 0
+Neuron 1 Spike History: 0
+Neuron 2 Spike History: 0
+Neuron 3 Spike History: 0
+Neuron 4 Spike History: 0
+Neuron 5 Spike History: 0
+Neuron 6 Spike History: 0
+Neuron 7 Spike History: 0
+Neuron 8 Spike History: 0
+Neuron 9 Spike History: 0
+Neuron 10 Spike History: 0
+SS-Conv Neuron 49 x 36 x 0: 6259 fired at iteration 8152 (v: -49.9505 ff: 0.74973 decay: 0.01) 
+SS-Conv Neuron 49 x 37 x 0: 6260 fired at iteration 8155 (v: -49.6093 ff: 0.592154 decay: 0.01) 
+SS-Conv Neuron 45 x 36 x 0: 5751 fired at iteration 8157 (v: -49.8368 ff: 0.348902 decay: 0.01) 
+SS-Conv Neuron 48 x 37 x 0: 6133 fired at iteration 8160 (v: -49.6346 ff: 0.587189 decay: 0.01) 
+SS-Conv Neuron 48 x 36 x 0: 6132 fired at iteration 8164 (v: -49.8895 ff: 0.385361 decay: 0.01) 
+SS-Conv Neuron 45 x 34 x 0: 5749 fired at iteration 8174 (v: -49.9067 ff: 0.272787 decay: 0.01) 
+SS-Conv Neuron 45 x 33 x 0: 5748 fired at iteration 8182 (v: -49.4193 ff: 0.885525 decay: 0.01) 
+SS-Conv Neuron 49 x 29 x 0: 6252 fired at iteration 8183 (v: -49.706 ff: 0.692237 decay: 0.01) 
+SS-Conv Neuron 46 x 29 x 0: 5871 fired at iteration 8194 (v: -49.7344 ff: 0.810369 decay: 0.01) 
+SS-Conv Neuron 44 x 29 x 0: 5617 fired at iteration 8195 (v: -49.8724 ff: 0.450528 decay: 0.01) 
+SS-Conv Neuron 48 x 28 x 0: 6124 fired at iteration 8230 (v: -49.7932 ff: 0.719901 decay: 0.01) 
+SS-Conv Neuron 46 x 27 x 0: 5869 fired at iteration 8243 (v: -49.7906 ff: 0.446216 decay: 0.01) 
+Time step 3200
+Neuron 0 Spike History: 0
+Neuron 1 Spike History: 0
+Neuron 2 Spike History: 0
+Neuron 3 Spike History: 0
+Neuron 4 Spike History: 0
+Neuron 5 Spike History: 0
+Neuron 6 Spike History: 0
+Neuron 7 Spike History: 0
+Neuron 8 Spike History: 0
+Neuron 9 Spike History: 0
+Neuron 10 Spike History: 0
+SS-Conv Neuron 47 x 28 x 0: 5997 fired at iteration 8245 (v: -49.8934 ff: 0.419577 decay: 0.01) 
+SS-Conv Neuron 46 x 33 x 0: 5875 fired at iteration 8246 (v: -49.8715 ff: 0.294742 decay: 0.01) 
+SS-Conv Neuron 47 x 29 x 0: 5998 fired at iteration 8248 (v: -49.741 ff: 0.574273 decay: 0.01) 
+SS-Conv Neuron 48 x 31 x 0: 6127 fired at iteration 8249 (v: -49.9766 ff: 0.366032 decay: 0.01) 
+SS-Conv Neuron 47 x 30 x 0: 5999 fired at iteration 8251 (v: -49.7973 ff: 0.403631 decay: 0.01) 
+SS-Conv Neuron 47 x 32 x 0: 6001 fired at iteration 8253 (v: -49.9882 ff: 0.351809 decay: 0.01) 
+SS-Conv Neuron 48 x 32 x 0: 6128 fired at iteration 8253 (v: -49.9968 ff: 0.166594 decay: 0.01) 
+SS-Conv Neuron 45 x 28 x 0: 5743 fired at iteration 8254 (v: -49.6298 ff: 0.642843 decay: 0.01) 
+SS-Conv Neuron 48 x 29 x 0: 6125 fired at iteration 8254 (v: -49.8626 ff: 0.548288 decay: 0.01) 
+SS-Conv Neuron 50 x 28 x 0: 6378 fired at iteration 8254 (v: -49.7749 ff: 0.530799 decay: 0.01) 
+SS-Conv Neuron 48 x 27 x 0: 6123 fired at iteration 8255 (v: -49.9843 ff: 0.531497 decay: 0.01) 
+SS-Conv Neuron 44 x 33 x 0: 5621 fired at iteration 8260 (v: -49.9865 ff: 0.312943 decay: 0.01) 
+SS-Conv Neuron 46 x 32 x 0: 5874 fired at iteration 8260 (v: -49.9584 ff: 0.506207 decay: 0.01) 
+SS-Conv Neuron 49 x 35 x 0: 6258 fired at iteration 8264 (v: -49.9481 ff: 0.739185 decay: 0.01) 
+SS-Conv Neuron 52 x 39 x 0: 6643 fired at iteration 8266 (v: -49.7172 ff: 0.649764 decay: 0.01) 
+SS-Conv Neuron 48 x 34 x 0: 6130 fired at iteration 8268 (v: -49.9717 ff: 0.341136 decay: 0.01) 
+SS-Conv Neuron 49 x 32 x 0: 6255 fired at iteration 8268 (v: -49.8999 ff: 0.770645 decay: 0.01) 
+SS-Conv Neuron 49 x 29 x 0: 6252 fired at iteration 8269 (v: -49.9301 ff: 0.351435 decay: 0.01) 
+SS-Conv Neuron 46 x 35 x 0: 5877 fired at iteration 8270 (v: -49.5891 ff: 0.859092 decay: 0.01) 
+SS-Conv Neuron 48 x 38 x 0: 6134 fired at iteration 8270 (v: -49.8903 ff: 0.750293 decay: 0.01) 
+SS-Conv Neuron 45 x 33 x 0: 5748 fired at iteration 8273 (v: -49.8565 ff: 0.775525 decay: 0.01) 
+SS-Conv Neuron 46 x 36 x 0: 5878 fired at iteration 8275 (v: -49.6317 ff: 0.637967 decay: 0.01) 
+SS-Conv Neuron 47 x 33 x 0: 6002 fired at iteration 8275 (v: -49.7243 ff: 0.632291 decay: 0.01) 
+SS-Conv Neuron 49 x 38 x 0: 6261 fired at iteration 8276 (v: -49.949 ff: 0.353279 decay: 0.01) 
+SS-Conv Neuron 47 x 36 x 0: 6005 fired at iteration 8278 (v: -49.9465 ff: 0.648121 decay: 0.01) 
+SS-Conv Neuron 48 x 33 x 0: 6129 fired at iteration 8279 (v: -49.9847 ff: 0.369838 decay: 0.01) 
+SS-Conv Neuron 45 x 35 x 0: 5750 fired at iteration 8282 (v: -49.7958 ff: 0.357929 decay: 0.01) 
+SS-Conv Neuron 48 x 39 x 0: 6135 fired at iteration 8283 (v: -49.979 ff: 0.342319 decay: 0.01) 
+SS-Conv Neuron 45 x 38 x 0: 5753 fired at iteration 8285 (v: -49.2768 ff: 1.24007 decay: 0.01) 
+SS-Conv Neuron 47 x 38 x 0: 6007 fired at iteration 8286 (v: -49.9661 ff: 0.506556 decay: 0.01) 
+SS-Conv Neuron 49 x 36 x 0: 6259 fired at iteration 8288 (v: -49.6403 ff: 0.70756 decay: 0.01) 
+SS-Conv Neuron 49 x 39 x 0: 6262 fired at iteration 8291 (v: -49.9165 ff: 0.736224 decay: 0.01) 
+SS-Conv Neuron 48 x 36 x 0: 6132 fired at iteration 8292 (v: -49.5714 ff: 1.00155 decay: 0.01) 
+SS-Conv Neuron 49 x 41 x 0: 6264 fired at iteration 8294 (v: -49.991 ff: 0.322962 decay: 0.01) 
+SS-Conv Neuron 49 x 33 x 0: 6256 fired at iteration 8296 (v: -49.9084 ff: 0.265443 decay: 0.01) 
+SS-Conv Neuron 46 x 37 x 0: 5879 fired at iteration 8297 (v: -49.7301 ff: 0.555505 decay: 0.01) 
+SS-Conv Neuron 46 x 38 x 0: 5880 fired at iteration 8297 (v: -49.9747 ff: 0.829871 decay: 0.01) 
+SS-Conv Neuron 48 x 40 x 0: 6136 fired at iteration 8297 (v: -49.6684 ff: 0.729464 decay: 0.01) 
+SS-Conv Neuron 49 x 37 x 0: 6260 fired at iteration 8298 (v: -49.9331 ff: 0.249524 decay: 0.01) 
+SS-Conv Neuron 52 x 40 x 0: 6644 fired at iteration 8298 (v: -49.7684 ff: 0.761635 decay: 0.01) 
+SS-Conv Neuron 50 x 40 x 0: 6390 fired at iteration 8299 (v: -49.9331 ff: 0.507684 decay: 0.01) 
+SS-Conv Neuron 50 x 37 x 0: 6387 fired at iteration 8300 (v: -49.9581 ff: 0.507246 decay: 0.01) 
+SS-Conv Neuron 47 x 40 x 0: 6009 fired at iteration 8301 (v: -49.8394 ff: 0.350435 decay: 0.01) 
+SS-Conv Neuron 51 x 41 x 0: 6518 fired at iteration 8302 (v: -49.8041 ff: 0.359913 decay: 0.01) 
+SS-Conv Neuron 48 x 37 x 0: 6133 fired at iteration 8303 (v: -49.9475 ff: 0.535649 decay: 0.01) 
+SS-Conv Neuron 47 x 39 x 0: 6008 fired at iteration 8304 (v: -49.8118 ff: 0.495942 decay: 0.01) 
+SS-Conv Neuron 50 x 38 x 0: 6388 fired at iteration 8305 (v: -49.9122 ff: 0.441196 decay: 0.01) 
+SS-Conv Neuron 55 x 43 x 0: 7028 fired at iteration 8306 (v: -49.7417 ff: 0.558147 decay: 0.01) 
+SS-Conv Neuron 51 x 37 x 0: 6514 fired at iteration 8308 (v: -49.9892 ff: 0.440723 decay: 0.01) 
+SS-Conv Neuron 48 x 41 x 0: 6137 fired at iteration 8309 (v: -49.9293 ff: 0.395576 decay: 0.01) 
+SS-Conv Neuron 49 x 42 x 0: 6265 fired at iteration 8310 (v: -49.9928 ff: 0.74495 decay: 0.01) 
+SS-Conv Neuron 50 x 43 x 0: 6393 fired at iteration 8310 (v: -49.5843 ff: 0.813167 decay: 0.01) 
+SS-Conv Neuron 51 x 36 x 0: 6513 fired at iteration 8310 (v: -49.9785 ff: 0.29356 decay: 0.01) 
+SS-Conv Neuron 50 x 39 x 0: 6389 fired at iteration 8312 (v: -49.7977 ff: 0.722691 decay: 0.01) 
+SS-Conv Neuron 50 x 36 x 0: 6386 fired at iteration 8313 (v: -49.8742 ff: 0.27777 decay: 0.01) 
+SS-Conv Neuron 52 x 39 x 0: 6643 fired at iteration 8315 (v: -49.4613 ff: 0.72292 decay: 0.01) 
+SS-Conv Neuron 53 x 42 x 0: 6773 fired at iteration 8317 (v: -49.6698 ff: 0.712736 decay: 0.01) 
+SS-Conv Neuron 51 x 40 x 0: 6517 fired at iteration 8322 (v: -49.966 ff: 0.658836 decay: 0.01) 
+SS-Conv Neuron 54 x 43 x 0: 6901 fired at iteration 8322 (v: -49.7545 ff: 0.623218 decay: 0.01) 
+SS-Conv Neuron 51 x 42 x 0: 6519 fired at iteration 8326 (v: -49.9247 ff: 0.574288 decay: 0.01) 
+SS-Conv Neuron 53 x 44 x 0: 6775 fired at iteration 8326 (v: -49.6414 ff: 1.08804 decay: 0.01) 
+SS-Conv Neuron 49 x 43 x 0: 6266 fired at iteration 8328 (v: -49.9379 ff: 0.247427 decay: 0.01) 
+SS-Conv Neuron 52 x 42 x 0: 6646 fired at iteration 8329 (v: -49.8759 ff: 0.723172 decay: 0.01) 
+SS-Conv Neuron 51 x 38 x 0: 6515 fired at iteration 8331 (v: -49.8142 ff: 0.408895 decay: 0.01) 
+SS-Conv Neuron 51 x 43 x 0: 6520 fired at iteration 8331 (v: -49.6726 ff: 0.501722 decay: 0.01) 
+SS-Conv Neuron 53 x 45 x 0: 6776 fired at iteration 8331 (v: -49.9835 ff: 0.648116 decay: 0.01) 
+SS-Conv Neuron 52 x 38 x 0: 6642 fired at iteration 8333 (v: -49.9634 ff: 0.605061 decay: 0.01) 
+SS-Conv Neuron 54 x 41 x 0: 6899 fired at iteration 8333 (v: -49.5776 ff: 0.677701 decay: 0.01) 
+SS-Conv Neuron 52 x 45 x 0: 6649 fired at iteration 8335 (v: -49.9982 ff: 0.332993 decay: 0.01) 
+SS-Conv Neuron 53 x 43 x 0: 6774 fired at iteration 8338 (v: -49.8495 ff: 0.548819 decay: 0.01) 
+Time step 3300
+Neuron 0 Spike History: 0
+Neuron 1 Spike History: 0
+Neuron 2 Spike History: 0
+Neuron 3 Spike History: 0
+Neuron 4 Spike History: 0
+Neuron 5 Spike History: 0
+Neuron 6 Spike History: 0
+Neuron 7 Spike History: 0
+Neuron 8 Spike History: 0
+Neuron 9 Spike History: 0
+Neuron 10 Spike History: 0
+SS-Conv Neuron 50 x 42 x 0: 6392 fired at iteration 8345 (v: -49.8562 ff: 0.697003 decay: 0.01) 
+SS-Conv Neuron 51 x 46 x 0: 6523 fired at iteration 8346 (v: -49.8956 ff: 0.394399 decay: 0.01) 
+SS-Conv Neuron 52 x 44 x 0: 6648 fired at iteration 8346 (v: -49.9375 ff: 0.305416 decay: 0.01) 
+SS-Conv Neuron 52 x 46 x 0: 6650 fired at iteration 8390 (v: -49.8681 ff: 0.490882 decay: 0.01) 
+SS-Conv Neuron 54 x 46 x 0: 6904 fired at iteration 8392 (v: -49.8455 ff: 0.652031 decay: 0.01) 
+SS-Conv Neuron 52 x 40 x 0: 6644 fired at iteration 8401 (v: -49.7593 ff: 0.985601 decay: 0.01) 
+SS-Conv Neuron 50 x 47 x 0: 6397 fired at iteration 8402 (v: -49.8748 ff: 0.580203 decay: 0.01) 
+SS-Conv Neuron 53 x 47 x 0: 6778 fired at iteration 8407 (v: -49.7822 ff: 0.560508 decay: 0.01) 
+SS-Conv Neuron 52 x 48 x 0: 6652 fired at iteration 8408 (v: -49.4745 ff: 0.695897 decay: 0.01) 
+SS-Conv Neuron 52 x 39 x 0: 6643 fired at iteration 8410 (v: -49.9305 ff: 0.261488 decay: 0.01) 
+SS-Conv Neuron 54 x 45 x 0: 6903 fired at iteration 8414 (v: -49.8022 ff: 1.21505 decay: 0.01) 
+SS-Conv Neuron 50 x 43 x 0: 6393 fired at iteration 8415 (v: -49.9103 ff: 0.359156 decay: 0.01) 
+SS-Conv Neuron 54 x 47 x 0: 6905 fired at iteration 8415 (v: -49.9514 ff: 0.322394 decay: 0.01) 
+SS-Conv Neuron 49 x 46 x 0: 6269 fired at iteration 8418 (v: -49.7503 ff: 0.452492 decay: 0.01) 
+SS-Conv Neuron 51 x 46 x 0: 6523 fired at iteration 8418 (v: -49.8274 ff: 0.860363 decay: 0.01) 
+SS-Conv Neuron 55 x 43 x 0: 7028 fired at iteration 8420 (v: -49.8173 ff: 1.13207 decay: 0.01) 
+SS-Conv Neuron 49 x 44 x 0: 6267 fired at iteration 8422 (v: -49.7448 ff: 0.745746 decay: 0.01) 
+SS-Conv Neuron 52 x 45 x 0: 6649 fired at iteration 8425 (v: -49.8353 ff: 0.938532 decay: 0.01) 
+SS-Conv Neuron 53 x 44 x 0: 6775 fired at iteration 8425 (v: -49.9499 ff: 0.716973 decay: 0.01) 
+SS-Conv Neuron 49 x 45 x 0: 6268 fired at iteration 8428 (v: -49.8039 ff: 0.487136 decay: 0.01) 
+SS-Conv Neuron 54 x 44 x 0: 6902 fired at iteration 8428 (v: -49.9033 ff: 0.498494 decay: 0.01) 
+SS-Conv Neuron 53 x 45 x 0: 6776 fired at iteration 8429 (v: -49.8025 ff: 0.371285 decay: 0.01) 
+SS-Conv Neuron 54 x 43 x 0: 6901 fired at iteration 8431 (v: -49.9055 ff: 0.371495 decay: 0.01) 
+SS-Conv Neuron 53 x 42 x 0: 6773 fired at iteration 8433 (v: -49.7584 ff: 0.507304 decay: 0.01) 
+SS-Conv Neuron 47 x 44 x 0: 6013 fired at iteration 8437 (v: -49.6515 ff: 0.789064 decay: 0.01) 
+SS-Conv Neuron 48 x 42 x 0: 6138 fired at iteration 8438 (v: -49.9487 ff: 0.705686 decay: 0.01) 
+Time step 3400
+Neuron 0 Spike History: 0
+Neuron 1 Spike History: 0
+Neuron 2 Spike History: 0
+Neuron 3 Spike History: 0
+Neuron 4 Spike History: 0
+Neuron 5 Spike History: 0
+Neuron 6 Spike History: 0
+Neuron 7 Spike History: 0
+Neuron 8 Spike History: 0
+Neuron 9 Spike History: 0
+Neuron 10 Spike History: 0
+SS-Conv Neuron 46 x 42 x 0: 5884 fired at iteration 8446 (v: -49.7337 ff: 0.823747 decay: 0.01) 
+SS-Conv Neuron 51 x 41 x 0: 6518 fired at iteration 8446 (v: -49.8231 ff: 0.630833 decay: 0.01) 
+SS-Conv Neuron 49 x 41 x 0: 6264 fired at iteration 8457 (v: -49.7635 ff: 0.713128 decay: 0.01) 
+SS-Conv Neuron 45 x 39 x 0: 5754 fired at iteration 8460 (v: -49.7907 ff: 0.65943 decay: 0.01) 
+SS-Conv Neuron 47 x 40 x 0: 6009 fired at iteration 8462 (v: -48.7823 ff: 1.37011 decay: 0.01) 
+SS-Conv Neuron 49 x 42 x 0: 6265 fired at iteration 8463 (v: -49.8319 ff: 0.654048 decay: 0.01) 
+SS-Conv Neuron 48 x 34 x 0: 6130 fired at iteration 8464 (v: -49.4213 ff: 0.802749 decay: 0.01) 
+SS-Conv Neuron 46 x 40 x 0: 5882 fired at iteration 8466 (v: -49.786 ff: 0.711146 decay: 0.01) 
+SS-Conv Neuron 48 x 40 x 0: 6136 fired at iteration 8466 (v: -49.9845 ff: 0.263669 decay: 0.01) 
+SS-Conv Neuron 49 x 39 x 0: 6262 fired at iteration 8468 (v: -49.9579 ff: 0.23661 decay: 0.01) 
+SS-Conv Neuron 48 x 38 x 0: 6134 fired at iteration 8478 (v: -49.7062 ff: 0.578087 decay: 0.01) 
+SS-Conv Neuron 47 x 36 x 0: 6005 fired at iteration 8479 (v: -49.852 ff: 0.328761 decay: 0.01) 
+SS-Conv Neuron 45 x 36 x 0: 5751 fired at iteration 8480 (v: -49.9071 ff: 0.480352 decay: 0.01) 
+SS-Conv Neuron 45 x 38 x 0: 5753 fired at iteration 8480 (v: -49.8564 ff: 0.45074 decay: 0.01) 
+SS-Conv Neuron 45 x 34 x 0: 5749 fired at iteration 8486 (v: -49.8116 ff: 0.656368 decay: 0.01) 
+SS-Conv Neuron 45 x 33 x 0: 5748 fired at iteration 8499 (v: -49.9407 ff: 0.509025 decay: 0.01) 
+SS-Conv Neuron 46 x 29 x 0: 5871 fired at iteration 8505 (v: -49.8493 ff: 0.302021 decay: 0.01) 
+SS-Conv Neuron 44 x 34 x 0: 5622 fired at iteration 8510 (v: -49.9481 ff: 0.502262 decay: 0.01) 
+Time step 3500
+Neuron 0 Spike History: 0
+Neuron 1 Spike History: 0
+Neuron 2 Spike History: 0
+Neuron 3 Spike History: 0
+Neuron 4 Spike History: 0
+Neuron 5 Spike History: 0
+Neuron 6 Spike History: 0
+Neuron 7 Spike History: 0
+Neuron 8 Spike History: 0
+Neuron 9 Spike History: 0
+Neuron 10 Spike History: 0
+SS-Conv Neuron 42 x 33 x 0: 5367 fired at iteration 8568 (v: -49.7269 ff: 0.972153 decay: 0.01) 
+SS-Conv Neuron 44 x 29 x 0: 5617 fired at iteration 8571 (v: -49.8722 ff: 0.433155 decay: 0.01) 
+SS-Conv Neuron 43 x 31 x 0: 5492 fired at iteration 8574 (v: -49.2596 ff: 1.09768 decay: 0.01) 
+SS-Conv Neuron 43 x 32 x 0: 5493 fired at iteration 8590 (v: -49.5921 ff: 0.582003 decay: 0.01) 
+SS-Conv Neuron 44 x 33 x 0: 5621 fired at iteration 8593 (v: -49.9039 ff: 0.33583 decay: 0.01) 
+SS-Conv Neuron 42 x 35 x 0: 5369 fired at iteration 8598 (v: -49.8535 ff: 0.374865 decay: 0.01) 
+SS-Conv Neuron 43 x 33 x 0: 5494 fired at iteration 8603 (v: -49.8025 ff: 0.497832 decay: 0.01) 
+SS-Conv Neuron 44 x 35 x 0: 5623 fired at iteration 8614 (v: -49.9665 ff: 0.446653 decay: 0.01) 
+SS-Conv Neuron 47 x 40 x 0: 6009 fired at iteration 8614 (v: -49.7472 ff: 0.745539 decay: 0.01) 
+SS-Conv Neuron 45 x 34 x 0: 5749 fired at iteration 8615 (v: -49.9421 ff: 0.465062 decay: 0.01) 
+SS-Conv Neuron 45 x 35 x 0: 5750 fired at iteration 8616 (v: -49.5729 ff: 0.715171 decay: 0.01) 
+SS-Conv Neuron 43 x 39 x 0: 5500 fired at iteration 8617 (v: -49.8048 ff: 1.01943 decay: 0.01) 
+SS-Conv Neuron 48 x 34 x 0: 6130 fired at iteration 8617 (v: -49.9093 ff: 0.37451 decay: 0.01) 
+SS-Conv Neuron 46 x 32 x 0: 5874 fired at iteration 8618 (v: -49.7852 ff: 0.693459 decay: 0.01) 
+SS-Conv Neuron 48 x 39 x 0: 6135 fired at iteration 8620 (v: -49.9074 ff: 0.699069 decay: 0.01) 
+SS-Conv Neuron 48 x 41 x 0: 6137 fired at iteration 8621 (v: -49.9235 ff: 0.512907 decay: 0.01) 
+SS-Conv Neuron 45 x 39 x 0: 5754 fired at iteration 8630 (v: -49.9089 ff: 0.383484 decay: 0.01) 
+SS-Conv Neuron 48 x 40 x 0: 6136 fired at iteration 8632 (v: -49.2951 ff: 1.07642 decay: 0.01) 
+SS-Conv Neuron 46 x 33 x 0: 5875 fired at iteration 8633 (v: -49.7865 ff: 0.957479 decay: 0.01) 
+SS-Conv Neuron 47 x 33 x 0: 6002 fired at iteration 8633 (v: -49.9586 ff: 0.353252 decay: 0.01) 
+SS-Conv Neuron 45 x 38 x 0: 5753 fired at iteration 8634 (v: -49.7467 ff: 0.471134 decay: 0.01) 
+SS-Conv Neuron 44 x 38 x 0: 5626 fired at iteration 8635 (v: -49.9821 ff: 0.349475 decay: 0.01) 
+SS-Conv Neuron 47 x 36 x 0: 6005 fired at iteration 8635 (v: -49.9217 ff: 0.31936 decay: 0.01) 
+SS-Conv Neuron 46 x 37 x 0: 5879 fired at iteration 8636 (v: -49.8766 ff: 0.335206 decay: 0.01) 
+SS-Conv Neuron 46 x 38 x 0: 5880 fired at iteration 8636 (v: -49.959 ff: 0.322616 decay: 0.01) 
+SS-Conv Neuron 49 x 39 x 0: 6262 fired at iteration 8636 (v: -49.87 ff: 0.414709 decay: 0.01) 
+SS-Conv Neuron 48 x 36 x 0: 6132 fired at iteration 8639 (v: -49.9471 ff: 0.247842 decay: 0.01) 
+SS-Conv Neuron 49 x 38 x 0: 6261 fired at iteration 8639 (v: -49.974 ff: 0.295038 decay: 0.01) 
+SS-Conv Neuron 47 x 41 x 0: 6010 fired at iteration 8641 (v: -49.9363 ff: 0.62841 decay: 0.01) 
+Time step 3600
+Neuron 0 Spike History: 0
+Neuron 1 Spike History: 0
+Neuron 2 Spike History: 0
+Neuron 3 Spike History: 0
+Neuron 4 Spike History: 0
+Neuron 5 Spike History: 0
+Neuron 6 Spike History: 0
+Neuron 7 Spike History: 0
+Neuron 8 Spike History: 0
+Neuron 9 Spike History: 0
+Neuron 10 Spike History: 0
+SS-Conv Neuron 49 x 37 x 0: 6260 fired at iteration 8646 (v: -49.9188 ff: 0.314434 decay: 0.01) 
+SS-Conv Neuron 48 x 38 x 0: 6134 fired at iteration 8647 (v: -49.8022 ff: 0.38998 decay: 0.01) 
+SS-Conv Neuron 49 x 42 x 0: 6265 fired at iteration 8649 (v: -49.8126 ff: 0.705945 decay: 0.01) 
+SS-Conv Neuron 48 x 37 x 0: 6133 fired at iteration 8650 (v: -49.9597 ff: 0.368833 decay: 0.01) 
+SS-Conv Neuron 49 x 41 x 0: 6264 fired at iteration 8650 (v: -49.9655 ff: 0.465921 decay: 0.01) 
+SS-Conv Neuron 48 x 42 x 0: 6138 fired at iteration 8653 (v: -49.9362 ff: 0.612604 decay: 0.01) 
+SS-Conv Neuron 46 x 42 x 0: 5884 fired at iteration 8654 (v: -49.9702 ff: 0.207134 decay: 0.01) 
+SS-Conv Neuron 50 x 43 x 0: 6393 fired at iteration 8654 (v: -49.9971 ff: 1.0917 decay: 0.01) 
+SS-Conv Neuron 47 x 38 x 0: 6007 fired at iteration 8655 (v: -49.4551 ff: 1.14546 decay: 0.01) 
+SS-Conv Neuron 49 x 43 x 0: 6266 fired at iteration 8655 (v: -49.8009 ff: 0.406306 decay: 0.01) 
+SS-Conv Neuron 47 x 42 x 0: 6011 fired at iteration 8656 (v: -49.5926 ff: 0.92075 decay: 0.01) 
+SS-Conv Neuron 47 x 43 x 0: 6012 fired at iteration 8659 (v: -49.9436 ff: 0.951467 decay: 0.01) 
+SS-Conv Neuron 50 x 40 x 0: 6390 fired at iteration 8665 (v: -49.7874 ff: 0.452768 decay: 0.01) 
+SS-Conv Neuron 51 x 41 x 0: 6518 fired at iteration 8667 (v: -49.7087 ff: 0.661184 decay: 0.01) 
+SS-Conv Neuron 51 x 46 x 0: 6523 fired at iteration 8674 (v: -49.976 ff: 0.383786 decay: 0.01) 
+SS-Conv Neuron 48 x 45 x 0: 6141 fired at iteration 8675 (v: -49.8696 ff: 0.528714 decay: 0.01) 
+SS-Conv Neuron 49 x 44 x 0: 6267 fired at iteration 8676 (v: -49.474 ff: 0.841469 decay: 0.01) 
+SS-Conv Neuron 53 x 45 x 0: 6776 fired at iteration 8684 (v: -49.9742 ff: 0.370285 decay: 0.01) 
+SS-Conv Neuron 49 x 47 x 0: 6270 fired at iteration 8685 (v: -49.9668 ff: 0.329453 decay: 0.01) 
+SS-Conv Neuron 50 x 47 x 0: 6397 fired at iteration 8686 (v: -49.9346 ff: 0.386777 decay: 0.01) 
+SS-Conv Neuron 51 x 43 x 0: 6520 fired at iteration 8686 (v: -49.9745 ff: 0.422018 decay: 0.01) 
+SS-Conv Neuron 52 x 45 x 0: 6649 fired at iteration 8691 (v: -49.9376 ff: 0.487552 decay: 0.01) 
+SS-Conv Neuron 53 x 44 x 0: 6775 fired at iteration 8691 (v: -49.7836 ff: 0.715983 decay: 0.01) 
+SS-Conv Neuron 53 x 42 x 0: 6773 fired at iteration 8724 (v: -49.8343 ff: 0.391259 decay: 0.01) 
+SS-Conv Neuron 54 x 46 x 0: 6904 fired at iteration 8730 (v: -49.957 ff: 0.426809 decay: 0.01) 
+SS-Conv Neuron 52 x 49 x 0: 6653 fired at iteration 8735 (v: -49.263 ff: 1.04606 decay: 0.01) 
+SS-Conv Neuron 55 x 48 x 0: 7033 fired at iteration 8735 (v: -49.9502 ff: 1.13102 decay: 0.01) 
+SS-Conv Neuron 52 x 46 x 0: 6650 fired at iteration 8736 (v: -49.5137 ff: 0.733313 decay: 0.01) 
+SS-Conv Neuron 52 x 44 x 0: 6648 fired at iteration 8738 (v: -49.8861 ff: 0.975622 decay: 0.01) 
+SS-Conv Neuron 53 x 49 x 0: 6780 fired at iteration 8742 (v: -49.6473 ff: 0.566483 decay: 0.01) 
+SS-Conv Neuron 54 x 45 x 0: 6903 fired at iteration 8742 (v: -49.881 ff: 0.358112 decay: 0.01) 
+Time step 3700
+Neuron 0 Spike History: 0
+Neuron 1 Spike History: 0
+Neuron 2 Spike History: 0
+Neuron 3 Spike History: 0
+Neuron 4 Spike History: 0
+Neuron 5 Spike History: 0
+Neuron 6 Spike History: 0
+Neuron 7 Spike History: 0
+Neuron 8 Spike History: 0
+Neuron 9 Spike History: 0
+Neuron 10 Spike History: 0
+SS-Conv Neuron 49 x 45 x 0: 6268 fired at iteration 8745 (v: -49.9213 ff: 0.490982 decay: 0.01) 
+SS-Conv Neuron 50 x 48 x 0: 6398 fired at iteration 8746 (v: -49.8415 ff: 0.721637 decay: 0.01) 
+SS-Conv Neuron 52 x 40 x 0: 6644 fired at iteration 8746 (v: -49.9041 ff: 0.409396 decay: 0.01) 
+SS-Conv Neuron 52 x 48 x 0: 6652 fired at iteration 8748 (v: -49.4999 ff: 0.914902 decay: 0.01) 
+SS-Conv Neuron 54 x 43 x 0: 6901 fired at iteration 8749 (v: -49.9886 ff: 0.742021 decay: 0.01) 
+SS-Conv Neuron 49 x 46 x 0: 6269 fired at iteration 8750 (v: -49.4725 ff: 0.873484 decay: 0.01) 
+SS-Conv Neuron 52 x 39 x 0: 6643 fired at iteration 8750 (v: -49.5729 ff: 0.632427 decay: 0.01) 
+SS-Conv Neuron 51 x 46 x 0: 6523 fired at iteration 8752 (v: -49.7582 ff: 0.622499 decay: 0.01) 
+SS-Conv Neuron 50 x 43 x 0: 6393 fired at iteration 8755 (v: -49.9732 ff: 0.706154 decay: 0.01) 
+SS-Conv Neuron 50 x 47 x 0: 6397 fired at iteration 8757 (v: -49.9929 ff: 0.323733 decay: 0.01) 
+SS-Conv Neuron 49 x 43 x 0: 6266 fired at iteration 8759 (v: -49.56 ff: 0.764029 decay: 0.01) 
+SS-Conv Neuron 50 x 44 x 0: 6394 fired at iteration 8759 (v: -49.5116 ff: 0.709557 decay: 0.01) 
+SS-Conv Neuron 50 x 45 x 0: 6395 fired at iteration 8759 (v: -49.9489 ff: 0.329917 decay: 0.01) 
+SS-Conv Neuron 48 x 41 x 0: 6137 fired at iteration 8761 (v: -49.8787 ff: 0.68806 decay: 0.01) 
+SS-Conv Neuron 49 x 42 x 0: 6265 fired at iteration 8761 (v: -49.5501 ff: 0.704945 decay: 0.01) 
+SS-Conv Neuron 50 x 42 x 0: 6392 fired at iteration 8761 (v: -49.6714 ff: 0.646774 decay: 0.01) 
+SS-Conv Neuron 47 x 44 x 0: 6013 fired at iteration 8768 (v: -49.6087 ff: 0.812935 decay: 0.01) 
+SS-Conv Neuron 51 x 44 x 0: 6521 fired at iteration 8768 (v: -49.9946 ff: 0.242388 decay: 0.01) 
+SS-Conv Neuron 48 x 42 x 0: 6138 fired at iteration 8770 (v: -49.9553 ff: 0.638049 decay: 0.01) 
+SS-Conv Neuron 55 x 43 x 0: 7028 fired at iteration 8770 (v: -49.8028 ff: 0.534878 decay: 0.01) 
+SS-Conv Neuron 47 x 40 x 0: 6009 fired at iteration 8771 (v: -49.3025 ff: 0.895429 decay: 0.01) 
+SS-Conv Neuron 48 x 44 x 0: 6140 fired at iteration 8772 (v: -49.9409 ff: 1.10974 decay: 0.01) 
+SS-Conv Neuron 46 x 44 x 0: 5886 fired at iteration 8775 (v: -49.2355 ff: 1.05434 decay: 0.01) 
+SS-Conv Neuron 47 x 45 x 0: 6014 fired at iteration 8775 (v: -49.7598 ff: 0.92441 decay: 0.01) 
+SS-Conv Neuron 48 x 40 x 0: 6136 fired at iteration 8775 (v: -49.7484 ff: 0.539289 decay: 0.01) 
+SS-Conv Neuron 51 x 42 x 0: 6519 fired at iteration 8775 (v: -49.9219 ff: 0.343909 decay: 0.01) 
+SS-Conv Neuron 52 x 42 x 0: 6646 fired at iteration 8780 (v: -49.6668 ff: 0.592621 decay: 0.01) 
+SS-Conv Neuron 46 x 42 x 0: 5884 fired at iteration 8791 (v: -49.688 ff: 0.570031 decay: 0.01) 
+SS-Conv Neuron 46 x 43 x 0: 5885 fired at iteration 8792 (v: -49.6881 ff: 0.480017 decay: 0.01) 
+SS-Conv Neuron 49 x 41 x 0: 6264 fired at iteration 8793 (v: -49.5292 ff: 0.66488 decay: 0.01) 
+SS-Conv Neuron 45 x 36 x 0: 5751 fired at iteration 8801 (v: -49.9603 ff: 0.269226 decay: 0.01) 
+SS-Conv Neuron 45 x 41 x 0: 5756 fired at iteration 8803 (v: -49.5764 ff: 0.807803 decay: 0.01) 
+SS-Conv Neuron 49 x 39 x 0: 6262 fired at iteration 8806 (v: -49.7523 ff: 0.736224 decay: 0.01) 
+SS-Conv Neuron 47 x 39 x 0: 6008 fired at iteration 8808 (v: -49.9349 ff: 0.641492 decay: 0.01) 
+SS-Conv Neuron 45 x 39 x 0: 5754 fired at iteration 8813 (v: -49.8766 ff: 0.54558 decay: 0.01) 
+SS-Conv Neuron 45 x 33 x 0: 5748 fired at iteration 8819 (v: -49.7368 ff: 0.575269 decay: 0.01) 
+SS-Conv Neuron 45 x 38 x 0: 5753 fired at iteration 8824 (v: -49.881 ff: 1.01341 decay: 0.01) 
+Time step 3800
+Neuron 0 Spike History: 0
+Neuron 1 Spike History: 0
+Neuron 2 Spike History: 0
+Neuron 3 Spike History: 0
+Neuron 4 Spike History: 0
+Neuron 5 Spike History: 0
+Neuron 6 Spike History: 0
+Neuron 7 Spike History: 0
+Neuron 8 Spike History: 0
+Neuron 9 Spike History: 0
+Neuron 10 Spike History: 0
+SS-Conv Neuron 46 x 36 x 0: 5878 fired at iteration 8845 (v: -49.8379 ff: 0.610711 decay: 0.01) 
+SS-Conv Neuron 42 x 33 x 0: 5367 fired at iteration 8859 (v: -49.8048 ff: 0.377654 decay: 0.01) 
+SS-Conv Neuron 44 x 29 x 0: 5617 fired at iteration 8933 (v: -49.9149 ff: 0.362142 decay: 0.01) 
+Time step 3900
+Neuron 0 Spike History: 0
+Neuron 1 Spike History: 0
+Neuron 2 Spike History: 0
+Neuron 3 Spike History: 0
+Neuron 4 Spike History: 0
+Neuron 5 Spike History: 0
+Neuron 6 Spike History: 0
+Neuron 7 Spike History: 0
+Neuron 8 Spike History: 0
+Neuron 9 Spike History: 0
+Neuron 10 Spike History: 0
+SS-Conv Neuron 46 x 29 x 0: 5871 fired at iteration 8946 (v: -49.9436 ff: 0.917919 decay: 0.01) 
+SS-Conv Neuron 46 x 27 x 0: 5869 fired at iteration 8957 (v: -49.4785 ff: 0.869069 decay: 0.01) 
+SS-Conv Neuron 42 x 35 x 0: 5369 fired at iteration 8959 (v: -49.7669 ff: 0.742877 decay: 0.01) 
+SS-Conv Neuron 44 x 33 x 0: 5621 fired at iteration 8972 (v: -49.9353 ff: 0.56409 decay: 0.01) 
+SS-Conv Neuron 47 x 36 x 0: 6005 fired at iteration 8981 (v: -49.826 ff: 0.953603 decay: 0.01) 
+SS-Conv Neuron 44 x 38 x 0: 5626 fired at iteration 8985 (v: -49.7791 ff: 0.609797 decay: 0.01) 
+SS-Conv Neuron 45 x 34 x 0: 5749 fired at iteration 8988 (v: -49.5489 ff: 0.733476 decay: 0.01) 
+SS-Conv Neuron 47 x 40 x 0: 6009 fired at iteration 8988 (v: -49.7057 ff: 0.533104 decay: 0.01) 
+SS-Conv Neuron 45 x 36 x 0: 5751 fired at iteration 8993 (v: -49.9596 ff: 0.589199 decay: 0.01) 
+SS-Conv Neuron 45 x 35 x 0: 5750 fired at iteration 8996 (v: -49.7849 ff: 0.376662 decay: 0.01) 
+SS-Conv Neuron 48 x 40 x 0: 6136 fired at iteration 9001 (v: -49.9886 ff: 0.190185 decay: 0.01) 
+SS-Conv Neuron 45 x 38 x 0: 5753 fired at iteration 9004 (v: -49.8597 ff: 0.319101 decay: 0.01) 
+SS-Conv Neuron 48 x 41 x 0: 6137 fired at iteration 9007 (v: -49.6612 ff: 0.800755 decay: 0.01) 
+SS-Conv Neuron 46 x 42 x 0: 5884 fired at iteration 9010 (v: -49.8267 ff: 1.04469 decay: 0.01) 
+SS-Conv Neuron 48 x 34 x 0: 6130 fired at iteration 9010 (v: -49.9056 ff: 0.784632 decay: 0.01) 
+SS-Conv Neuron 48 x 38 x 0: 6134 fired at iteration 9012 (v: -49.9456 ff: 0.627654 decay: 0.01) 
+SS-Conv Neuron 48 x 37 x 0: 6133 fired at iteration 9013 (v: -49.8602 ff: 0.42426 decay: 0.01) 
+SS-Conv Neuron 48 x 36 x 0: 6132 fired at iteration 9015 (v: -49.9038 ff: 0.633138 decay: 0.01) 
+SS-Conv Neuron 50 x 43 x 0: 6393 fired at iteration 9015 (v: -49.7958 ff: 0.405052 decay: 0.01) 
+SS-Conv Neuron 49 x 38 x 0: 6261 fired at iteration 9021 (v: -49.9665 ff: 0.411475 decay: 0.01) 
+SS-Conv Neuron 47 x 42 x 0: 6011 fired at iteration 9023 (v: -49.7593 ff: 0.489057 decay: 0.01) 
+SS-Conv Neuron 49 x 39 x 0: 6262 fired at iteration 9023 (v: -49.9854 ff: 0.667539 decay: 0.01) 
+SS-Conv Neuron 49 x 42 x 0: 6265 fired at iteration 9024 (v: -49.9981 ff: 0.215143 decay: 0.01) 
+SS-Conv Neuron 49 x 41 x 0: 6264 fired at iteration 9026 (v: -49.6474 ff: 0.688717 decay: 0.01) 
+SS-Conv Neuron 48 x 42 x 0: 6138 fired at iteration 9028 (v: -49.973 ff: 0.527887 decay: 0.01) 
+SS-Conv Neuron 48 x 39 x 0: 6135 fired at iteration 9029 (v: -49.956 ff: 0.565911 decay: 0.01) 
+SS-Conv Neuron 47 x 43 x 0: 6012 fired at iteration 9030 (v: -49.8708 ff: 0.368497 decay: 0.01) 
+SS-Conv Neuron 53 x 42 x 0: 6773 fired at iteration 9030 (v: -49.7931 ff: 0.391259 decay: 0.01) 
+SS-Conv Neuron 49 x 43 x 0: 6266 fired at iteration 9033 (v: -49.889 ff: 0.863502 decay: 0.01) 
+SS-Conv Neuron 51 x 41 x 0: 6518 fired at iteration 9034 (v: -49.8439 ff: 0.423738 decay: 0.01) 
+SS-Conv Neuron 53 x 44 x 0: 6775 fired at iteration 9034 (v: -49.6051 ff: 0.572321 decay: 0.01) 
+SS-Conv Neuron 53 x 45 x 0: 6776 fired at iteration 9035 (v: -49.3219 ff: 0.941518 decay: 0.01) 
+SS-Conv Neuron 52 x 45 x 0: 6649 fired at iteration 9038 (v: -49.7414 ff: 0.810888 decay: 0.01) 
+SS-Conv Neuron 49 x 44 x 0: 6267 fired at iteration 9039 (v: -49.9745 ff: 0.386329 decay: 0.01) 
+SS-Conv Neuron 52 x 39 x 0: 6643 fired at iteration 9039 (v: -49.8477 ff: 0.370939 decay: 0.01) 
+SS-Conv Neuron 51 x 46 x 0: 6523 fired at iteration 9043 (v: -49.9067 ff: 0.395355 decay: 0.01) 
+SS-Conv Neuron 54 x 43 x 0: 6901 fired at iteration 9043 (v: -49.7713 ff: 0.467634 decay: 0.01) 
+Time step 4000
+Neuron 0 Spike History: 0
+Neuron 1 Spike History: 0
+Neuron 2 Spike History: 0
+Neuron 3 Spike History: 0
+Neuron 4 Spike History: 0
+Neuron 5 Spike History: 0
+Neuron 6 Spike History: 0
+Neuron 7 Spike History: 0
+Neuron 8 Spike History: 0
+Neuron 9 Spike History: 0
+Neuron 10 Spike History: 0
+SS-Conv Neuron 51 x 43 x 0: 6520 fired at iteration 9046 (v: -49.9308 ff: 0.292179 decay: 0.01) 
+SS-Conv Neuron 51 x 40 x 0: 6517 fired at iteration 9049 (v: -49.7548 ff: 0.395416 decay: 0.01) 
+SS-Conv Neuron 49 x 47 x 0: 6270 fired at iteration 9062 (v: -49.4383 ff: 0.978699 decay: 0.01) 
+SS-Conv Neuron 50 x 47 x 0: 6397 fired at iteration 9062 (v: -49.4357 ff: 1.36959 decay: 0.01) 
+SS-Conv Neuron 54 x 46 x 0: 6904 fired at iteration 9086 (v: -49.9818 ff: 0.274765 decay: 0.01) 
+SS-Conv Neuron 52 x 40 x 0: 6644 fired at iteration 9091 (v: -49.8432 ff: 0.667404 decay: 0.01) 
+SS-Conv Neuron 55 x 48 x 0: 7033 fired at iteration 9092 (v: -49.9472 ff: 0.389486 decay: 0.01) 
+SS-Conv Neuron 52 x 49 x 0: 6653 fired at iteration 9099 (v: -49.8217 ff: 0.453445 decay: 0.01) 
+SS-Conv Neuron 52 x 44 x 0: 6648 fired at iteration 9100 (v: -49.9345 ff: 0.265616 decay: 0.01) 
+SS-Conv Neuron 52 x 46 x 0: 6650 fired at iteration 9100 (v: -49.8635 ff: 0.524287 decay: 0.01) 
+SS-Conv Neuron 49 x 46 x 0: 6269 fired at iteration 9103 (v: -49.8029 ff: 0.451492 decay: 0.01) 
+SS-Conv Neuron 50 x 42 x 0: 6392 fired at iteration 9105 (v: -49.9064 ff: 0.252121 decay: 0.01) 
+SS-Conv Neuron 50 x 43 x 0: 6393 fired at iteration 9105 (v: -49.7063 ff: 0.684101 decay: 0.01) 
+SS-Conv Neuron 52 x 48 x 0: 6652 fired at iteration 9105 (v: -49.9688 ff: 0.413035 decay: 0.01) 
+SS-Conv Neuron 50 x 40 x 0: 6390 fired at iteration 9106 (v: -49.7617 ff: 0.656914 decay: 0.01) 
+SS-Conv Neuron 51 x 42 x 0: 6519 fired at iteration 9107 (v: -49.7814 ff: 0.706518 decay: 0.01) 
+SS-Conv Neuron 51 x 46 x 0: 6523 fired at iteration 9111 (v: -49.8941 ff: 0.622489 decay: 0.01) 
+SS-Conv Neuron 52 x 42 x 0: 6646 fired at iteration 9111 (v: -49.8406 ff: 0.380528 decay: 0.01) 
+SS-Conv Neuron 54 x 45 x 0: 6903 fired at iteration 9111 (v: -49.7778 ff: 0.486955 decay: 0.01) 
+SS-Conv Neuron 49 x 45 x 0: 6268 fired at iteration 9114 (v: -49.9959 ff: 0.219838 decay: 0.01) 
+SS-Conv Neuron 50 x 47 x 0: 6397 fired at iteration 9116 (v: -49.8203 ff: 0.586465 decay: 0.01) 
+SS-Conv Neuron 48 x 45 x 0: 6141 fired at iteration 9119 (v: -49.7994 ff: 0.710439 decay: 0.01) 
+SS-Conv Neuron 47 x 44 x 0: 6013 fired at iteration 9120 (v: -49.766 ff: 0.632143 decay: 0.01) 
+SS-Conv Neuron 53 x 43 x 0: 6774 fired at iteration 9122 (v: -49.9041 ff: 0.404086 decay: 0.01) 
+SS-Conv Neuron 50 x 45 x 0: 6395 fired at iteration 9123 (v: -49.8527 ff: 0.782737 decay: 0.01) 
+SS-Conv Neuron 47 x 45 x 0: 6014 fired at iteration 9125 (v: -49.5567 ff: 0.82224 decay: 0.01) 
+SS-Conv Neuron 51 x 44 x 0: 6521 fired at iteration 9126 (v: -49.9601 ff: 0.788603 decay: 0.01) 
+SS-Conv Neuron 55 x 43 x 0: 7028 fired at iteration 9127 (v: -49.8937 ff: 0.590767 decay: 0.01) 
+SS-Conv Neuron 49 x 37 x 0: 6260 fired at iteration 9128 (v: -49.8655 ff: 0.475833 decay: 0.01) 
+SS-Conv Neuron 47 x 46 x 0: 6015 fired at iteration 9130 (v: -49.7792 ff: 0.550715 decay: 0.01) 
+SS-Conv Neuron 46 x 44 x 0: 5886 fired at iteration 9131 (v: -49.9305 ff: 0.71163 decay: 0.01) 
+SS-Conv Neuron 47 x 40 x 0: 6009 fired at iteration 9131 (v: -49.8713 ff: 0.666927 decay: 0.01) 
+SS-Conv Neuron 53 x 42 x 0: 6773 fired at iteration 9131 (v: -49.8925 ff: 0.57178 decay: 0.01) 
+SS-Conv Neuron 48 x 41 x 0: 6137 fired at iteration 9135 (v: -49.6969 ff: 0.633653 decay: 0.01) 
+SS-Conv Neuron 47 x 41 x 0: 6010 fired at iteration 9137 (v: -49.9195 ff: 0.296089 decay: 0.01) 
+SS-Conv Neuron 54 x 43 x 0: 6901 fired at iteration 9137 (v: -49.571 ff: 1.68138 decay: 0.01) 
+SS-Conv Neuron 46 x 42 x 0: 5884 fired at iteration 9141 (v: -49.5526 ff: 0.824747 decay: 0.01) 
+Time step 4100
+Neuron 0 Spike History: 0
+Neuron 1 Spike History: 0
+Neuron 2 Spike History: 0
+Neuron 3 Spike History: 0
+Neuron 4 Spike History: 0
+Neuron 5 Spike History: 0
+Neuron 6 Spike History: 0
+Neuron 7 Spike History: 0
+Neuron 8 Spike History: 0
+Neuron 9 Spike History: 0
+Neuron 10 Spike History: 0
+SS-Conv Neuron 48 x 40 x 0: 6136 fired at iteration 9147 (v: -49.94 ff: 0.55603 decay: 0.01) 
+SS-Conv Neuron 52 x 39 x 0: 6643 fired at iteration 9148 (v: -49.6461 ff: 1.35435 decay: 0.01) 
+SS-Conv Neuron 47 x 36 x 0: 6005 fired at iteration 9151 (v: -49.9875 ff: 0.328761 decay: 0.01) 
+SS-Conv Neuron 45 x 39 x 0: 5754 fired at iteration 9152 (v: -49.9669 ff: 0.275956 decay: 0.01) 
+SS-Conv Neuron 50 x 39 x 0: 6389 fired at iteration 9152 (v: -49.4187 ff: 0.892866 decay: 0.01) 
+SS-Conv Neuron 51 x 41 x 0: 6518 fired at iteration 9154 (v: -49.9641 ff: 0.352857 decay: 0.01) 
+SS-Conv Neuron 46 x 40 x 0: 5882 fired at iteration 9155 (v: -49.7951 ff: 0.361925 decay: 0.01) 
+SS-Conv Neuron 50 x 38 x 0: 6388 fired at iteration 9161 (v: -49.933 ff: 0.385077 decay: 0.01) 
+SS-Conv Neuron 49 x 39 x 0: 6262 fired at iteration 9166 (v: -49.9263 ff: 0.878103 decay: 0.01) 
+SS-Conv Neuron 45 x 33 x 0: 5748 fired at iteration 9170 (v: -49.9127 ff: 0.575269 decay: 0.01) 
+SS-Conv Neuron 42 x 33 x 0: 5367 fired at iteration 9190 (v: -49.9942 ff: 0.21885 decay: 0.01) 
+SS-Conv Neuron 45 x 36 x 0: 5751 fired at iteration 9191 (v: -49.9045 ff: 0.268226 decay: 0.01) 
+SS-Conv Neuron 46 x 35 x 0: 5877 fired at iteration 9193 (v: -49.5486 ff: 0.61271 decay: 0.01) 
+SS-Conv Neuron 46 x 38 x 0: 5880 fired at iteration 9193 (v: -49.5708 ff: 0.805452 decay: 0.01) 
+SS-Conv Neuron 46 x 37 x 0: 5879 fired at iteration 9197 (v: -49.9531 ff: 0.333485 decay: 0.01) 
+SS-Conv Neuron 45 x 27 x 0: 5742 fired at iteration 9214 (v: -49.7259 ff: 0.860437 decay: 0.01) 
+SS-Conv Neuron 42 x 29 x 0: 5363 fired at iteration 9224 (v: -49.8162 ff: 0.690624 decay: 0.01) 
+Time step 4200
+Neuron 0 Spike History: 0
+Neuron 1 Spike History: 0
+Neuron 2 Spike History: 0
+Neuron 3 Spike History: 0
+Neuron 4 Spike History: 0
+Neuron 5 Spike History: 0
+Neuron 6 Spike History: 0
+Neuron 7 Spike History: 0
+Neuron 8 Spike History: 0
+Neuron 9 Spike History: 0
+Neuron 10 Spike History: 0
+SS-Conv Neuron 44 x 29 x 0: 5617 fired at iteration 9290 (v: -49.773 ff: 0.42868 decay: 0.01) 
+SS-Conv Neuron 46 x 27 x 0: 5869 fired at iteration 9298 (v: -48.9261 ff: 1.22937 decay: 0.01) 
+SS-Conv Neuron 43 x 29 x 0: 5490 fired at iteration 9308 (v: -49.931 ff: 0.56535 decay: 0.01) 
+SS-Conv Neuron 46 x 26 x 0: 5868 fired at iteration 9319 (v: -49.7442 ff: 0.53652 decay: 0.01) 
+SS-Conv Neuron 46 x 29 x 0: 5871 fired at iteration 9322 (v: -49.6635 ff: 0.548211 decay: 0.01) 
+SS-Conv Neuron 42 x 33 x 0: 5367 fired at iteration 9338 (v: -49.897 ff: 0.376649 decay: 0.01) 
+SS-Conv Neuron 43 x 32 x 0: 5493 fired at iteration 9338 (v: -49.9779 ff: 0.451378 decay: 0.01) 
+SS-Conv Neuron 44 x 33 x 0: 5621 fired at iteration 9338 (v: -49.9039 ff: 0.664005 decay: 0.01) 
+SS-Conv Neuron 43 x 31 x 0: 5492 fired at iteration 9341 (v: -49.9354 ff: 0.366112 decay: 0.01) 
+SS-Conv Neuron 45 x 34 x 0: 5749 fired at iteration 9343 (v: -49.672 ff: 0.666549 decay: 0.01) 
+Time step 4300
+Neuron 0 Spike History: 0
+Neuron 1 Spike History: 0
+Neuron 2 Spike History: 0
+Neuron 3 Spike History: 0
+Neuron 4 Spike History: 0
+Neuron 5 Spike History: 0
+Neuron 6 Spike History: 0
+Neuron 7 Spike History: 0
+Neuron 8 Spike History: 0
+Neuron 9 Spike History: 0
+Neuron 10 Spike History: 0
+SS-Conv Neuron 45 x 28 x 0: 5743 fired at iteration 9346 (v: -49.9628 ff: 0.399242 decay: 0.01) 
+SS-Conv Neuron 43 x 33 x 0: 5494 fired at iteration 9363 (v: -49.9009 ff: 0.592156 decay: 0.01) 
+SS-Conv Neuron 47 x 36 x 0: 6005 fired at iteration 9363 (v: -49.9857 ff: 0.328761 decay: 0.01) 
+SS-Conv Neuron 45 x 33 x 0: 5748 fired at iteration 9365 (v: -49.6772 ff: 0.560435 decay: 0.01) 
+SS-Conv Neuron 44 x 35 x 0: 5623 fired at iteration 9366 (v: -49.9422 ff: 0.467277 decay: 0.01) 
+SS-Conv Neuron 43 x 35 x 0: 5496 fired at iteration 9367 (v: -49.9882 ff: 0.468282 decay: 0.01) 
+SS-Conv Neuron 45 x 38 x 0: 5753 fired at iteration 9369 (v: -49.8398 ff: 0.425157 decay: 0.01) 
+SS-Conv Neuron 45 x 36 x 0: 5751 fired at iteration 9373 (v: -49.9012 ff: 0.975909 decay: 0.01) 
+SS-Conv Neuron 45 x 35 x 0: 5750 fired at iteration 9375 (v: -49.7946 ff: 0.622385 decay: 0.01) 
+SS-Conv Neuron 46 x 33 x 0: 5875 fired at iteration 9381 (v: -49.9359 ff: 0.383974 decay: 0.01) 
+SS-Conv Neuron 45 x 39 x 0: 5754 fired at iteration 9383 (v: -49.9915 ff: 0.274956 decay: 0.01) 
+SS-Conv Neuron 46 x 36 x 0: 5878 fired at iteration 9384 (v: -49.6076 ff: 0.612711 decay: 0.01) 
+SS-Conv Neuron 47 x 40 x 0: 6009 fired at iteration 9385 (v: -48.6703 ff: 1.66135 decay: 0.01) 
+SS-Conv Neuron 43 x 39 x 0: 5500 fired at iteration 9395 (v: -49.6301 ff: 0.837938 decay: 0.01) 
+SS-Conv Neuron 46 x 35 x 0: 5877 fired at iteration 9395 (v: -49.4432 ff: 0.845689 decay: 0.01) 
+SS-Conv Neuron 46 x 42 x 0: 5884 fired at iteration 9395 (v: -49.8099 ff: 0.530346 decay: 0.01) 
+SS-Conv Neuron 48 x 36 x 0: 6132 fired at iteration 9396 (v: -49.5692 ff: 0.652306 decay: 0.01) 
+SS-Conv Neuron 48 x 34 x 0: 6130 fired at iteration 9397 (v: -49.6786 ff: 0.587335 decay: 0.01) 
+SS-Conv Neuron 48 x 38 x 0: 6134 fired at iteration 9398 (v: -49.6406 ff: 0.540145 decay: 0.01) 
+SS-Conv Neuron 48 x 40 x 0: 6136 fired at iteration 9403 (v: -49.8384 ff: 0.631515 decay: 0.01) 
+SS-Conv Neuron 46 x 40 x 0: 5882 fired at iteration 9407 (v: -49.8941 ff: 0.321465 decay: 0.01) 
+SS-Conv Neuron 48 x 41 x 0: 6137 fired at iteration 9407 (v: -49.6195 ff: 0.684424 decay: 0.01) 
+SS-Conv Neuron 47 x 41 x 0: 6010 fired at iteration 9409 (v: -49.8671 ff: 0.991989 decay: 0.01) 
+SS-Conv Neuron 49 x 39 x 0: 6262 fired at iteration 9411 (v: -49.9842 ff: 0.52566 decay: 0.01) 
+SS-Conv Neuron 46 x 39 x 0: 5881 fired at iteration 9412 (v: -49.97 ff: 0.44781 decay: 0.01) 
+SS-Conv Neuron 48 x 37 x 0: 6133 fired at iteration 9415 (v: -49.8619 ff: 0.656365 decay: 0.01) 
+SS-Conv Neuron 46 x 43 x 0: 5885 fired at iteration 9419 (v: -49.8694 ff: 0.553795 decay: 0.01) 
+SS-Conv Neuron 49 x 38 x 0: 6261 fired at iteration 9420 (v: -49.7682 ff: 0.54077 decay: 0.01) 
+Time step 4400
+Neuron 0 Spike History: 0
+Neuron 1 Spike History: 0
+Neuron 2 Spike History: 0
+Neuron 3 Spike History: 0
+Neuron 4 Spike History: 0
+Neuron 5 Spike History: 0
+Neuron 6 Spike History: 0
+Neuron 7 Spike History: 0
+Neuron 8 Spike History: 0
+Neuron 9 Spike History: 0
+Neuron 10 Spike History: 0
+SS-Conv Neuron 47 x 40 x 0: 6009 fired at iteration 9468 (v: -49.9346 ff: 0.533114 decay: 0.01) 
+SS-Conv Neuron 46 x 44 x 0: 5886 fired at iteration 9469 (v: -49.9609 ff: 0.526292 decay: 0.01) 
+SS-Conv Neuron 47 x 46 x 0: 6015 fired at iteration 9470 (v: -49.6034 ff: 0.745339 decay: 0.01) 
+SS-Conv Neuron 47 x 43 x 0: 6012 fired at iteration 9471 (v: -49.8155 ff: 1.46015 decay: 0.01) 
+SS-Conv Neuron 47 x 44 x 0: 6013 fired at iteration 9471 (v: -49.8075 ff: 0.697599 decay: 0.01) 
+SS-Conv Neuron 47 x 42 x 0: 6011 fired at iteration 9479 (v: -49.71 ff: 0.65093 decay: 0.01) 
+SS-Conv Neuron 47 x 45 x 0: 6014 fired at iteration 9481 (v: -49.9551 ff: 0.530328 decay: 0.01) 
+SS-Conv Neuron 55 x 43 x 0: 7028 fired at iteration 9482 (v: -49.6438 ff: 1.04302 decay: 0.01) 
+SS-Conv Neuron 45 x 39 x 0: 5754 fired at iteration 9501 (v: -49.9795 ff: 0.623997 decay: 0.01) 
+SS-Conv Neuron 48 x 42 x 0: 6138 fired at iteration 9501 (v: -49.8348 ff: 0.527887 decay: 0.01) 
+SS-Conv Neuron 46 x 42 x 0: 5884 fired at iteration 9502 (v: -49.8959 ff: 0.427076 decay: 0.01) 
+SS-Conv Neuron 49 x 42 x 0: 6265 fired at iteration 9502 (v: -49.807 ff: 0.713428 decay: 0.01) 
+SS-Conv Neuron 44 x 43 x 0: 5631 fired at iteration 9506 (v: -49.9129 ff: 0.346325 decay: 0.01) 
+SS-Conv Neuron 49 x 41 x 0: 6264 fired at iteration 9507 (v: -49.7062 ff: 0.841286 decay: 0.01) 
+SS-Conv Neuron 45 x 42 x 0: 5757 fired at iteration 9508 (v: -49.9276 ff: 0.295691 decay: 0.01) 
+SS-Conv Neuron 45 x 41 x 0: 5756 fired at iteration 9511 (v: -49.8527 ff: 0.889322 decay: 0.01) 
+SS-Conv Neuron 43 x 40 x 0: 5501 fired at iteration 9522 (v: -49.6848 ff: 0.558613 decay: 0.01) 
+SS-Conv Neuron 45 x 38 x 0: 5753 fired at iteration 9537 (v: -49.9834 ff: 0.183942 decay: 0.01) 
+SS-Conv Neuron 48 x 39 x 0: 6135 fired at iteration 9540 (v: -49.5496 ff: 0.757458 decay: 0.01) 
+Time step 4500
+Neuron 0 Spike History: 0
+Neuron 1 Spike History: 0
+Neuron 2 Spike History: 0
+Neuron 3 Spike History: 0
+Neuron 4 Spike History: 0
+Neuron 5 Spike History: 0
+Neuron 6 Spike History: 0
+Neuron 7 Spike History: 0
+Neuron 8 Spike History: 0
+Neuron 9 Spike History: 0
+Neuron 10 Spike History: 0
+SS-Conv Neuron 47 x 36 x 0: 6005 fired at iteration 9546 (v: -49.8991 ff: 0.649142 decay: 0.01) 
+SS-Conv Neuron 46 x 38 x 0: 5880 fired at iteration 9549 (v: -49.3986 ff: 0.779177 decay: 0.01) 
+SS-Conv Neuron 41 x 38 x 0: 5245 fired at iteration 9550 (v: -49.8734 ff: 0.308846 decay: 0.01) 
+SS-Conv Neuron 42 x 35 x 0: 5369 fired at iteration 9554 (v: -49.3107 ff: 0.959923 decay: 0.01) 
+SS-Conv Neuron 45 x 36 x 0: 5751 fired at iteration 9556 (v: -49.9089 ff: 0.268226 decay: 0.01) 
+SS-Conv Neuron 42 x 33 x 0: 5367 fired at iteration 9562 (v: -49.898 ff: 0.387658 decay: 0.01) 
+SS-Conv Neuron 44 x 29 x 0: 5617 fired at iteration 9563 (v: -49.9116 ff: 0.674392 decay: 0.01) 
+SS-Conv Neuron 45 x 34 x 0: 5749 fired at iteration 9566 (v: -49.8335 ff: 0.449103 decay: 0.01) 
+SS-Conv Neuron 45 x 27 x 0: 5742 fired at iteration 9579 (v: -49.9249 ff: 0.699411 decay: 0.01) 
+SS-Conv Neuron 42 x 29 x 0: 5363 fired at iteration 9580 (v: -49.9274 ff: 0.30696 decay: 0.01) 
+SS-Conv Neuron 45 x 28 x 0: 5743 fired at iteration 9583 (v: -49.9537 ff: 0.937969 decay: 0.01) 
+SS-Conv Neuron 46 x 29 x 0: 5871 fired at iteration 9583 (v: -49.6687 ff: 0.590308 decay: 0.01) 
+SS-Conv Neuron 43 x 31 x 0: 5492 fired at iteration 9584 (v: -49.7354 ff: 0.581423 decay: 0.01) 
+SS-Conv Neuron 43 x 27 x 0: 5488 fired at iteration 9589 (v: -49.6331 ff: 0.618573 decay: 0.01) 
+SS-Conv Neuron 44 x 34 x 0: 5622 fired at iteration 9590 (v: -49.7908 ff: 0.369706 decay: 0.01) 
+SS-Conv Neuron 45 x 33 x 0: 5748 fired at iteration 9593 (v: -49.9839 ff: 0.352523 decay: 0.01) 
+SS-Conv Neuron 43 x 26 x 0: 5487 fired at iteration 9595 (v: -49.8991 ff: 0.64692 decay: 0.01) 
+SS-Conv Neuron 46 x 27 x 0: 5869 fired at iteration 9595 (v: -49.8673 ff: 0.899986 decay: 0.01) 
+SS-Conv Neuron 43 x 29 x 0: 5490 fired at iteration 9596 (v: -49.9233 ff: 0.516897 decay: 0.01) 
+SS-Conv Neuron 45 x 35 x 0: 5750 fired at iteration 9596 (v: -49.663 ff: 0.555317 decay: 0.01) 
+SS-Conv Neuron 46 x 24 x 0: 5866 fired at iteration 9596 (v: -49.5271 ff: 0.830753 decay: 0.01) 
+SS-Conv Neuron 46 x 25 x 0: 5867 fired at iteration 9596 (v: -49.9145 ff: 0.770191 decay: 0.01) 
+SS-Conv Neuron 47 x 25 x 0: 5994 fired at iteration 9599 (v: -49.9132 ff: 0.350624 decay: 0.01) 
+SS-Conv Neuron 44 x 28 x 0: 5616 fired at iteration 9607 (v: -49.3544 ff: 0.838919 decay: 0.01) 
+SS-Conv Neuron 45 x 25 x 0: 5740 fired at iteration 9615 (v: -49.8436 ff: 0.866717 decay: 0.01) 
+Time step 4600
+Neuron 0 Spike History: 0
+Neuron 1 Spike History: 0
+Neuron 2 Spike History: 0
+Neuron 3 Spike History: 0
+Neuron 4 Spike History: 0
+Neuron 5 Spike History: 0
+Neuron 6 Spike History: 0
+Neuron 7 Spike History: 0
+Neuron 8 Spike History: 0
+Neuron 9 Spike History: 0
+Neuron 10 Spike History: 0
+SS-Conv Neuron 46 x 24 x 0: 5866 fired at iteration 9693 (v: -49.9576 ff: 0.378537 decay: 0.01) 
+SS-Conv Neuron 46 x 25 x 0: 5867 fired at iteration 9696 (v: -49.8629 ff: 0.54006 decay: 0.01) 
+SS-Conv Neuron 42 x 25 x 0: 5359 fired at iteration 9702 (v: -49.8735 ff: 0.491349 decay: 0.01) 
+SS-Conv Neuron 44 x 29 x 0: 5617 fired at iteration 9712 (v: -49.8806 ff: 0.362142 decay: 0.01) 
+SS-Conv Neuron 46 x 26 x 0: 5868 fired at iteration 9714 (v: -49.9782 ff: 0.576091 decay: 0.01) 
+SS-Conv Neuron 42 x 27 x 0: 5361 fired at iteration 9720 (v: -49.5979 ff: 0.786279 decay: 0.01) 
+SS-Conv Neuron 46 x 32 x 0: 5874 fired at iteration 9727 (v: -49.9157 ff: 0.400318 decay: 0.01) 
+SS-Conv Neuron 46 x 27 x 0: 5869 fired at iteration 9736 (v: -49.9224 ff: 0.371507 decay: 0.01) 
+SS-Conv Neuron 45 x 34 x 0: 5749 fired at iteration 9739 (v: -49.9994 ff: 0.24186 decay: 0.01) 
+SS-Conv Neuron 44 x 30 x 0: 5618 fired at iteration 9740 (v: -49.6586 ff: 0.51903 decay: 0.01) 
+SS-Conv Neuron 45 x 27 x 0: 5742 fired at iteration 9740 (v: -49.5099 ff: 0.748619 decay: 0.01) 
+SS-Conv Neuron 45 x 28 x 0: 5743 fired at iteration 9741 (v: -49.9678 ff: 0.641843 decay: 0.01) 
+SS-Conv Neuron 45 x 33 x 0: 5748 fired at iteration 9741 (v: -49.8411 ff: 0.851913 decay: 0.01) 
+SS-Conv Neuron 46 x 29 x 0: 5871 fired at iteration 9742 (v: -49.9819 ff: 0.249262 decay: 0.01) 
+SS-Conv Neuron 45 x 29 x 0: 5744 fired at iteration 9744 (v: -49.6006 ff: 0.62508 decay: 0.01) 
+Time step 4700
+Neuron 0 Spike History: 0
+Neuron 1 Spike History: 0
+Neuron 2 Spike History: 0
+Neuron 3 Spike History: 0
+Neuron 4 Spike History: 0
+Neuron 5 Spike History: 0
+Neuron 6 Spike History: 0
+Neuron 7 Spike History: 0
+Neuron 8 Spike History: 0
+Neuron 9 Spike History: 0
+Neuron 10 Spike History: 0
+SS-Conv Neuron 45 x 30 x 0: 5745 fired at iteration 9748 (v: -49.9458 ff: 0.580509 decay: 0.01) 
+SS-Conv Neuron 46 x 33 x 0: 5875 fired at iteration 9750 (v: -49.9651 ff: 0.392134 decay: 0.01) 
+SS-Conv Neuron 44 x 33 x 0: 5621 fired at iteration 9756 (v: -49.9333 ff: 0.33683 decay: 0.01) 
+SS-Conv Neuron 47 x 28 x 0: 5997 fired at iteration 9759 (v: -49.913 ff: 0.254946 decay: 0.01) 
+SS-Conv Neuron 46 x 28 x 0: 5870 fired at iteration 9762 (v: -49.9547 ff: 0.213488 decay: 0.01) 
+SS-Conv Neuron 47 x 36 x 0: 6005 fired at iteration 9763 (v: -49.9047 ff: 0.50678 decay: 0.01) 
+SS-Conv Neuron 47 x 29 x 0: 5998 fired at iteration 9764 (v: -49.9612 ff: 0.298058 decay: 0.01) 
+SS-Conv Neuron 43 x 32 x 0: 5493 fired at iteration 9765 (v: -49.8443 ff: 0.44991 decay: 0.01) 
+SS-Conv Neuron 42 x 33 x 0: 5367 fired at iteration 9766 (v: -49.9601 ff: 0.588668 decay: 0.01) 
+SS-Conv Neuron 46 x 31 x 0: 5873 fired at iteration 9768 (v: -49.5323 ff: 0.70463 decay: 0.01) 
+SS-Conv Neuron 47 x 30 x 0: 5999 fired at iteration 9768 (v: -49.7873 ff: 0.591561 decay: 0.01) 
+SS-Conv Neuron 45 x 36 x 0: 5751 fired at iteration 9772 (v: -49.6289 ff: 0.798893 decay: 0.01) 
+SS-Conv Neuron 46 x 35 x 0: 5877 fired at iteration 9772 (v: -49.9078 ff: 0.511568 decay: 0.01) 
+SS-Conv Neuron 44 x 35 x 0: 5623 fired at iteration 9773 (v: -49.9854 ff: 0.368488 decay: 0.01) 
+SS-Conv Neuron 48 x 34 x 0: 6130 fired at iteration 9773 (v: -49.5201 ff: 0.889805 decay: 0.01) 
+SS-Conv Neuron 46 x 36 x 0: 5878 fired at iteration 9774 (v: -49.7893 ff: 0.424134 decay: 0.01) 
+SS-Conv Neuron 45 x 32 x 0: 5747 fired at iteration 9775 (v: -49.8385 ff: 0.323068 decay: 0.01) 
+SS-Conv Neuron 43 x 39 x 0: 5500 fired at iteration 9778 (v: -49.9342 ff: 0.774463 decay: 0.01) 
+SS-Conv Neuron 45 x 38 x 0: 5753 fired at iteration 9780 (v: -49.584 ff: 0.874646 decay: 0.01) 
+SS-Conv Neuron 45 x 39 x 0: 5754 fired at iteration 9781 (v: -49.5325 ff: 1.0472 decay: 0.01) 
+SS-Conv Neuron 47 x 40 x 0: 6009 fired at iteration 9781 (v: -49.7947 ff: 0.362325 decay: 0.01) 
+SS-Conv Neuron 44 x 38 x 0: 5626 fired at iteration 9782 (v: -49.8418 ff: 0.573369 decay: 0.01) 
+SS-Conv Neuron 45 x 35 x 0: 5750 fired at iteration 9783 (v: -49.6715 ff: 0.640289 decay: 0.01) 
+SS-Conv Neuron 48 x 36 x 0: 6132 fired at iteration 9784 (v: -49.928 ff: 0.634344 decay: 0.01) 
+SS-Conv Neuron 48 x 38 x 0: 6134 fired at iteration 9788 (v: -49.9787 ff: 0.199018 decay: 0.01) 
+SS-Conv Neuron 47 x 35 x 0: 6004 fired at iteration 9789 (v: -49.9758 ff: 0.690148 decay: 0.01) 
+SS-Conv Neuron 46 x 37 x 0: 5879 fired at iteration 9790 (v: -49.688 ff: 0.678625 decay: 0.01) 
+SS-Conv Neuron 46 x 40 x 0: 5882 fired at iteration 9793 (v: -49.9951 ff: 0.162727 decay: 0.01) 
+SS-Conv Neuron 46 x 42 x 0: 5884 fired at iteration 9794 (v: -49.6417 ff: 0.879603 decay: 0.01) 
+SS-Conv Neuron 45 x 40 x 0: 5755 fired at iteration 9796 (v: -49.7002 ff: 0.827596 decay: 0.01) 
+SS-Conv Neuron 48 x 40 x 0: 6136 fired at iteration 9800 (v: -49.7815 ff: 0.754951 decay: 0.01) 
+SS-Conv Neuron 48 x 37 x 0: 6133 fired at iteration 9804 (v: -49.9612 ff: 0.659212 decay: 0.01) 
+SS-Conv Neuron 47 x 41 x 0: 6010 fired at iteration 9805 (v: -49.8353 ff: 0.992989 decay: 0.01) 
+SS-Conv Neuron 46 x 38 x 0: 5880 fired at iteration 9844 (v: -49.9939 ff: 0.36698 decay: 0.01) 
+Time step 4800
+Neuron 0 Spike History: 0
+Neuron 1 Spike History: 0
+Neuron 2 Spike History: 0
+Neuron 3 Spike History: 0
+Neuron 4 Spike History: 0
+Neuron 5 Spike History: 0
+Neuron 6 Spike History: 0
+Neuron 7 Spike History: 0
+Neuron 8 Spike History: 0
+Neuron 9 Spike History: 0
+Neuron 10 Spike History: 0
+SS-Conv Neuron 46 x 43 x 0: 5885 fired at iteration 9864 (v: -49.7481 ff: 0.480017 decay: 0.01) 
+SS-Conv Neuron 47 x 36 x 0: 6005 fired at iteration 9866 (v: -49.8411 ff: 0.648121 decay: 0.01) 
+SS-Conv Neuron 45 x 41 x 0: 5756 fired at iteration 9870 (v: -49.9071 ff: 0.596427 decay: 0.01) 
+SS-Conv Neuron 47 x 40 x 0: 6009 fired at iteration 9878 (v: -49.6235 ff: 0.610693 decay: 0.01) 
+SS-Conv Neuron 44 x 41 x 0: 5629 fired at iteration 9882 (v: -49.9707 ff: 0.327351 decay: 0.01) 
+SS-Conv Neuron 45 x 34 x 0: 5749 fired at iteration 9882 (v: -49.6532 ff: 0.641006 decay: 0.01) 
+SS-Conv Neuron 45 x 33 x 0: 5748 fired at iteration 9897 (v: -49.8841 ff: 1.16026 decay: 0.01) 
+SS-Conv Neuron 52 x 39 x 0: 6643 fired at iteration 9899 (v: -49.8041 ff: 0.783243 decay: 0.01) 
+SS-Conv Neuron 42 x 35 x 0: 5369 fired at iteration 9917 (v: -49.919 ff: 0.359681 decay: 0.01) 
+SS-Conv Neuron 44 x 29 x 0: 5617 fired at iteration 9922 (v: -49.9068 ff: 1.03982 decay: 0.01) 
+SS-Conv Neuron 42 x 33 x 0: 5367 fired at iteration 9925 (v: -49.414 ff: 0.765311 decay: 0.01) 
+SS-Conv Neuron 46 x 29 x 0: 5871 fired at iteration 9925 (v: -49.9219 ff: 0.707453 decay: 0.01) 
+SS-Conv Neuron 42 x 29 x 0: 5363 fired at iteration 9937 (v: -49.558 ff: 1.36853 decay: 0.01) 
+SS-Conv Neuron 43 x 29 x 0: 5490 fired at iteration 9939 (v: -49.6753 ff: 0.486934 decay: 0.01) 
+Time step 4900
+Neuron 0 Spike History: 0
+Neuron 1 Spike History: 0
+Neuron 2 Spike History: 0
+Neuron 3 Spike History: 0
+Neuron 4 Spike History: 0
+Neuron 5 Spike History: 0
+Neuron 6 Spike History: 0
+Neuron 7 Spike History: 0
+Neuron 8 Spike History: 0
+Neuron 9 Spike History: 0
+Neuron 10 Spike History: 0
+SS-Conv Neuron 45 x 28 x 0: 5743 fired at iteration 9946 (v: -49.3729 ff: 1.17817 decay: 0.01) 
+SS-Conv Neuron 46 x 27 x 0: 5869 fired at iteration 9947 (v: -49.9151 ff: 0.559943 decay: 0.01) 
+SS-Conv Neuron 47 x 25 x 0: 5994 fired at iteration 9950 (v: -49.9803 ff: 0.464173 decay: 0.01) 
+SS-Conv Neuron 45 x 27 x 0: 5742 fired at iteration 9953 (v: -49.6077 ff: 0.606136 decay: 0.01) 
+SS-Conv Neuron 46 x 24 x 0: 5866 fired at iteration 9964 (v: -49.0816 ff: 1.16844 decay: 0.01) 
+SS-Conv Neuron 46 x 32 x 0: 5874 fired at iteration 9965 (v: -49.9416 ff: 0.50279 decay: 0.01) 
+SS-Conv Neuron 46 x 26 x 0: 5868 fired at iteration 9970 (v: -49.9778 ff: 0.332925 decay: 0.01) 
+SS-Conv Neuron 47 x 26 x 0: 5995 fired at iteration 9972 (v: -49.7305 ff: 0.650675 decay: 0.01) 
+Stopping training at time step 4955 due to symmetric time limit.
+Saving weights to ./output/topology/1_SS-Conv.txt
+Saving weights to ./output/topology/2_Output.txt
+
+-- END OF PROGRAM --
+
+Duration: 15 min
+Destroying SNN
+
+Output Neuron 0 x 0 x 0: 0 (v: -64.3259 ff: 0 decay: 0.0005 mp update: -0.000337031) 
+Output Neuron 1 x 0 x 0: 1 (v: -64.4988 ff: 0 decay: 0.0005 mp update: -0.000250589) 
+Output Neuron 2 x 0 x 0: 2 (v: -64.5504 ff: 0 decay: 0.0005 mp update: -0.000224823) 
+Output Neuron 3 x 0 x 0: 3 (v: -64.4202 ff: 0 decay: 0.0005 mp update: -0.000289893) 
+Output Neuron 4 x 0 x 0: 4 (v: -64.3058 ff: 0 decay: 0.0005 mp update: -0.000347076) 
+Output Neuron 5 x 0 x 0: 5 (v: -64.3782 ff: 0 decay: 0.0005 mp update: -0.000310912) 
+Output Neuron 6 x 0 x 0: 6 (v: -64.5332 ff: 0 decay: 0.0005 mp update: -0.00023338) 
+Output Neuron 7 x 0 x 0: 7 (v: -64.0216 ff: 0 decay: 0.0005 mp update: -0.00048921) 
+Output Neuron 8 x 0 x 0: 8 (v: -64.456 ff: 0 decay: 0.0005 mp update: -0.000272006) 
+Output Neuron 9 x 0 x 0: 9 (v: -64.3705 ff: 0 decay: 0.0005 mp update: -0.000314744) 
+Output Neuron 10 x 0 x 0: 10 (v: -64.5807 ff: 0 decay: 0.0005 mp update: -0.000209658) 
+Output Neuron 0 x 0 x 0: 0 (v: -64.3263 ff: 0.249778 decay: 0.0005 mp update: 0.249441) 
+Output Neuron 1 x 0 x 0: 1 (v: -64.4991 ff: 0.278615 decay: 0.0005 mp update: 0.278365) 
+Output Neuron 2 x 0 x 0: 2 (v: -64.5506 ff: 0.119536 decay: 0.0005 mp update: 0.119311) 
+Output Neuron 3 x 0 x 0: 3 (v: -64.4205 ff: 0.24612 decay: 0.0005 mp update: 0.24583) 
+Output Neuron 4 x 0 x 0: 4 (v: -64.3062 ff: 0.236042 decay: 0.0005 mp update: 0.235695) 
+Output Neuron 5 x 0 x 0: 5 (v: -64.3785 ff: 0.0424984 decay: 0.0005 mp update: 0.0421876) 
+Output Neuron 6 x 0 x 0: 6 (v: -64.5335 ff: 0.349153 decay: 0.0005 mp update: 0.348919) 
+Output Neuron 7 x 0 x 0: 7 (v: -64.0221 ff: 0.322803 decay: 0.0005 mp update: 0.322314) 
+Output Neuron 8 x 0 x 0: 8 (v: -64.4563 ff: 0.234641 decay: 0.0005 mp update: 0.234369) 
+Output Neuron 9 x 0 x 0: 9 (v: -64.3708 ff: 0.176321 decay: 0.0005 mp update: 0.176006) 
+Output Neuron 10 x 0 x 0: 10 (v: -64.5809 ff: 0.0763302 decay: 0.0005 mp update: 0.0761207)
+
+
+Output Neuron 6 x 0 x 0: 6 (v: -62.0994 ff: 0.0723505 decay: 0.001 mp update: 0.0694499) 
+Output Neuron 7 x 0 x 0: 7 (v: -62.2857 ff: 0.370097 decay: 0.001 mp update: 0.367382) 
+Output Neuron 8 x 0 x 0: 8 (v: -61.8764 ff: 0.0989091 decay: 0.001 mp update: 0.0957855) 
+Output Neuron 9 x 0 x 0: 9 (v: -62.4404 ff: 0.111927 decay: 0.001 mp update: 0.109367) 
+Output Neuron 10 x 0 x 0: 10 (v: -62.4168 ff: 0.147696 decay: 0.001 mp update: 0.145113) 
+SS-Conv Neuron 87 x 54 x 0: 11103 fired at iteration 522 (v: -49.4883 ff: 0.667976 decay: 0.001) 
+SS-Conv Neuron 91 x 54 x 0: 11611 fired at iteration 522 (v: -49.9035 ff: 0.391521 decay: 0.001) 
+Output Neuron 0 x 0 x 0: 0 (v: -62.2907 ff: 0 decay: 0.001 mp update: -0.00270934) 
+Output Neuron 1 x 0 x 0: 1 (v: -62.3504 ff: 0 decay: 0.001 mp update: -0.0026496) 
+Output Neuron 2 x 0 x 0: 2 (v: -61.4396 ff: 0 decay: 0.001 mp update: -0.0035604) 

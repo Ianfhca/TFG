@@ -1,0 +1,127 @@
+-- PARAMETERS --
+
+# Time stages (m, s, ms, us, ns) 
+dt 1 ms
+time 2750 s #-1 to run all the dataset
+# Integer value gratter than 0
+>
+
+-- HYPERPARAMETERS --
+
+# Type 0 (Default)
+v_reset -65.0
+v_rest -65.0
+v -65.0
+v_th -61.0
+tau_m 15.0
+t_refr 1 ms
+lambda_x 15.0
+alpha 0.25
+learning_rate 0.0001
+a 0.0
+convergence_th 0.05
+>
+
+# Type 1
+v_reset -65.0
+v_rest -65.0
+v -65.0
+v_th -64.99
+tau_m 5.0
+t_refr 1 ms
+lambda_x 5.0
+alpha 0.25
+learning_rate 0.0001
+a 0.0
+convergence_th 0.05
+>
+
+# Type 2
+v_reset -65.0
+v_rest -65.0
+v -65.0
+v_th -61.0
+tau_m 5.0
+t_refr 1 ms
+lambda_x 5.0
+alpha 0.25
+learning_rate 0.0001
+a 0.0
+convergence_th 0.05
+>
+
+-- TOPOLOGY --
+
+# Layer 0 (Input Layer)
+layer Input
+neurons 128 128 2 #(Height x Width x Channels)
+type 0
+connections none
+multisynapses 1
+stdp 0
+wta 0
+delay 0 0 us #(Same unit as dt)
+>
+
+# Layer 1 (Feature Extraction)
+layer SS-Conv
+neurons 0
+type 2
+connections local
+kernel_size 5 #(window size rxr)
+kernels_amount 2 #(output maps k)
+multisynapses 1
+stdp 0
+wta 1
+delay 1 6 ms
+>
+
+# Layer 2 (Feature Aggregation)
+layer Merge
+neurons 0
+type 1
+connections local
+kernel_size 1
+kernels_amount 1
+multisynapses 1
+stdp 0
+wta 1
+delay 1 6 ms
+>
+
+# Layer 3 (Local Motion Perception)
+layer MS-Conv
+neurons 0
+type 0
+connections local
+kernel_size 5
+kernels_amount 2
+multisynapses 10
+stdp 0
+wta 0
+delay 1 15 ms
+>
+
+# Layer 4 (Local to Global)
+layer Pooling
+neurons 0
+type 1
+connections local
+kernel_size 8
+kernels_amount 8
+multisynapses 1
+stdp 1
+wta 1
+delay 100 100 us
+>
+
+# Layer 5 (Global Motion Perception)
+layer Output
+neurons 11 1 1
+type 0
+connections dense
+multisynapses 1
+stdp 1
+wta 0
+delay 100 100 us
+>

@@ -1,11 +1,17 @@
 #include "../include/Utils.hpp"
 #include "../include/Globals.hpp"
 
+void initializeGenerator() {
+    static random_device rd;
+    static mt19937 gen(rd());
+    generator = gen;
+}
+
 double roundTo(double value, double precision) {
     return round(value / precision) * precision;
 }
 
-int convertTime(double value, string originUnit, string destinyUnit) {
+unsigned long convertTime(double value, string originUnit, string destinyUnit) {
     unordered_map<string, double> factos = {
         {"m", 60.0},
         {"s", 1.0},
@@ -25,17 +31,28 @@ int convertTime(double value, string originUnit, string destinyUnit) {
 
     // cout << factos[originUnit] << " -> " << factos[destinyUnit] << endl;
 
-    return static_cast<int>(value * factos[originUnit] / factos[destinyUnit]);
+    return static_cast<unsigned long>(value * factos[originUnit] / factos[destinyUnit]);
 }
 
-int randomNumber(int min, int max) {
-    // A motor to generate random numbers
-    mt19937 motor(chrono::steady_clock::now().time_since_epoch().count());
+// int randomNumber(int min, int max) {
+//     // A motor to generate random numbers
+//     mt19937 motor(chrono::steady_clock::now().time_since_epoch().count());
 
-    // Uniform distribution for integers in the range [min, max]
-    uniform_int_distribution<int> distribution(min, max);
+//     // Uniform distribution for integers in the range [min, max]
+//     uniform_int_distribution<int> distribution(min, max);
 
-    return distribution(motor);
+//     return distribution(motor);
+// }
+
+unsigned long randomInt(int min, int max) {
+    uniform_int_distribution<unsigned long> distribution(min, max);
+    // cout << min << max << distribution(generator) << endl;
+    return distribution(generator);
+}
+
+double randomDouble(double min, double max) {
+    uniform_real_distribution<double> distribution(min, max);
+    return distribution(generator);
 }
 
 void setColor(string color) {

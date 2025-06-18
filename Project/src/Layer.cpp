@@ -232,7 +232,7 @@ void Layer::saveWeights(const string& baseName, const int layerId) {
     }
 }
 
-void Layer::loadWeights(const std::string& baseName, const int layerId) {
+void Layer::loadWeights(const string& baseName, const int layerId) {
     string fileName = baseName + to_string(layerId) + "_" + type + ".txt";
 
     if (!filesystem::exists(fileName)) {
@@ -242,7 +242,7 @@ void Layer::loadWeights(const std::string& baseName, const int layerId) {
 
     for (int i = 0; i < numNeurons; i++) {
         neurons[i]->loadWeights(fileName);
-        // std::cout << "Loaded weights for neuron " << i << " from " << fileName << std::endl;
+        // cout << "Loaded weights for neuron " << i << " from " << fileName << endl;
     }
 }
 

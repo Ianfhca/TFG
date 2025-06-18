@@ -9,7 +9,7 @@
 using namespace std;
 using namespace chrono;
 
-int main(int argc, char *argv[]) { 
+int main(int argc, char *argv[]) {
 
 	if (argc < 3 || argc > 4) {
 		cerr << "Usage: " << argv[0] << " -train | -test" << " <topology file, no ext>" << endl;
@@ -21,6 +21,7 @@ int main(int argc, char *argv[]) {
 	int numFile = -1;
 	string mode = "train";
 	auto start = high_resolution_clock::now();
+	initializeGenerator();
 
 	if (string(argv[1]) != "-train" && string(argv[1]) != "-test") {
 		cerr << "Error: Invalid option. Use -train or -test." << endl;

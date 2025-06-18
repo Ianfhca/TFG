@@ -56,19 +56,22 @@ void LIFneuron::setSpike(int spike_) {
 
 void LIFneuron::setPresynapticLink(shared_ptr<LIFneuron> preNeuron, int numNeurons) { 
     int delay;
-    double w;
+    // double w;
 
-    static std::random_device rd;
-    static std::mt19937 generator(rd());
+    // static random_device rd;
+    // static mt19937 generator(rd());
 
-    std::uniform_real_distribution<double> distribution(0.1, 0.5);
-    // std::uniform_real_distribution<double> distribution(0.0, 1.0);
+    // uniform_real_distribution<double> distribution(0.1, 0.5);
+    // uniform_real_distribution<double> distribution(0.0, 1.0);
     // cout << delayMin << " " << delayMax << endl;
 
     for (int i = 0; i < multisynapses; i++) {
-        delay = randomNumber(delayMin, delayMax);
-        w = distribution(generator);
-        winit = w;
+        // delay = randomNumber(delayMin, delayMax);
+        delay = randomInt(delayMin, delayMax);
+        // w = distribution(generator);
+        // winit = w;
+        winit = randomDouble(0.1, 0.5);
+        // cout << winit << endl;
         synapses.emplace_back(make_shared<Synapse>(preNeuron, lambdaX, alpha, winit, delay, dt));
         preNeuron->addLink();
     }
@@ -78,18 +81,18 @@ void LIFneuron::setPresynapticLink(shared_ptr<LIFneuron> preNeuron, int numNeuro
 //     int delay;
 //     double w;
 
-//     static std::random_device rd;
-//     static std::mt19937 generator(rd());
+//     static random_device rd;
+//     static mt19937 generator(rd());
     
 //     // Kaiming He Initialization for ReLU use sqrt(2/fan_in)
 //     // For other activation functions, use sqrt(1/fan_in) or sqrt(6/(fan_in + fan_out))
-//     double std_dev = std::sqrt(1.0 / static_cast<double>(numNeurons));
-//     std::normal_distribution<double> distribution(0.0, std_dev);
+//     double std_dev = sqrt(1.0 / static_cast<double>(numNeurons));
+//     normal_distribution<double> distribution(0.0, std_dev);
     
 //     for (int i = 0; i < multisynapses; i++) {
 //         delay = randomNumber(delayMin, delayMax);
 //         w = distribution(generator);
-//         w = std::max(-1.0, std::min(1.0, w)); // Clamp between [-1, 1]
+//         w = max(-1.0, min(1.0, w)); // Clamp between [-1, 1]
 //         winit = w;
 //         synapses.emplace_back(make_shared<Synapse>(preNeuron, lambdaX, alpha, winit, delay, dt));
 //         preNeuron->addLink();
@@ -141,7 +144,7 @@ int LIFneuron::updateNeuronState(int t) {
     double aux = 0.0;
     shared_ptr<LIFneuron> preNeuron = nullptr;
 
-    spike = 0;
+    // spike = 0;
     maxPreX = -DBL_MAX;
     minPreX = DBL_MAX;
     maxWeight = -DBL_MAX; 
@@ -161,11 +164,12 @@ int LIFneuron::updateNeuronState(int t) {
             // synapses[i]->updateSpikeAtributes();
             // s = synapses[i]->obtainSpike();
             s = synapses[i]->obtainPreviousSpike();
+            // if (layer == "Output") cout << "Spike = " << s << endl;
 
             if (winner >= 0) { 
                 preNeuron->setWtaInhibition(true);
                 if (winner == i && preNeuron->learning && layer != "Input") preNeuron->STDP();
-                // else s = 0; // If winner is not the current synapse, do not update the spike
+                else s = 0; // If winner is not the current synapse, do not update the spike
                 // cout << "Prueba" << endl;
             }
             
@@ -183,8 +187,8 @@ int LIFneuron::updateNeuronState(int t) {
             if (preNeuron->decrementRemainingLinks() == 0) {
                 if (preNeuron->getWtaInhibition() == true) {
                     if (layer == "Input") preNeuron->spike = 0;
-                    else preNeuron->inhibitNeuron(t);
-                    // else if (preNeuron->inRefraction == false) preNeuron->inhibitNeuron(t);
+                    // else preNeuron->inhibitNeuron(t);
+                    else if (preNeuron->inRefraction == false) preNeuron->inhibitNeuron(t);
                     preNeuron->setWtaInhibition(false);
                 }                    
                 preNeuron->setRemainingLinks(preNeuron->getPostNeuronAmount());
@@ -235,7 +239,7 @@ long long LIFneuron::WTA() {
             }
         }
     }
-    if (winnerFound && !candidates.empty()) return candidates[randomNumber(0, candidates.size() - 1)];
+    if (winnerFound && !candidates.empty()) return candidates[randomInt(0, candidates.size() - 1)];
     else return -1;
 }
 
@@ -264,7 +268,7 @@ int LIFneuron::updateMembranePotential(double forcingFunction, int t) {
     // v -= decay * (v + forcingFunction);
     // v = (exp(-1/tauM) * v) + forcingFunction;
 
-    // if (v != vRest && layer != "Output") cout << layer << " Neuron " << getNeuronId() << " (v: " << v << " ff: " << forcingFunction << " decay: " << decay << " mp update: " << decay * (-(v - vRest)) + forcingFunction << ") " << endl;
+    if (v != vRest && layer == "Output") cout << layer << " Neuron " << getNeuronId() << " (v: " << v << " ff: " << forcingFunction << " decay: " << decay << " mp update: " << decay * (-(v - vRest)) + forcingFunction << ") " << endl;
     // v -= (-(v-vReset) + forcingFunction) * decay; // con pesos negativos y decay = 1/tauM
     v += decay * (-(v - vRest)) + forcingFunction; // con tau y lambda 100
 
@@ -278,7 +282,7 @@ int LIFneuron::updateMembranePotential(double forcingFunction, int t) {
 
     if (v >= vTh) {
         // if (layer != "Output") cout << layer << " Neuron " << getNeuronId() << " fired at iteration " << t << " | V = " << v << " f: " << forcingFunction << endl;
-        cout << layer << " Neuron " << getNeuronId() << " fired at iteration " << t << " (v: " << v << " ff: " <<  forcingFunction << " decay: " << decay <<") " << endl;
+        // cout << layer << " Neuron " << getNeuronId() << " fired at iteration " << t << " (v: " << v << " ff: " <<  forcingFunction << " decay: " << decay <<") " << endl;
         s = 1; // s(t) = 1
         vMax = v;
         v = vReset;
@@ -298,14 +302,15 @@ void LIFneuron::STDP() {
 
     for (unsigned long i = 0; i < synapses.size(); i++) {
         weight = synapses[i]->getWeight();
-        // cout << "WeightPre: " << weight << endl;
+        // cout << layer << " WeightPre: " << weight << endl;
         normPreX = synapses[i]->getNormPreSynapticTrace(minPreX, maxPreX);
         // LTP = exp-(weight - winit) * exp(normPreX) - aValue; // LTPw *LTPx
         LTP = exp(-weight + winit) * (exp(normPreX) - aValue); // LTPw *LTPx
         LTD = -exp(weight - winit) * (exp(1 - normPreX) - aValue); // LTDw *LTDx
         synapses[i]->updateWeight(learningRate * (LTP + LTD));
         // weight = synapses[i]->getWeight();
-        // cout << "WeightPost: " << weight << endl;
+        // cout << learningRate * (LTP + LTD) << endl;
+        // cout << layer << " WeightPost: " << weight << endl;
 
         normWeight = synapses[i]->getNormWeight(minWeight, maxWeight);
         mse += pow((normPreX - normWeight), 2);

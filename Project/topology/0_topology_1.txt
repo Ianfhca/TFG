@@ -2,8 +2,8 @@
 
 # Time stages (m, s, ms, us, ns) 
 dt 1 ms
-time 10 s
-# Integer value gratter than 0
+time 2750 s #-1 to run all the dataset
+# Integer value gratter than S0
 >
 
 -- HYPERPARAMETERS --
@@ -13,14 +13,11 @@ v_reset -65.0
 v_rest -65.0
 v -65.0
 v_th -50.0
-#tau_m 20.0
-tau_m 100.0
-t_refr 2 ms
-#lambda_x 20.0
-lambda_x 100.0
+tau_m 150.0
+t_refr 1 ms
+lambda_x 150.0
 alpha 0.1
-#weight 0.5
-learning_rate 0.0001
+learning_rate 0.0005
 a 0.0
 convergence_th 0.05
 >
@@ -35,7 +32,7 @@ connections none
 multisynapses 1
 stdp 0
 wta 0
-delay 100 150 us #(Same unit as dt)
+delay 0 0 us #(Same unit as dt)
 >
 
 # Layer 1 (Feature Extraction)
@@ -43,12 +40,12 @@ layer SS-Conv
 neurons 0
 type 0
 connections local
-kernel_size 2 #(window size rxr)
-kernels_amount 1 #(output maps k)
+kernel_size 5 #(window size rxr)
+kernels_amount 2 #(output maps k)
 multisynapses 1
-stdp 0
+stdp 1
 wta 1
-delay 1 1 ms
+delay 1 4 ms
 >
 
 # Layer 5 (Global Motion Perception)

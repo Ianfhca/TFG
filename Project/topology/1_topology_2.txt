@@ -1,0 +1,73 @@
+-- PARAMETERS --
+
+# Time stages (m, s, ms, us, ns) 
+dt 200 us
+time 550 s # -1 to run all the dataset
+# Integer value gratter than 0
+>
+
+-- HYPERPARAMETERS --
+
+# Type 0 (Default)
+v_reset -65.0
+v_rest -65.0
+v -65.0
+v_th -50.0
+tau_m 30.0
+t_refr 500 us
+lambda_x 30.0
+alpha 0.1
+learning_rate 0.0005
+a 0.0
+convergence_th 0.05
+>
+
+-- TOPOLOGY --
+
+# Layer 0 (Input Layer)
+layer Input
+neurons 128 128 2 #(Height x Width x Channels)
+type 0
+connections none
+multisynapses 1
+stdp 0
+wta 0
+delay 0 0 us #(Same unit as dt)
+>
+
+# Layer 1 (Feature Extraction)
+layer SS-Conv
+neurons 0
+type 0
+connections local
+kernel_size 5 #(window size rxr)
+kernels_amount 2 #(output maps k)
+multisynapses 1
+stdp 0
+wta 1
+delay 100 300 us
+>
+
+# Layer 2 (Feature Aggregation)
+layer Merge
+neurons 0
+type 0
+connections local
+kernel_size 1
+kernels_amount 1
+multisynapses 1
+stdp 0
+wta 1
+delay 100 300 us
+>
+
+# Layer 5 (Global Motion Perception)
+layer Output
+neurons 11 1 1
+type 0
+connections dense
+multisynapses 1
+stdp 1
+wta 0
+delay 100 100 us
+>
