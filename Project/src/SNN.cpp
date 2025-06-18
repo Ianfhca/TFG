@@ -443,10 +443,10 @@ int SNN::processGestureData(const SpikeCubePolarity& spikeData, int gestureClass
             }
         }
 
-        if (t % 100 == 0) {
-            cout << "Time step " << t << endl;
-            layers[layers.size()-1]->showSpikeHistory();
-        }
+        // if (t % 100 == 0) {
+        //     cout << "Time step " << t << endl;
+        //     layers[layers.size()-1]->showSpikeHistory();
+        // }
         
         for (unsigned long index = 1; index < layers.size(); index++) {
             layers[index]->feedForward(baseName + mode, gestureClass, (int)symTime);

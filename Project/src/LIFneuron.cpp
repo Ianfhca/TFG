@@ -268,7 +268,7 @@ int LIFneuron::updateMembranePotential(double forcingFunction, int t) {
     // v -= decay * (v + forcingFunction);
     // v = (exp(-1/tauM) * v) + forcingFunction;
 
-    if (v != vRest && layer == "Output") cout << layer << " Neuron " << getNeuronId() << " (v: " << v << " ff: " << forcingFunction << " decay: " << decay << " mp update: " << decay * (-(v - vRest)) + forcingFunction << ") " << endl;
+    // if (v != vRest && layer == "Output") cout << layer << " Neuron " << getNeuronId() << " (v: " << v << " ff: " << forcingFunction << " decay: " << decay << " mp update: " << decay * (-(v - vRest)) + forcingFunction << ") " << endl;
     // v -= (-(v-vReset) + forcingFunction) * decay; // con pesos negativos y decay = 1/tauM
     v += decay * (-(v - vRest)) + forcingFunction; // con tau y lambda 100
 
