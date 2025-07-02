@@ -18,25 +18,26 @@ using namespace std;
 
 class SNN {
 private:
-    string topologyFile;
-    string baseName;
-    unsigned long time;
-    unsigned long dt;
-    string timeUnit;
-    string dtUnit;
-    string tRefrUnit;
-    string delayUnit;
-    int height;
-    int width;
-    int channels;
-    int maxDelay;
-    vector<NeuronParameters> neuronParams;
-    // vector<Layer> layers;
-    vector<shared_ptr<Layer>> layers;
-    // unordered_map<string, deque<int>> inputSpikes;
-    vector<deque<int>> inputSpikes;
+    string topologyFile; // Name of the topology file
+    string baseName; // Base name for output files
+    unsigned long time; // Total time for the simulation
+    unsigned long dt; // Time step for the simulation
+    string timeUnit; // Unit of time ("m", "s", "ms", "us", "ns") 
+    string dtUnit; // Unit of time step ("m", "s", "ms", "us", "ns")
+    string tRefrUnit; // Unit of refractory period ("m", "s", "ms", "us", "ns")
+    string delayUnit;// Unit of delay ("m", "s", "ms", "us", "ns")
+    int height; // Height of the input layer
+    int width; // Width of the input layer
+    int channels; // Number of channels in the input layer
+    int maxDelay; // Maximum delay for synapses
 
-    string mode;
+    string mode; // Mode of operation ("train" or "test")
+
+    vector<NeuronParameters> neuronParams; // Parameters for neurons
+
+    vector<shared_ptr<Layer>> layers; // Layers of the network
+
+    vector<deque<int>> inputSpikes; // Input spikes for each layer
 
     void parseParameters(const string &line);
     void parseHyperparameters(const string &line, NeuronParameters &neuron);
@@ -47,10 +48,8 @@ private:
     int processGestureData(const SpikeCubePolarity& spikeData, int gestureClass, unsigned long& symTime, unsigned long symCap);
 public:
     SNN();
-    ~SNN();
     
-    // int getTime();
-    // int getDt();
+    ~SNN();
     
     int initNetwork(char &filename, string &nMode);
     void linkLayers();

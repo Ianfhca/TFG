@@ -17,31 +17,25 @@ using namespace std;
 
 class Layer {
 private:
-    string type;
-    int height;
-    int width;
-    int channels;
-    int numNeurons;
-    int neuronType;
-    string connections;
-    int rDim;
-    // int kDim;
-    int multisynapses;
-    bool wtaRule;
-    bool preWtaRule;
-    vector<pair<int, int>> sparseConnections;
+    string type; // Type of the layer ("Input", "Hidden", ..., "Output")
+    int height; // Height of the layer
+    int width;  // Width of the layer
+    int channels; // Number of channels in the layer
+    int numNeurons; // Total number of neurons in the layer
+    int neuronType; // Type of neurons in the layer
+    string connections; // Type of connections ("local", "global", "sparse")
+    int rDim; // Size of the local receptive field (kernel size)
+    int multisynapses; // Number of synapses per neuron
 
-    // vector<LIFneuron> neurons;
-    vector<shared_ptr<LIFneuron>> neurons;
-    // vector<vector<uchar>> spikeHistory;
-    vector<unsigned long> spikeHistory;
+    vector<pair<int, int>> sparseConnections; // Sparse connections (from neuron index to pre-neuron index)
+
+    vector<shared_ptr<LIFneuron>> neurons; // Neurons in the layer
+
+    // vector<unsigned long> spikeHistory;
 public:
-    // Layer(string type_ = UNDEFINED, int numNeurons_ = NONE, vector<pair<vector<double>, int>> neuronParams_ = {{{}, NONE}}, string connections_ = UNDEFINED, int multisynapses_ = NONE, pair<int, int> delayRange_ = {NONE, NONE}, vector<pair<int, int>> sparseConnections_ = {{NONE, NONE}});
-    // Layer(const TopologyParameters &topology, const vector<pair<NeuronParameters, int>> &neuronParams, int dt);
     Layer(const TopologyParameters &topology, const NeuronParameters &neuronParams, int dt);
+    
     ~Layer();
-    // Layer(const Layer&) = delete;
-    // Layer& operator=(const Layer&) = delete;
     
     string getType();
     int getHeight();
@@ -52,12 +46,8 @@ public:
     string getConnections();
     int getRDim();
     int getMultisynapses();
-    bool getWtaRule();
     shared_ptr<LIFneuron> getNeuron(int i);
-    vector<pair<int, int>>& getSparseConnections();
-    void setPreWtaRule(bool preWtaRule);
-    // vector<LIFneuron>& getNeurons();
-    
+    vector<pair<int, int>>& getSparseConnections();    
 
     void setPresynapticLinks(Layer &preLayer);
     void feedForward(const string& baseName, int classLabel, int t);
@@ -65,7 +55,5 @@ public:
     void saveWeights(const string& baseName, const int layerId);
     void loadWeights(const std::string& baseName, const int layerId);
 
-    void showSpikeHistory();
-
-    // void visualizeSpikes(int t);
+    // void showSpikeHistory();
 };

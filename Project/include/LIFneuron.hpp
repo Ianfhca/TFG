@@ -58,16 +58,15 @@ private:
     int postNeuronAmount; // Number of links from post-synaptic neurons
     int remainingLinks; // Remaining links to be used
     bool wtaInhibition; // Flag to check if the neuron has been a winner
+    
     vector<shared_ptr<Synapse>> synapses; // Presynaptic neurons
-    // vector<Synapse> synapses; // Presynaptic neurons
 
     int updateMembranePotential(double forcingFunction, int time);
 
 public:
-    // LIFneuron(int multisynapses_ = 1, pair<int, int> delayRange_ = {NONE, NONE}, double vTh_ = V_TH, double vRest_ = V_REST, double vReset_ = V_RESET, double lambdaV_ = LAMBDA_V, double tRefr_ = T_REFR, int dt_ = DT, double lambdaX_ = LAMBDA_X, double alpha_ = ALPHA);
-    LIFneuron(vector<int> neuronId, const TopologyParameters &topology, const NeuronParameters &neuronParams, int dt);
-    // LIFneuron(int neuronId_, int type_, int multisynapses_, int delayMin_, int delayMax_, double vTh_, double vRest_, double vReset_, double lambdaV_, int tRefr_, double lambdaX_, double alpha_, int dt_);
-    ~LIFneuron();
+   LIFneuron(vector<int> neuronId, const TopologyParameters &topology, const NeuronParameters &neuronParams, int dt);
+    
+   ~LIFneuron();
     
     int getNeuronId();
     int getType();
@@ -75,7 +74,7 @@ public:
     double getVMax();
     int getSpike();
     void setSpike(int spike_);
-    void setPresynapticLink(shared_ptr<LIFneuron> preNeuron, int numNeurons);
+    void setPresynapticLinks(shared_ptr<LIFneuron> preNeuron, int numNeurons);
     void addLink();
     int getPostNeuronAmount();
     int getRemainingLinks();
@@ -87,19 +86,9 @@ public:
     void inhibitNeuron(int time);
     int updateNeuronState(int time);
     long long WTA();
-    // int gatherSpike(int time);
-    // void STDP(unsigned long index);
-    
     void STDP();
-    // double MSE();
     void MSE(double mse);
-    // double MSE(unsigned long index, double normPreX);
 
     void saveWeights(const string& fileName, int id);
     void loadWeights(const string& fileName);
-
-    // int updateMembranePotential(double forcingFunction, int time);
-    // void getFirstWeight();
-
-
 };

@@ -4,6 +4,13 @@
 
 using namespace std;
 
+//Parameters for the simulation
+
+const int TIME = 10;
+const string TIME_UNIT = "s";
+const int DT = 100;
+const string DT_UNIT = "ms";
+
 const int MIN_DELAY = 50;
 const int MAX_DELAY = 150;
 
@@ -13,12 +20,7 @@ const int MAX_LONG = 16;
 const string UNDEFINED = "Undefined";
 const int NONE = -1;
 
-//Hiperparameters
-
-const int TIME = 10;
-const string TIME_UNIT = "s";
-const int DT = 100;
-const string DT_UNIT = "ms";
+// Neuron parameters
 
 const double V_RESET = -65.0;
 const double V_REST = V_RESET;
@@ -32,8 +34,9 @@ const double ALPHA = 0.1;
 struct NeuronParameters {
     double vReset, vRest, v, vTh, tauM, lambdaX, alpha, learningRate, aValue, convergenceTh;
     int tRefr;
-    // double lambdaV;
 };
+
+// Topology parameters
 
 struct TopologyParameters {
     string type;

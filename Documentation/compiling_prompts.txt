@@ -1,2 +1,0 @@
-# Plot libraries
-g++ -o mainfile main.cpp Pbplots/pbPlots.cpp Pbplots/supportLib.cpp -lm

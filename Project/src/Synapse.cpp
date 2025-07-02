@@ -1,9 +1,4 @@
 #include "../include/Synapse.hpp"
-
-// Synapse::Synapse(shared_ptr<LIFneuron> preNeuron_, int delay_, int dt_, double lambdaX_, double alpha_)
-//     : preNeuron(preNeuron_), delay(delay_), dt(dt_), lambdaX(lambdaX_), alpha(alpha_), weight(0.5), cycles((delay / dt) + 1), preSynapticTrace(0.0), sumCycles(0), numSpikes(0) {
-//     cout << "Synapse created with delay: " << delay << " and cycles: " << cycles << endl;
-// }
  
 Synapse::Synapse(shared_ptr<LIFneuron> preNeuron_, double lambdaX_, double alpha_, double weight_, int delay_, int dt_)
 : preNeuron(preNeuron_), lambdaX(lambdaX_), alpha(alpha_), weight(weight_), delay(delay_), dt(dt_) {
@@ -12,28 +7,7 @@ Synapse::Synapse(shared_ptr<LIFneuron> preNeuron_, double lambdaX_, double alpha
     cycles = floor(delay / dt);
     // spikesQ.resize(cycles);
     preSynapticTrace = 0.0;
-    // sumCycles = 0;
-    // numSpikes = 0;
 }
-
-// Synapse::Synapse(shared_ptr<LIFneuron> preNeuron_, int delay_, int dt_, double lambdaX_, double alpha_) {
-//     preNeuron = preNeuron_;
-//     dt = dt_;
-//     lambdaX = lambdaX_;
-//     alpha = alpha_;
-//     weight = 0.5;
-//     delay = delay_; 
-//     // cycles = (dt == delay) ? 1 : (dt / delay) + 1;
-//     if (dt > 0) cycles = (delay / dt) + 1;
-//     else throw invalid_argument("dt must be greater than 0");
-//     cout << cycles << endl;
-//     preSynapticTrace = 0.0;
-//     sumCycles = 0;
-//     numSpikes = 0;
-//     spikes = Queue(cycles);
-//     // Queue spikes(cycles);
-//     cout << delay << endl;
-// }
 
 Synapse::~Synapse() {
     // cout << "Destroying Synapse" << endl;
@@ -54,86 +28,23 @@ double Synapse::getPreSynapticTrace() {
 double Synapse::getNormPreSynapticTrace(double minPreX, double maxPreX) {
     if (maxPreX == minPreX) return 0.0;
     double norm = (preSynapticTrace - minPreX) / (maxPreX - minPreX);
-    // double norm = (preSynapticTrace - minPreX) / (maxPreX - minPreX);
-    return max(0.0, min(1.0, norm)); 
+
+    return max(0.0, min(1.0, norm)); // Clipping [0, 1]
 }
 
 double Synapse::getNormWeight(double minWeight, double maxWeight) {
     if (maxWeight == minWeight) return 0.0;
-    // return (weight - minWeight) / (maxWeight - minWeight);
     double norm = (weight - minWeight) / (maxWeight - minWeight);
-    // return norm;
-    // return max(-1.0, min(1.0, norm)); // Check this clipping [-1, 1]
-    return max(0.0, min(1.0, norm)); // Check this clipping [0, 1]
+
+    return max(0.0, min(1.0, norm)); // Clipping [0, 1]
 }
 
 shared_ptr<LIFneuron> Synapse::getPreNeuron() {
-    // auto preNeuronShared = preNeuron.lock();
-    // if (preNeuronShared) {
-    //     return preNeuronShared;
-    // } else {
-    //     cerr << "Error: preNeuron is null or destroyed" << endl;
-    //     return nullptr; // Return a null pointer
-    // }
     return preNeuron;
 }
 
 void Synapse::setWeight(double weight_) {
     weight = weight_;
-}
-
-// void initializeWeights(vector<float>& weights, int fanIn) {
-//     default_random_engine generator;
-//     normal_distribution<float> distribution(0.0, sqrt(2.0f / fanIn));
-    
-//     for (auto& w : weights) {
-//         w = distribution(generator);
-//     }
-// }
-
-void Synapse::updateWeight(double deltaWeight) {
-    // cout << "Weight before: " << weight << "Weight after: " << weight+deltaWeight << endl;
-    weight += deltaWeight;
-    // if (weight > 1 || weight < -1) cout << "Weight exceed: " << weight << endl;
-    // if (weight < 0) weight = 0; // Check this es >= 0?
-    // if (weight > 1) weight = 1;
-}
-
-void Synapse::updateSpikeAtributes() {
-    // auto preNeuronShared = preNeuron.lock();
-
-    // if (preNeuronShared) {
-    //     if (preNeuronShared->getSpike() == 1) {
-    //         cout << "SI" << endl;
-    //         spikesQ.push_back(cycles);
-    //         // preNeuronShared->setSpike(0); // Check this
-    //     }
-    // } else {
-    //     cerr << "Error: preNeuron is null or destroyed" << endl;
-    // }
-
-    if (preNeuron->getSpike() == 1) spikesQ.push_back(cycles);
-}
-
-int Synapse::obtainSpike() {
-    int spike = 0;
-
-    // for (auto& value : spikesQ) {
-    //     value -= 1;
-    // }
-    
-
-    if (!spikesQ.empty() && spikesQ.front() <= 0) {
-        spikesQ.erase(spikesQ.begin());
-        spike = 1;
-        // cout << "Ha habido spike" << endl;
-    }
-
-    for (unsigned long i = 0; i < spikesQ.size(); i++) {
-        spikesQ[i] -= 1;
-    }
-
-    return spike;
 }
 
 int Synapse::obtainPreviousSpike() {
@@ -154,30 +65,19 @@ int Synapse::obtainPreviousSpike() {
 }
 
 void Synapse::updatePresinapticTrace(int spike) {
-    // preSynapticTrace[i][j][d] = (-preSynapticTrace[i][j][d] + (alpha * neurons[j].obtainSpike(d))) * (dt / lambdaX);
-    // int spike = obtainSpike();
-    // double decay = exp(-static_cast<double>(dt) / (lambdaX * 1000.0)); // Convertir dt de µs a ms
-    // preSynapticTrace = preSynapticTrace * decay + alpha * spike;
-
-
-    // preSynapticTrace = -preSynapticTrace + spike * exp(-dt / lambdaX); // JOSE OLD
-    // preSynapticTrace = (-preSynapticTrace * (1/lambdaX)) + (alpha * spike);
-    // preSynapticTrace = (-preSynapticTrace + alpha * spike) * (-dt / lambdaX);
     double decay  = (1/lambdaX);
 
     preSynapticTrace = decay * (-preSynapticTrace) + (alpha * spike);
 
-    // preSynapticTrace = (-preSynapticTrace + alpha * spike) * (1/lambdaX);
-    // preSynapticTrace = (-preSynapticTrace + alpha * spike) * exp(-1 / lambdaX);
-    // preSynapticTrace = (-preSynapticTrace + alpha * spike) * exp(-1 / lambdaX); // JOSE BUENA
     if (preSynapticTrace < 0) preSynapticTrace = 0;
-    // preSynapticTrace += (alpha * spike - preSynapticTrace) * (dt / lambdaX);
-    // cout << "Spike: " << spike << " PreSynapticTrace: " << preSynapticTrace << endl;
 }
 
 double Synapse::updateForcingFunction(int spike) {
-    // forcingFunction += neurons[j].obtainSpike(d) * weights[i][j][d] - preSynapticTrace[i][j][d];
-    // int spike = obtainSpike();
-    // cout << "Spike: " << spike << " pS:" << preSynapticTrace << endl;
     return (spike * weight - preSynapticTrace);
+}
+
+void Synapse::updateWeight(double deltaWeight) {
+    weight += deltaWeight;
+    if (weight < 0) weight = 0;
+    if (weight > 1) weight = 1;
 }

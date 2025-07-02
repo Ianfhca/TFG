@@ -1,17 +1,6 @@
 #include "../include/SNN.hpp"
 
-
 SNN::SNN(): maxDelay(-1) {}
-
-// NeuronParameters::NeuronParameters(): vReset(0), vRest(0), v(0), vTh(0), lambdaV(0), tRefr(0), lambdaX(0), alpha(0) {}
-
-// int SNN::getTime() {
-// 	return time;
-// }
-
-// int SNN::getDt() {
-// 	return dt;
-// }
 
 SNN::~SNN() {
     cout << "Destroying SNN" << endl;
@@ -54,7 +43,6 @@ void SNN::parseHyperparameters(const string &line, NeuronParameters &neuron) {
     else if (token == "t_refr") stream >> neuron.tRefr >> tRefrUnit;
     else if (token == "lambda_x") stream >> neuron.lambdaX;
     else if (token == "alpha") stream >> neuron.alpha;
-    // else if (token == "weight") stream >> neuron.weight;
     else if (token == "learning_rate") stream >> neuron.learningRate;
     else if (token == "a") stream >> neuron.aValue;
     else if (token == "convergence_th") stream >> neuron.convergenceTh;
@@ -68,9 +56,6 @@ void SNN::parseTopology(const string &line, TopologyParameters &topology) {
     istringstream stream(line);
     string token;
     stream >> token;
-
-	// int neuronType;
-	// int numTypeNeurons;
 
     if (token == "layer") {
         stream >> topology.type;
@@ -111,7 +96,6 @@ void SNN::parseTopology(const string &line, TopologyParameters &topology) {
             throw runtime_error("Invalid delay range");
         }
         maxDelay = max(maxDelay, topology.delayMax);
-        // cout << "Max delay: " << maxDelay << endl;
     } else if (token == ">") {
         topology.numNeurons = topology.height * topology.width * topology.channels;
         if (topology.type == "Input") {
@@ -126,15 +110,6 @@ void SNN::parseTopology(const string &line, TopologyParameters &topology) {
         topology.mode = mode;
         cout << "Creating layer " << topology.type << " with " << topology.numNeurons << " neurons." << endl;
 		layers.emplace_back(make_shared<Layer>(topology, neuronParams[topology.neuronType], dt));
-
-        // for (unsigned long i = 0; i < neuronParams.size(); i++) {
-        //     neuronParams[i].tauM *= 10;
-        //     neuronParams[i].lambdaX *= 10;
-        // }
-
-        // if (topology.connections == "sparse") {
-        //     topology = {};
-        // }
     }
 }
 
@@ -183,7 +158,6 @@ int SNN::initNetwork(char &filename, string &nMode) {
         {"PARAMETERS", [this](const string &line) { parseParameters(line); }},
         {"HYPERPARAMETERS", [this, &neuronDefaults](const string &line) { parseHyperparameters(line, neuronDefaults); }},
         {"TOPOLOGY", [this, &currentTopology](const string &line) { parseTopology(line, currentTopology); }},
-		// {"INPUT", [this](const string &line) { parseInput(line); }},
     };
 
 	ifstream network_file(file);
@@ -196,7 +170,7 @@ int SNN::initNetwork(char &filename, string &nMode) {
 
 			if (line.length() == 0 || line[0] == '#') continue;
 
-			 if (line.rfind("--", 0) == 0) {
+			if (line.rfind("--", 0) == 0) {
                 currentSection = line.substr(3, line.size() - 6);
                 cout << " - Reading section: " << currentSection << endl;
                 continue;
@@ -208,7 +182,6 @@ int SNN::initNetwork(char &filename, string &nMode) {
 				cerr << "Error: Invalid section '" << currentSection << "'." << endl;
 				return 1;
 			}
-
 		}
 		network_file.close();
 	}
@@ -229,7 +202,6 @@ int SNN::initNetwork(char &filename, string &nMode) {
 void SNN::linkLayers() {
 	for (unsigned long i = 1; i < layers.size(); i++) {
 		layers[i]->setPresynapticLinks(*layers[i - 1]);
-        // layers[i]->setPreWtaRule(layers[i - 1]->getWtaRule());
 	}
 }
 
@@ -341,7 +313,6 @@ void readAnnotationsCSV(const string& filename, vector<GestureAnnotation>& annot
 SpikeCubePolarity convertToSpikeCubesByPolarity(const vector<DVSEvent>& events, uint32_t startTime, uint32_t endTime, uint32_t dt, int width = 128, int height = 128) {
     int timeSteps = (endTime - startTime) / dt + 1;
     SpikeCubePolarity cube;
-    // cout << width << " x " << height << " x " << timeSteps << endl;
 
     for (int t = 0; t < timeSteps; ++t) {
         vector<vector<uint8_t>> mapON(height, vector<uint8_t>(width, 0));
@@ -357,21 +328,12 @@ SpikeCubePolarity convertToSpikeCubesByPolarity(const vector<DVSEvent>& events, 
 
         if (e.polarity()) {
             cube[tIndex].first[e.y()][e.x()] = 1;  // ON
-            // cout << "Event ON at time " << e.timestamp << " at (" << e.x() << ", " << e.y() << ") in time step " << tIndex << endl;
         } else {
             cube[tIndex].second[e.y()][e.x()] = 1; // OFF
-            // cout << "Event OFF at time " << e.timestamp << " at (" << e.x() << ", " << e.y() << ") in time step " << tIndex << endl;
         }
     }
 
     return cube;
-}
-
-void SNN::saveWeights() {
-    for (unsigned long i = 1; i < layers.size(); i++) {
-        layers[i]->saveWeights(baseName, i);
-    }
-
 }
 
 vector<string> SNN::readTrialsList(const string& filename) {
@@ -385,7 +347,6 @@ vector<string> SNN::readTrialsList(const string& filename) {
     
     string line;
     while (getline(file, line)) {
-        // Eliminar espacios en blanco y saltos de línea
         line.erase(line.find_last_not_of(" \n\r\t") + 1);
         if (!line.empty() && line[0] != '#') {
             trials.push_back(line);
@@ -399,7 +360,6 @@ vector<string> SNN::readTrialsList(const string& filename) {
 string SNN::generateCSVFilename(const string& aedatFilename) {
     string csvFilename = aedatFilename;
     
-    // Buscar la extensión .aedat y reemplazarla
     size_t pos = csvFilename.find(".aedat");
     if (pos != string::npos) {
         csvFilename.replace(pos, 6, "_labels.csv");
@@ -408,7 +368,6 @@ string SNN::generateCSVFilename(const string& aedatFilename) {
     return csvFilename;
 }
 
-// ...existing code...
 int SNN::processGestureData(const SpikeCubePolarity& spikeData, int gestureClass, unsigned long& symTime, unsigned long symCap) {
     int indexON = 0;
     int indexOFF = 0;
@@ -422,28 +381,18 @@ int SNN::processGestureData(const SpikeCubePolarity& spikeData, int gestureClass
             return -1;
         }
 
-        // symTime--;
-        
-        // Establecer spikes en la capa de entrada
         for (int y = 0; y < height; ++y) {
             for (int x = 0; x < width; ++x) {
                 indexON = ((y * height) + x);
                 indexOFF = ((height * width) + (y * height) + x);
 
-                // Usar datos reales en lugar de valores fijos
                 layers[0]->getNeuron(indexON)->setSpike((int)mapON[y][x]);
                 layers[0]->getNeuron(indexOFF)->setSpike((int)mapOFF[y][x]);
-                // if (x == 2 && y == 2) {
-                //     layers[0]->getNeuron(indexON)->setSpike(1);
-                //     layers[0]->getNeuron(indexOFF)->setSpike(0);
-                // }
-                
-
-                // cout << "Time step " << t << ": Neuron ON " << indexON << " spiked: " << (int)mapON[y][x] << ", Neuron OFF " << indexOFF << " spiked: " << (int)mapOFF[y][x] << endl;
             }
         }
 
-        // if (t % 100 == 0) {
+        // // Visualize spikes at each time step
+        // if (t % 1000 == 0) {
         //     cout << "Time step " << t << endl;
         //     layers[layers.size()-1]->showSpikeHistory();
         // }
@@ -503,21 +452,19 @@ void SNN::trainNetwork() {
             cout << "Processing spike map with " << spikeData.size() << " time steps." << endl;
 
             if(processGestureData(spikeData, gesture.classLabel, symTime, symCap) == -1) return;
-        }
-        
-        
+        }        
     }
-    // saveWeights();
+
     cout << "\n=== Training completed on all trials ===" << endl;
 }
 
+void SNN::saveWeights() {
+    for (unsigned long i = 1; i < layers.size(); i++) {
+        layers[i]->saveWeights(baseName, i);
+    }
+}
+
 int SNN::loadWeights(const int numFile) {
-    // string baseName = "output/weights/";
-    // if (numFile < 10) {
-    //     baseName += "0" + to_string(numFile) + "_";
-    // } else {
-    //     baseName += to_string(numFile) + "_";
-    // }
     for (unsigned long i = 1; i < layers.size(); i++) {
         layers[i]->loadWeights(baseName, i);
         cout << "Loaded weights for layer " << i << " (" << layers[i]->getType() << ")." << endl;
@@ -529,7 +476,6 @@ int SNN::loadWeights(const int numFile) {
 void SNN::testNetwork() {
     setColor("blue"); cout << "\n-- TESTING NETWORK --\n" << endl; setColor("reset");
 
-    // Leer lista de archivos para entrenamiento
     string trialsFile = "./dataset/DvsGesture/trials_to_test.txt";
     vector<string> trialFiles = readTrialsList(trialsFile);
     
@@ -549,7 +495,6 @@ void SNN::testNetwork() {
         filesystem::remove(baseName + mode + ".txt");
     }
 
-    // Procesar cada archivo de entrenamiento
     for (const string& trialFile : trialFiles) {
         string aedatFile = "./dataset/DvsGesture/" + trialFile;
         string csvFile = "./dataset/DvsGesture/" + generateCSVFilename(trialFile);
@@ -559,11 +504,9 @@ void SNN::testNetwork() {
         vector<DVSEvent> events;
         vector<GestureAnnotation> annotations;
 
-        // Leer datos del archivo actual
         readAedat(aedatFile, events);
         readAnnotationsCSV(csvFile, annotations);
 
-        // Procesar cada gesto en el archivo actual
         for (unsigned long i = 0; i < annotations.size(); ++i) {
             GestureAnnotation gesture = annotations[i];
             size_t count = count_if(events.begin(), events.end(), [&](const DVSEvent& evt) {
@@ -578,9 +521,6 @@ void SNN::testNetwork() {
 
             if(processGestureData(spikeData, gesture.classLabel, symTime, symCap) == -1) return;
         }
-        
-        // Opcional: Guardar pesos después de cada archivo
-        // saveWeights();
     }
     
     cout << "\n=== Testing completed on all trials ===" << endl;

@@ -40,19 +40,12 @@ struct AedatBlockHeader {
 
 void readAedat(const string& filename, vector<DVSEvent>& eventsOut);
 void readAnnotationsCSV(const string& filename, vector<GestureAnnotation>& annotationsOut);
-// SpikeCube convertToSpikeCube(
-//     const vector<DVSEvent>& events,
-//     uint32_t startTime,
-//     uint32_t endTime,
-//     uint32_t dt, // timestep duration in µs
-//     int width = 128,
-//     int height = 128
-// );
+
 SpikeCubePolarity convertToSpikeCubePolarity(
     const vector<DVSEvent>& events,
     uint32_t startTime,
     uint32_t endTime,
-    uint32_t dt, // timestep duration in µs
+    uint32_t dt,
     int width,
     int height
 );
