@@ -1,3 +1,10 @@
+/**
+ * @file Layer.cpp
+ * @author Ian Fernandez Hermida
+ * @date 2025
+ * @brief Implements the Layer class logic, including feedforward and synaptic connection management.
+ */
+
 #include "../include/Layer.hpp"
 
 Layer::Layer(const TopologyParameters &topology, const NeuronParameters &neuronParams, int dt)
@@ -154,19 +161,20 @@ void Layer::saveWeights(const string& baseName, const int layerId) {
     }
 }
 
-void Layer::loadWeights(const string& baseName, const int layerId) {
+int Layer::loadWeights(const string& baseName, const int layerId) {
     string fileName = baseName + to_string(layerId) + "_" + type + ".txt";
 
     if (!filesystem::exists(fileName)) {
         cerr << "Error: Weights file " << fileName << " does not exist." << endl;
-        return;
+        return 1;
     }
 
     for (int i = 0; i < numNeurons; i++) {
         neurons[i]->loadWeights(fileName);
     }
-}
 
+    return 0;
+}
 
 // void Layer::showSpikeHistory() {
 //     for (unsigned long i = 0; i < neurons.size(); i++) {

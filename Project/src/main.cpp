@@ -17,7 +17,6 @@ int main(int argc, char *argv[]) {
 	}
 
 	SNN snn;
-	int numFile = -1;
 	string mode = "train";
 	auto start = high_resolution_clock::now();
 	initializeGenerator();
@@ -44,7 +43,7 @@ int main(int argc, char *argv[]) {
 		} else {
 			snn.linkLayers();
 			snn.viewTopology();
-			if (snn.loadWeights(numFile) != 0) {
+			if (snn.loadWeights() != 0) {
 				cerr << "Error: Unable to load weights." << endl;
 				return 1;
 			} else {

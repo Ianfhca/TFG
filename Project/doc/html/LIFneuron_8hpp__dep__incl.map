@@ -1,0 +1,10 @@
+<map id="include/LIFneuron.hpp" name="include/LIFneuron.hpp">
+<area shape="rect" id="node1" title="Defines the LIFneuron class, which simulates a spiking neuron using the Leaky Integrate&#45;and&#45;Fire mode..." alt="" coords="286,5,451,32"/>
+<area shape="rect" id="node2" href="$Layer_8hpp.html" title="Defines the Layer class, which contains and manages a collection of LIF neurons and their interconnec..." alt="" coords="130,80,266,107"/>
+<area shape="rect" id="node6" href="$Synapse_8hpp.html" title="Defines the Synapse class, representing the connection between two LIF neurons with delayed spike tra..." alt="" coords="291,80,447,107"/>
+<area shape="rect" id="node8" href="$LIFneuron_8cpp.html" title="Implements the LIFneuron behavior, including state updates, STDP learning and WTA inhibition." alt="" coords="471,80,607,107"/>
+<area shape="rect" id="node3" href="$SNN_8hpp.html" title="Defines the SNN class for simulating spiking neural networks." alt="" coords="5,155,135,181"/>
+<area shape="rect" id="node5" href="$Layer_8cpp.html" title="Implements the Layer class logic, including feedforward and synaptic connection management." alt="" coords="159,155,266,181"/>
+<area shape="rect" id="node4" href="$SNN_8cpp.html" title="Implements the SNN class for simulating spiking neural networks." alt="" coords="20,229,120,256"/>
+<area shape="rect" id="node7" href="$Synapse_8cpp.html" title="Implements the Synapse class logic, including trace updates, weight adjustments, and spike delay simu..." alt="" coords="305,155,432,181"/>
+</map>

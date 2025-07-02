@@ -1,0 +1,88 @@
+/**
+ * @mainpage SNN simulator using LIF neuron model
+ *
+ * @section intro_sec Introduction
+ *
+ * This project implements a Spiking Neural Network (SNN) simulator in C++ based on the Leaky Integrate-and-Fire (LIF) neuron model. 
+ * The simulator is designed to work with event-based data and supports unsupervised learning 
+ * through biologically inspired learning rules such as Spike-Timing Dependent Plasticity (STDP) and Winner-Take-All (WTA) inhibition mechanisms.
+ *
+ * The implementation is inspired by the model proposed in the following publication:
+ *
+ * @cite 8660483
+ *
+ * > *Unsupervised Learning of a Hierarchical Spiking Neural Network for Optical Flow Estimation: From Events to Global Motion Perception*  
+ * > Federico Paredes-Vallés, Kirk Y. W. Scheper, and Guido C. H. E. de Croon  
+ * > IEEE Transactions on Pattern Analysis and Machine Intelligence, 2020.  
+ * > DOI: [10.1109/TPAMI.2019.2903179](https://doi.org/10.1109/TPAMI.2019.2903179)
+ *
+ * @section architecture_sec Architecture
+ *
+ * The simulator is organized into the following main components:
+ *
+ * - `SNN`: Coordinates the full network behavior, including layer creation, spike propagation, and training/testing.
+ * - `Layer`: Defines a layer of neurons and manages synaptic connectivity (local, global, or sparse).
+ * - `LIFneuron`: Implements the behavior of an LIF neuron, including membrane potential dynamics, refractory periods, and STDP learning.
+ * - `Synapse`: Models a synaptic connection between neurons, supporting delays and pre-synaptic trace dynamics.
+ * - `Utils` and `Globals`: Provide utility functions and global constants for randomness, timing, and parameter conversion.
+ *
+ * @section dataset_sec Dataset
+ *
+ * This simulator uses the **IBM DVS128 Gesture Dataset**, which is not included in this repository.
+ * It can be downloaded from the following address:
+ *
+ * https://ibm.ent.box.com/s/3hiq58ww1pbbjrinh367ykfdf60xsfm8/folder/50167556794
+ *
+ * Once downloaded, the dataset should be placed in the following path:
+ *
+ * @code
+ * Project/dataset/DvsGesture/
+ * @endcode
+ *
+ * The simulator processes the event data into spiking input maps with 128x128 resolution, using separate polarity channels.
+ *
+ * @section usage_sec Compilation and Usage
+ *
+ * @subsection build_sec Compilation
+ *
+ * To compile the simulator, inside the **Project** folder use the provided Makefile.
+ *
+ * **Requirements:**
+ * - C++17 or higher
+ * - Standard libraries only (no external dependencies)
+ *
+ * Example:
+ * @code
+ * make
+ * @endcode
+ *
+ * @subsection run_sec Execution
+ *
+ * The simulator expects the **-train** or **-test** usage mode to be specified, in addition to the configuration file (without extension) that must be in the topology folder.
+ * The configuration file includes the simulation parameters, neuron hyperparameters, and network topology.
+ * To run the simulation:
+ *
+ * @code
+ * ./SNN -train 0_topology_0
+ * @endcode
+ *
+ * The configuration file defines the simulation behavior, neuron model parameters and network topology. 
+ *
+ * @section evaluation_sec Result Evaluation
+ *
+ * After running the training or testing phase, results can be evaluated using the provided Python script:
+ *
+ * `evaluate_output.py`
+ *
+ * This script generates various plots and `.csv` files inside the `evaluation/` directory with key metrics for analyzing the network's behavior.
+ *
+ * To install the required dependencies for running this script:
+ *
+ * @code{.py}
+ * pip install numpy matplotlib seaborn scikit-learn
+ * @endcode
+ *
+ * @section credits_sec Author
+ *
+ * This project was developed by **Ian Fernandez Hermida** as a Final Degree Project in Computer Engineering.
+ */

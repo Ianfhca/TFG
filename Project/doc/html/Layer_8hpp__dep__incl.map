@@ -1,0 +1,6 @@
+<map id="include/Layer.hpp" name="include/Layer.hpp">
+<area shape="rect" id="node1" title="Defines the Layer class, which contains and manages a collection of LIF neurons and their interconnec..." alt="" coords="73,5,209,32"/>
+<area shape="rect" id="node2" href="$SNN_8hpp.html" title="Defines the SNN class for simulating spiking neural networks." alt="" coords="5,80,135,107"/>
+<area shape="rect" id="node4" href="$Layer_8cpp.html" title="Implements the Layer class logic, including feedforward and synaptic connection management." alt="" coords="159,80,266,107"/>
+<area shape="rect" id="node3" href="$SNN_8cpp.html" title="Implements the SNN class for simulating spiking neural networks." alt="" coords="20,155,120,181"/>
+</map>

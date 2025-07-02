@@ -1,3 +1,11 @@
+/**
+ * @file Globals.hpp
+ * @author Ian Fernandez Hermida
+ * @date 2025
+ * @brief Declares global variables and shared configurations used across all simulation modules.
+ */
+
+
 #pragma once
 #include <string>
 #include <vector>
@@ -31,6 +39,10 @@ const double T_REFR = 2.0;
 const double LAMBDA_X = 20.0; // 10
 const double ALPHA = 0.1;
 
+/**
+ * @struct NeuronParameters
+ * @brief Contains parameters for the neuron model.
+ */
 struct NeuronParameters {
     double vReset, vRest, v, vTh, tauM, lambdaX, alpha, learningRate, aValue, convergenceTh;
     int tRefr;
@@ -38,6 +50,10 @@ struct NeuronParameters {
 
 // Topology parameters
 
+/**
+ * @struct TopologyParameters
+ * @brief Contains parameters for the network topology.
+ */
 struct TopologyParameters {
     string type;
     int height = 0;

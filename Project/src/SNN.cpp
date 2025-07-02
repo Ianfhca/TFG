@@ -1,3 +1,10 @@
+/**
+ * @file SNN.cpp
+ * @author Ian Fernandez Hermida
+ * @date 2025
+ * @brief Implements the SNN class for simulating spiking neural networks.
+ */
+
 #include "../include/SNN.hpp"
 
 SNN::SNN(): maxDelay(-1) {}
@@ -113,28 +120,6 @@ void SNN::parseTopology(const string &line, TopologyParameters &topology) {
     }
 }
 
-/**
- * @brief  This function initializes the network topology from a file
- * 
- * This function reads a file which contains the network topology and initializes it based on the information provided inside.
- * The file is structured by sections and blocks. Each section contains specific information about network.
- * 
- * Composed sections are:
- * 
- * -- PARAMETERS -- -> Contains the parameters of the neurons
- * -- TOPOLOGY -- -> Contains the information about the layers
- * -- INPUT -- -> Contains the standard input for the network
- * 
- * Also there are some rules to follow:
- * 
- * > -> Separetes blocks beteween sections (Required)
- * # -> Comments
- * White spaces are ignored
- * 
- * @param  file:  The file to read the network topology from
- * 
- * @return 0 if successful, 110 if file cannot be opened and 1 otherwise
- */
 int SNN::initNetwork(char &filename, string &nMode) {
 	string currentSection, line;
 	NeuronParameters neuronDefaults;
@@ -189,16 +174,6 @@ int SNN::initNetwork(char &filename, string &nMode) {
 	return 0;
 };
 
-/**
- * @brief  Brief description of this function
- * 
- * Long description
- * 
- * @param  value1:  description
- * @param  value2:  description
- * 
- * @return description
- */
 void SNN::linkLayers() {
 	for (unsigned long i = 1; i < layers.size(); i++) {
 		layers[i]->setPresynapticLinks(*layers[i - 1]);
@@ -464,11 +439,12 @@ void SNN::saveWeights() {
     }
 }
 
-int SNN::loadWeights(const int numFile) {
+int SNN::loadWeights() {
     for (unsigned long i = 1; i < layers.size(); i++) {
-        layers[i]->loadWeights(baseName, i);
-        cout << "Loaded weights for layer " << i << " (" << layers[i]->getType() << ")." << endl;
+        if (layers[i]->loadWeights(baseName, i) != 0) return 1;
+        else cout << "Loaded weights for layer " << i << " (" << layers[i]->getType() << ")." << endl;
     }
+
     return 0;
 }
 

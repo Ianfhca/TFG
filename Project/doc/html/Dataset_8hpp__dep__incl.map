@@ -1,0 +1,5 @@
+<map id="include/Dataset.hpp" name="include/Dataset.hpp">
+<area shape="rect" id="node1" title="Contains definitions and functions for handling DVS dataset events and gesture annotations." alt="" coords="5,5,157,32"/>
+<area shape="rect" id="node2" href="$SNN_8hpp.html" title="Defines the SNN class for simulating spiking neural networks." alt="" coords="17,80,146,107"/>
+<area shape="rect" id="node3" href="$SNN_8cpp.html" title="Implements the SNN class for simulating spiking neural networks." alt="" coords="31,155,131,181"/>
+</map>

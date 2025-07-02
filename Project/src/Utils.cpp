@@ -1,3 +1,10 @@
+/**
+ * @file Utils.cpp
+ * @author Ian Fernandez Hermida
+ * @date 2025
+ * @brief Contains helper functions used throughout the simulator, such as random number generation and time conversion.
+ */
+
 #include "../include/Utils.hpp"
 #include "../include/Globals.hpp"
 
@@ -5,10 +12,6 @@ void initializeGenerator() {
     static random_device rd;
     static mt19937 gen(rd());
     generator = gen;
-}
-
-double roundTo(double value, double precision) {
-    return round(value / precision) * precision;
 }
 
 unsigned long convertTime(double value, string originUnit, string destinyUnit) {

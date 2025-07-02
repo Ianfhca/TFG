@@ -1,3 +1,10 @@
+/**
+ * @file LIFneuron.cpp
+ * @author Ian Fernandez Hermida
+ * @date 2025
+ * @brief Implements the LIFneuron behavior, including state updates, STDP learning and WTA inhibition.
+ */
+
 #include "../include/LIFneuron.hpp"
 
 LIFneuron::LIFneuron(vector<int> neuronId_, const TopologyParameters &topology, const NeuronParameters &neuronParams, int dt) 
@@ -122,7 +129,7 @@ int LIFneuron::updateNeuronState(int t) {
 
             if (winner >= 0) { 
                 preNeuron->setWtaInhibition(true);
-                if (winner == i && preNeuron->learning && layer != "Input") preNeuron->STDP();
+                if ((unsigned long)winner == i && preNeuron->learning && layer != "Input") preNeuron->STDP();
                 // else { if(layer != "Input") s = 0; } // If winner is not the current synapse and layer is not "Input", do not update the spike
             }
             

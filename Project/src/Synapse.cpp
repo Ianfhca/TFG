@@ -1,3 +1,10 @@
+/**
+ * @file Synapse.cpp
+ * @author Ian Fernandez Hermida
+ * @date 2025
+ * @brief Implements the Synapse class logic, including trace updates, weight adjustments, and spike delay simulation.
+ */
+
 #include "../include/Synapse.hpp"
  
 Synapse::Synapse(shared_ptr<LIFneuron> preNeuron_, double lambdaX_, double alpha_, double weight_, int delay_, int dt_)
