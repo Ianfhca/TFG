@@ -13,3 +13,40 @@ This project implements a **Spiking Neural Network (SNN) simulator** written in 
 - Automatic evaluation and visualization using Python (`matplotlib`, `seaborn`)
 
 ## 🗂 Project Structure
+
+
+## Requirements
+
+Project/\
+│\
+├── src/\
+│   ├── SNN.cpp\
+│   ├── Layer.cpp\
+│   ├── Neuron.cpp\
+│   └── ...\
+│\
+├── include/\
+│   ├── SNN.hpp\
+│   ├── Layer.hpp\
+│   └── ...\
+│\
+├── output/\
+│   └── [topology]/\
+│\
+├── evaluation/\
+│   ├── evaluate_train.py\
+│   └── generate_all.py\
+│\
+├── topology/\
+│\
+├── README.md # This file\
+└── Makefile # For compiling the simulator\
+
+### C++
+- `g++` or any C++17-compatible compiler
+- `make` (optional, for compiling using the Makefile)
+
+### Python (for evaluation)
+
+```bash
+pip install pandas matplotlib seaborn
